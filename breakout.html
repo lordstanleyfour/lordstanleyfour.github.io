@@ -20,8 +20,11 @@
         var y = canvas.height-30;//ball starting position y
         var ballRadius = 10;
         //ball movement
-        var dx = 2;
-        var dy = -2;
+        var initGameSpeed = 3
+        var gameSpeed = initGameSpeed
+        var dx = initGameSpeed;//starting x movement
+        var dy = -gameSpeed;//starting y movement
+        var bounceCount = 0;
         var paddleHeight = 10;//paddle dimensions
         var paddleWidth = 75;
         var paddleX = (canvas.width-paddleWidth) / 2;//paddle starting position x
@@ -44,6 +47,7 @@
                 bricks[c][r] = { x: 0, y: 0, status:1 }; //for each r in the loop add a child element r with an object containing x, yand status(to check if hit or not) values to each c
             }
         }
+        var rebound = [-gameSpeed, -gameSpeed/2, 0, gameSpeed/2, gameSpeed];
 
         var score = 0;
         var lives = 3;
@@ -84,7 +88,7 @@
         function collisionDetection () {
             for (var c=0; c<brickColumnCount; c++) {
                 for (var r=0; r<brickRowCount; r++) {
-                    var b = bricks[c][r];//uses a var to represent every array element for simplicity
+                    var b = bricks[c][r];//uses a var to represent every array element for visual simplicity
                     //calculations
                     if (b.status == 1) {
                         if (x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
@@ -161,9 +165,58 @@
             }
             if (y + dy < ballRadius) {//wall collision T
                 dy = -dy;
-            } else if  (y + dy > canvas.height-ballRadius) {
-                if (x > paddleX && x < (paddleX + paddleWidth)) {
+            } else if  (y + dy > canvas.height-ballRadius-paddleHeight) {
+                if (/*lpos*/ x+(ballRadius/2) > paddleX && x-ballRadius < (paddleX + (1*(paddleWidth/5)))) {//call to the rebound array here
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[0];
+                    dy = gameSpeed;
                     dy = -dy;
+                    dx = r;
+                    bounceCount++;
+                    if (bounceCount > 5) {
+                        gameSpeed++;
+                        bounceCount = 0;
+                    }
+
+                } else if (/*lmpos*/ x+(ballRadius/2) > paddleX && x-ballRadius < (paddleX + (2*(paddleWidth/5)))) {//call to the rebound array here
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[1];
+                   dy = gameSpeed;
+                    dy = -dy;
+                    dx = r;
+                    bounceCount++;
+                    if (bounceCount > 5) {
+                        gameSpeed++;
+                        bounceCount = 0;
+                    }
+                } else if (/*mpos*/ x+(ballRadius/2) > paddleX && x-ballRadius < (paddleX + (3*(paddleWidth/5)))) {//call to the rebound array here
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[2];
+                   dy = gameSpeed;
+                    dy = -dy;
+                    dx = r;
+                    bounceCount++;
+                    if (bounceCount > 5) {
+                        gameSpeed++;
+                        bounceCount = 0;
+                    }
+                } else if (/*mrpos*/ x+(ballRadius/2) > paddleX && x-ballRadius < (paddleX + (4*(paddleWidth/5)))) {//call to the rebound array here
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[3];
+                   dy = gameSpeed;
+                    dy = -dy;
+                    dx = r;
+                    bounceCount++;
+                    if (bounceCount > 5) {
+                        gameSpeed++;
+                        bounceCount = 0;
+                    }
+                } else if (/*rpos*/ x+(ballRadius/2) > paddleX && x-ballRadius < (paddleX + (5*(paddleWidth/5)))) {//call to the rebound array here
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[4];
+                   dy = gameSpeed;
+                    dy = -dy;
+                    dx = r;
+                    bounceCount++;
+                    if (bounceCount > 5) {
+                        gameSpeed++;
+                        bounceCount = 0;
+                    }
                 }
             else {
                 lives--;
@@ -174,9 +227,9 @@
                 else {
                     x = canvas.width/2;
                     y = canvas.height - 30;
-                    dx = 2;
-                    dy = -2;
-                    paddleX = (canvas.width-paddle.with)/2;
+                    dx = gameSpeed;
+                    dy = -gameSpeed;
+                    paddleX = (canvas.width-paddleWidth)/2;
                 }
             }
                 
@@ -195,10 +248,10 @@
                     paddleX = 0;
                 }
             }
-            
+
             x += dx;
             y += dy;
-            
+            console.log(dy);
             requestAnimationFrame(draw);//causes the draw function to draw itself again. Framerate controlled by browserand shapes rendered only when needed.
         }
         draw();//needed for the draw function to run for the first time
