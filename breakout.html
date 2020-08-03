@@ -214,6 +214,15 @@
         }
 
 
+	/*
+
+	function make_base() {
+	  base_image = new Image();
+  	  base_image.src = 'img/base.png';
+  	  base_image.onload = function(){
+    	  context.drawImage(base_image, 0, 0);
+  	}*/
+
 
         function drawScore () {
 
@@ -592,6 +601,8 @@
             requestAnimationFrame(draw);//causes the draw function to draw itself again. Framerate controlled by browserand shapes rendered only when needed.
 
         }
+
+	//make_base();
 
         draw();//needed for the draw function to run for the first time
 
