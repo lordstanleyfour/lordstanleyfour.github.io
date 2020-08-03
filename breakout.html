@@ -95,12 +95,15 @@
             }
 
         }
-
-        var rebound = [-gameSpeed, -gameSpeed/2, 0, gameSpeed/2, gameSpeed];
-
+	
 
 
-        var score = 0;
+
+        var rebound = [-gameSpeed, -3*(gameSpeed/4), -gameSpeed/2, -gameSpeed/4, 0, gameSpeed/4, gameSpeed/2, 3*(gameSpeed/4), gameSpeed]; //rebound angle array, 9 values
+
+
+
+        var bricksDestroyed = 0;
 
         var lives = 3;
 
@@ -184,15 +187,15 @@
 
                     if (b.status == 1) {
 
-                        if (x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
+                        if (x+ballRadius > b.x && x-ballRadius < b.x+brickWidth && y+ballRadius > b.y && y-ballRadius < b.y+brickHeight) {
 
                             dy = -dy;
 
                             b.status = 0; //deactivates brick, no longer drawn as per draw brick function
 
-                            score++; //score increases after brick deactivated
+                            bricksDestroyed++; //count increases after brick deactivated
 
-                            if (score == brickRowCount*brickColumnCount) {
+                            if (bricksDestroyed == brickRowCount*brickColumnCount) {
 
                                 alert("YOU WIN");
 
@@ -218,7 +221,7 @@
 
             ctx.fillStyle = "rgb(0, 0, 0)";
 
-            ctx.fillText ("Score: "+score, 8, 20);
+            ctx.fillText ("Bricks destroyed: "+bricksDestroyed+" / "+brickRowCount*brickColumnCount, 8, 20);
 
         }
 
@@ -293,6 +296,7 @@
                         ctx.fill();
 
                         ctx.closePath();
+			
 
                     }
 
@@ -334,7 +338,7 @@
 
             } else if  (y + dy > canvas.height-ballRadius-paddleHeight) {
 
-                if (/*lpos*/ x+(ballRadius*2) > paddleX && x-ballRadius < (paddleX + (1*(paddleWidth/5)))) { //call to the rebound array here
+                if (/*-4pos*/ x+(ballRadius*2) > paddleX && x-ballRadius < (paddleX + (1*(paddleWidth/9)))) { //call to the rebound array here
 
                    let r = document.getElementById("myCanvas").innerHTML = rebound[0];
 
@@ -346,7 +350,7 @@
 
                     bounceCount++;
 
-                    if (bounceCount > 5) {
+                    if (bounceCount > 3) {
 
                         gameSpeed++;
 
@@ -354,9 +358,7 @@
 
                     }
 
-
-
-                } else if (/*lmpos*/ x+(ballRadius/2) > paddleX && x-ballRadius < (paddleX + (2*(paddleWidth/5)))) { //call to the rebound array here
+                } else if (/*-3pos*/ x > paddleX && x < (paddleX + (2*(paddleWidth/9)))) { //call to the rebound array here
 
                    let r = document.getElementById("myCanvas").innerHTML = rebound[1];
 
@@ -368,7 +370,7 @@
 
                     bounceCount++;
 
-                    if (bounceCount > 5) {
+                    if (bounceCount > 3) {
 
                         gameSpeed++;
 
@@ -376,7 +378,7 @@
 
                     }
 
-                } else if (/*mpos*/ x+(ballRadius/2) > paddleX && x-ballRadius < (paddleX + (3*(paddleWidth/5)))) { //call to the rebound array here
+                } else if (/*-2pos*/ x > paddleX && x < (paddleX + (3*(paddleWidth/9)))) { //call to the rebound array here
 
                    let r = document.getElementById("myCanvas").innerHTML = rebound[2];
 
@@ -388,7 +390,7 @@
 
                     bounceCount++;
 
-                    if (bounceCount > 5) {
+                    if (bounceCount > 3) {
 
                         gameSpeed++;
 
@@ -396,7 +398,7 @@
 
                     }
 
-                } else if (/*mrpos*/ x+(ballRadius/2) > paddleX && x-ballRadius < (paddleX + (4*(paddleWidth/5)))) { //call to the rebound array here
+                } else if (/*-1pos*/ x > paddleX && x < (paddleX + (4*(paddleWidth/9)))) { //call to the rebound array here
 
                    let r = document.getElementById("myCanvas").innerHTML = rebound[3];
 
@@ -408,7 +410,7 @@
 
                     bounceCount++;
 
-                    if (bounceCount > 5) {
+                    if (bounceCount > 3) {
 
                         gameSpeed++;
 
@@ -416,7 +418,7 @@
 
                     }
 
-                } else if (/*rpos*/ x+(ballRadius*2) > paddleX && x-ballRadius < (paddleX + (5*(paddleWidth/5)))) { //call to the rebound array here
+                } else if (/*0pos*/ x > paddleX && x < (paddleX + (5*(paddleWidth/9)))) { //call to the rebound array here
 
                    let r = document.getElementById("myCanvas").innerHTML = rebound[4];
 
@@ -428,7 +430,87 @@
 
                     bounceCount++;
 
-                    if (bounceCount > 5) {
+                    if (bounceCount > 3) {
+
+                        gameSpeed++;
+
+                        bounceCount = 0;
+
+                    }
+
+		} else if (/*1pos*/ x > paddleX && x < (paddleX + (6*(paddleWidth/9)))) { //call to the rebound array here
+
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[5];
+
+                   dy = gameSpeed;
+
+                    dy = -dy;
+
+                    dx = r;
+
+                    bounceCount++;
+
+                    if (bounceCount > 3) {
+
+                        gameSpeed++;
+
+                        bounceCount = 0;
+
+                    }
+
+		} else if (/*2pos*/ x > paddleX && x < (paddleX + (7*(paddleWidth/9)))) { //call to the rebound array here
+
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[6];
+
+                   dy = gameSpeed;
+
+                    dy = -dy;
+
+                    dx = r;
+
+                    bounceCount++;
+
+                    if (bounceCount > 3) {
+
+                        gameSpeed++;
+
+                        bounceCount = 0;
+
+                    }
+
+		} else if (/*3pos*/ x > paddleX && x < (paddleX + (8*(paddleWidth/9)))) { //call to the rebound array here
+
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[7];
+
+                   dy = gameSpeed;
+
+                    dy = -dy;
+
+                    dx = r;
+
+                    bounceCount++;
+
+                    if (bounceCount > 3) {
+
+                        gameSpeed++;
+
+                        bounceCount = 0;
+
+                    }
+
+		} else if (/*4pos*/ x+(ballRadius*2) > paddleX && x-ballRadius < (paddleX + (9*(paddleWidth/9)))) { //call to the rebound array here
+
+                   let r = document.getElementById("myCanvas").innerHTML = rebound[8];
+
+                   dy = gameSpeed;
+
+                    dy = -dy;
+
+                    dx = r;
+
+                    bounceCount++;
+
+                    if (bounceCount > 3) {
 
                         gameSpeed++;
 
@@ -504,7 +586,8 @@
 
             y += dy;
 
-            console.log(dy);
+
+            //console.log();
 
             requestAnimationFrame(draw);//causes the draw function to draw itself again. Framerate controlled by browserand shapes rendered only when needed.
 
