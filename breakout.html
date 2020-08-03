@@ -10,7 +10,7 @@
     </head>
     <body>
     <br><br><br><br><br><br>
-    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <canvas id="myCanvas" width="740" height="480"></canvas>
 
     <script>
         var canvas = document.getElementById("myCanvas");
@@ -22,7 +22,7 @@
         //ball movement
         var initGameSpeed = 3
         var gameSpeed = initGameSpeed
-        var dx = initGameSpeed;//starting x movement
+        var dx = 0;//starting x movement
         var dy = -gameSpeed;//starting y movement
         var bounceCount = 0;
         var paddleHeight = 10;//paddle dimensions
@@ -33,11 +33,11 @@
         var leftPressed = false;
         //bricks
         var brickRowCount = 3;
-        var brickColumnCount = 5;
+        var brickColumnCount = 8;
         var brickWidth = 75;
         var brickHeight = 20;
         var brickPadding = 10;
-        var brickOffsetTop = 30;
+        var brickOffsetTop = 50;
         var brickOffsetLeft = 30;
 
         var bricks = [];
