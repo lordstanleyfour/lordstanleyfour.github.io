@@ -64,6 +64,34 @@
         var lives = 3;
         var chkStat = 0;
 
+        const images = {}; //object for storing images
+        images.lives = new Image();
+        images.lives.src = "heart.png"; //sprite sheet location
+        class Heart {
+            constructor(){
+                this.width = (618/6);
+                this.height = 87;
+                this.frameX = 0;
+                this.frameY = 0;
+                this.frameXDelay = 0;
+            }
+            draw(){
+                drawLivesSprite(images.lives, this.width*this.frameX, this.height*this.frameY, this.width, this.height, canvas.width-95, 0, 25, 25)
+                if (this.frameX <= 5) {
+                    this.frameXDelay += 0.1;
+                }
+                if (this.frameXDelay > 1) {
+                    this.frameX ++;
+                    this.frameXDelay = 0;
+                }
+                if (this.frameX > 5) {
+                    this.frameX = 0;//check this, ? remove parenthases
+                }
+            }
+        }
+        
+        heart = new Heart();
+
         document.addEventListener("keydown", keyDownHandler, false);//keydown is the hardcoded event listener, passes the event to the specified function, starts as false.
         document.addEventListener("keyup", keyUpHandler, false);
         document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -133,10 +161,15 @@
             ctx.fillText ("Score: "+displayedScore, 8, 20);
         }
 
+        function drawLivesSprite (img, sX, sY, sW, sH, dX, dY, dW, dH){
+            ctx.drawImage(img, sX, sY, sW, sH, dX, dY, dW, dH);
+        }
+
         function drawLives () {
             ctx.font = "16px verdana";
             ctx.fillStyle = "rgb(255, 0, 0)";
             ctx.fillText ("Lives: "+lives, canvas.width-65, 20);
+            //drawLivesSprite (images.lives, 0, 0, 50, 50, canvas.width-95, 0, 25, 25);
         }
 
         function drawBall () {
@@ -182,6 +215,7 @@
             drawScore ();
             collisionDetection ();
             drawLives ();
+            heart.draw ();
         
             if (x + dx < ballRadius || x + dx > canvas.width-ballRadius) {//wall collision L and R
                 dx = -dx;
@@ -314,7 +348,7 @@
             y += dy;
             score = score - 0.1;
             displayedScore = Math.floor(score);
-            //console.log();
+            console.log(heart.frameX);
 
             requestAnimationFrame(draw);//causes the draw function to draw itself again. Framerate controlled by browserand shapes rendered only when needed.
         }
