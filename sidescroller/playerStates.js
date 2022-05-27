@@ -10,6 +10,12 @@ const states = {
     HIT: 6
 }
 
+const bang1 = document.getElementById("bang1");
+const bang2 = document.getElementById("bang2");
+const bang3 = document.getElementById("bang3");
+const bang4 = document.getElementById("bang4");
+const bangArray = [bang1, bang2, bang3, bang4];
+
 class State {
     constructor(state, game){
         this.state = state;
@@ -144,8 +150,10 @@ export class Diving extends State {
             for (let i = 0; i < 60; i++){
                 this.game.particles.unshift(new Splash(this.game, this.game.player.x, this.game.player.y));
             }
+            bangArray[Math.floor(Math.random() * 4)].play();
         } else if (!input.includes('Enter') && this.game.player.onGround()  && this.game.power > 0.1){
             this.game.player.setState(states.ROLLING, 2);
+            bangArray[Math.floor(Math.random() * 4)].play();
         }
     }
 }

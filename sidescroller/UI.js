@@ -1,3 +1,5 @@
+const tada = document.getElementById('tada');
+
 export class UI {
     constructor(game){
         this.game = game;
@@ -67,6 +69,7 @@ export class UI {
                     default: this.message = "win";
                 }
                 context.fillText(this.game.score + '? ' + this.message, this.game.width * 0.5, this.game.height * 0.495);
+                tada.play();
             } else {
                 context.fillStyle = 'rgba(213, 32, 184, 0.8)';
                 context.fillRect(this.game.width * 0.2, this.game.height * 0.4, this.game.width * 0.6, this.game.height * 0.45);

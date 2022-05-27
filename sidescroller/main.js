@@ -11,6 +11,7 @@ window.addEventListener('load', function(){
     canvas.height = 500;
 
     //audio
+    const music = document.getElementById("music");
     const pips = document.getElementById("pips");
     const pop1 = document.getElementById("pop1");
     const pop2 = document.getElementById("pop2");
@@ -23,7 +24,11 @@ window.addEventListener('load', function(){
     const burst2 = document.getElementById("burst2");
     const burst3 = document.getElementById("burst3");
     const burst4 = document.getElementById("burst4");
-
+    const ouch1 = document.getElementById("ouch1");
+    const ouch2 = document.getElementById("ouch2");
+    const ouch3 = document.getElementById("ouch3");
+    const ouch4 = document.getElementById("ouch4");
+    const ouch5 = document.getElementById("ouch5");
 
     class Game{
         constructor(width, height){
@@ -57,6 +62,8 @@ window.addEventListener('load', function(){
             this.diveKills = 0;
             this.popsArray = [pop1, pop2, pop3, pop4, pop5, pop6, pop7];
             this.burstArray = [burst1, burst2, burst3, burst4];
+            this.ouchArray = [ouch1, ouch2, ouch3, ouch4, ouch5];
+            this.ouchArrayCounter = 0;
             this.debug = false;
             this.player.currentState = this.player.states[1]; // default 0
             this.player.currentState.enter();
@@ -64,7 +71,8 @@ window.addEventListener('load', function(){
         update(deltaTime){
             this.time += deltaTime;
             //starting audio
-            //if (this.time < 0) pips.play();
+            if (this.time < 0) pips.play();
+            if (this.time > 0) music.play();
 
             //game over calculations
             this.addedScorePower = Math.floor(this.power * 2);
@@ -191,11 +199,8 @@ window.addEventListener('load', function(){
 
 //NICE TO HAVES
 ////sound effects
-//////boom sound selection for landing dive attack
-//////whoosh loop? for roll attack (figure out how to seamlessly loop)
-//////ouch sound selection
 //////sounds for good ending and bad ending
-
+//////randomise arrays on start so that same bangs and ouches are never in sequence and refuse to play 
 ////music
 
 

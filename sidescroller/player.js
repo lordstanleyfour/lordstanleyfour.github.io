@@ -2,7 +2,10 @@ import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit } from "./play
 import { CollisionAnimation } from "./CollisionAnimation.js";
 import { FloatingMessage } from "./floatingMessages.js";
 
-const burn = document.getElementById("burn");
+const audioCtx = new AudioContext();
+const burn = document.getElementById('burn');
+const burnNode = audioCtx.createMediaElementSource(burn);
+burnNode.connect(audioCtx.destination);
 
 export class Player {
     constructor(game){
@@ -86,6 +89,7 @@ export class Player {
 
         //powerSpend
         if (this.currentState === this.states[4]){
+            if (audioCtx.state === 'suspended') audioCtx.resume();
             burn.play();
             if (this.powerSpendTimer > this.powerSpendInterval){
                 this.game.power -= this.powerSpend;
@@ -139,6 +143,8 @@ export class Player {
                     this.setState(6, 0);
                     this.game.lives--;
                     this.game.score -=5;
+                    this.game.ouchArray[this.game.ouchArrayCounter].play();
+                    this.game.ouchArrayCounter++;
                     this.game.floatingMessages.push(new FloatingMessage('-5', enemy.x, enemy.y, 150, 50, 1.5));
                     if (this.game.lives <= 0) {
                         this.game.score = this.game.score + this.game.addedScoreLives + this.game.addedScorePower;
