@@ -70,8 +70,6 @@
       define(function() { return loopify; });
     } else if (typeof module === "object" && module.exports) {
       module.exports = loopify;
-    } else {
-      this.loopify = loopify;
     }
 
 })();
