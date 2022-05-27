@@ -1,4 +1,4 @@
-export default (function() {
+(function() {
 
     function loopify(uri,cb) {
 
