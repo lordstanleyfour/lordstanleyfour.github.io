@@ -86,12 +86,13 @@ export class Player {
 
         //powerSpend
         if (this.currentState === this.states[4]){
-            burn.play();
+            loopify(burn, function(err,loop);
+                    loop.play();
             if (this.powerSpendTimer > this.powerSpendInterval){
                 this.game.power -= this.powerSpend;
                 this.powerSpendTimer = 0;
             } else this.powerSpendTimer += deltaTime;
-        }
+        } else if (!this.currentState === this.states[4]) loop.stop();
 
     }
     draw(context){
