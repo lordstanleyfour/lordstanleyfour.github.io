@@ -3,6 +3,7 @@ import {InputHandler} from './input.js';
 import {Background} from './background.js';
 import {FlyingEnemy, ClimbingEnemy, GroundEnemy} from './enemies.js';
 import {UI} from './UI.js';
+import defaultExport from './loopify.js';
 
 window.addEventListener('load', function(){
     const canvas = document.getElementById('canvas1');
