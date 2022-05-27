@@ -86,7 +86,9 @@ export class Player {
 
         //powerSpend
         if (this.currentState === this.states[4]){
-            loopify(burn, function(err,loop);
+            loopify(burn, function(err,loop){
+            if (err) console.log('error');
+            }
                     loop.play();
             if (this.powerSpendTimer > this.powerSpendInterval){
                 this.game.power -= this.powerSpend;
