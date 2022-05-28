@@ -165,28 +165,6 @@ window.addEventListener('load', function(){
 
 //TODO
 
-////tweak scoring
-//////different points for certain enemies
-
-////energy system
-//////change power bar position to be less obtrusive?
-
-
-//////powerup collects to fully regenerate or overcharge
-//////powerup collects for extra lives
-////////at certain point targets or when player at risk of failing
-
-
-////clustered ground enemies to tempt a splash attack?
-//////spawn as a group with X-position randomisation within a set radius
-//////static only?
-
-////balancing
-//////tweak regen power on kills
-//////tweak power regen on sitting
-//////chunk power cost when splash initiated but equally recovered if 2 kills (tweak?)
-//////final score boost from lives and power remaining
-//////enemy interval between speeds; dont make stopping too cheaty
 
 //TIPS
 ////attacks use power
@@ -194,17 +172,3 @@ window.addEventListener('load', function(){
 ////get as many enemies as poss with dives to regen power and score more points per kill
 ////preserve lives as these are worth bonus points at the end
 ////you don't have to kill everything, you're not a texan
-
-
-
-//NICE TO HAVES
-////sound effects
-//////sounds for good ending and bad ending
-//////randomise arrays on start so that same bangs and ouches are never in sequence and refuse to play 
-////music
-
-
-
-
-
-

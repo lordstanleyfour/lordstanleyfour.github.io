@@ -2,10 +2,10 @@ import { Sitting, Running, Jumping, Falling, Rolling, Diving, Hit } from "./play
 import { CollisionAnimation } from "./CollisionAnimation.js";
 import { FloatingMessage } from "./floatingMessages.js";
 
-const audioCtx = new AudioContext();
-const burn = document.getElementById('burn');
-const burnNode = audioCtx.createMediaElementSource(burn);
-burnNode.connect(audioCtx.destination);
+const audioCtx = new AudioContext(); //the cd player
+const burn = document.getElementById('burn'); //the data on the cd (the song)
+const burnNode = audioCtx.createMediaElementSource(burn); //put the song on the actual cd
+burnNode.connect(audioCtx.destination); //wire from the cd to speaker
 
 export class Player {
     constructor(game){
