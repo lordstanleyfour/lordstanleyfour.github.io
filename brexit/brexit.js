@@ -7,6 +7,9 @@ canvas.height = 500;
 var playerX = canvas.width/2;
 var playerY = canvas.height/2;
 var playerSpeed = 10;
+var heat = 0;
+var heatAlpha = 1;
+var heatAlphaSwitch = 'increase';
 const keys = [];
 var score = 0;
 var visa1 = {img:null, x: (canvas.width/2 - 45), y: (canvas.height/2 + 30), w: 90, h:60};
@@ -16,6 +19,10 @@ var visa4 = {img:null, x: (canvas.width/2 - 45), y: (canvas.height/2 + 30), w: 9
 var visa5 = {img:null, x: (canvas.width/2 - 45), y: (canvas.height/2 + 30), w: 90, h:60};
 var visaCheck = null;
 var continueAnimating = true;
+const actx = new AudioContext();
+
+var music = new Audio();
+music = document.getElementById('music');
 
 //sprites and images
 //background images - these will change based on the x coordinate of the crosshairs
@@ -89,7 +96,26 @@ backgroundUpdate = function (){
     else if (playerX > (canvas.width/3) && playerX < ((canvas.width/3)*2)) background = background2;
     else if (playerX > ((canvas.width/3)*2) && playerX < canvas.width) background = background3;
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-
+    if (heatAlpha >= 1 && heatAlphaSwitch === 'increase'){
+        heatAlphaSwitch = 'decrease';
+    } else if (heatAlpha <= 0.5 && heatAlphaSwitch === 'decrease') {
+        heatAlphaSwitch = 'increase';
+    }
+    if (heatAlphaSwitch === 'decrease') heatAlpha-=0.02;
+    else if (heatAlphaSwitch === 'increase') heatAlpha+=0.02;
+    ctx.beginPath();
+    ctx.fillStyle = 'rgba(255, 0, 0, ' + heatAlpha + ')';
+    ctx.fillRect(canvas.width - 310, canvas.height - 50, heat * 100, 10);
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
+    ctx.rect(canvas.width - 311, canvas.height - 51, 101, 11);
+    ctx.stroke();
+    ctx.closePath();
+    ctx.fillStyle = 'yellow'
+    ctx.fillText('HEAT', canvas.width - 280, canvas.height - 20);
+    if (heat > 0) heat -= 0.005;
+    if (heat < 0) heat = 0;
+    console.log(heat);
 }
 //boat object
 class Boat {
@@ -153,6 +179,7 @@ class Boat {
     }
     remove(){
         let i = npcs.indexOf(this);
+        if (this.frameX === 1 ) audioHandler('./sounds/bangsink.wav')
         if (this.frameX > 6 && this.visa === false) {
             npcs.splice(i,1);
             score++;
@@ -216,6 +243,7 @@ class Plane {
     }
     remove(){
         let i = npcs.indexOf(this);
+        if (this.frameX === 1 ) audioHandler('./sounds/plane.wav')
         if (this.frameX > 9 && this.visa === false) {
             npcs.splice(i,1);
             score++;
@@ -408,6 +436,19 @@ window.addEventListener("keyup", function (e){
   delete keys[e.keyCode]; //when a key is released that key is deleted from the keys array.  This method prevents event listeners from interfering with one another and makes control more responsive.
 });
 
+function audioHandler(pathway){
+    fetch(pathway)
+    .then(data =>data.arrayBuffer())
+    .then(arrayBuffer => actx.decodeAudioData(arrayBuffer))
+    .then(decodedAudio => {
+        let sample = decodedAudio;
+        let playSound = actx.createBufferSource();
+        playSound.buffer = sample;
+        playSound.connect(actx.destination);
+        playSound.start(actx.currentTime);
+    });
+} 
+
 //player movement and shooting logic
 movePlayer = function (){
     if ((keys[87] || keys[38]) && playerY > 20){//up
@@ -422,7 +463,11 @@ movePlayer = function (){
     if ((keys[68] || keys[39]) && playerX < canvas.width){//right
         playerX += playerSpeed;
     }
-    if (keys[32] && plops.length < 1) plops.push(new Shell());
+    if (keys[32] && plops.length < 1 && heat <= 0.8) {
+        plops.push(new Shell());
+        heat += 0.2;
+        audioHandler('./sounds/bang2.wav');
+    }
     if (keys[86]) visaHandler();
 }
 
@@ -463,33 +508,30 @@ function animate(){
       then = now - (elapsed % fpsInterval); //resets the clock to keep frame rate consistent
       ctx.clearRect (0, 0, canvas.width, canvas.height); //gets rid of everything and draws fresh
 
-      backgroundUpdate();
-      npcSpawner();
-      for (i=0; i < npcs.length; i++){
-        npcs[i].draw();
-        npcs[i].update();
-        npcs[i].remove();
+    
+    music.play();
+    backgroundUpdate();
+    npcSpawner();
+    for (i=0; i < npcs.length; i++){
+    npcs[i].draw();
+    npcs[i].update();
+    npcs[i].remove();
+    }
+    
+    if (plops.length != 0){
+        for (i=0; i < plops.length; i++){
+            plops[i].draw();
+            plops[i].remove();
         }
-      
-        if (plops.length != 0){
-            for (i=0; i < plops.length; i++){
-                plops[i].draw();
-                plops[i].remove();
-            }
-        }
+    }
 
-      drawPlayer(20);
-      movePlayer();
-      drawScore();
-      visaHandler();
-      drawVisa();
-      endGame();
+    drawPlayer(20);
+    movePlayer();
+    drawScore();
+    visaHandler();
+    drawVisa();
+    endGame();
     }
   }
 }
 if (continueAnimating) startAnimating(30); //starts the animation and condition prevents this from restarting the animation once the game has ended
-
-//generate a random number within boundries //Math.random() * (max-min) + min
-
-//TO DO LIST
-//tweak npc spawn logic
