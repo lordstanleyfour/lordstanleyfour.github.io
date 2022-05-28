@@ -1,0 +1,49 @@
+body {
+    background-color: lightblue;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    }
+
+#top {
+    border: 2px dashed black;
+    border-radius: 30px;
+}
+
+h1 {
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+background-color:orange;
+text-align:center;
+text-decoration:underline;
+}
+
+h3 {
+    background-color:rgba(255, 166, 0, 0.329);
+    text-align: center;
+}
+
+table {
+border: 1px solid black;
+border-collapse: collapse;
+}
+
+tr {
+border-bottom: 1px solid black;
+}
+
+th, td {
+border-right: 1px solid black;
+padding: 5px
+}
+
+.item:hover {
+background-color: green;
+}
+
+#gameTable{
+margin-left: auto;
+margin-right: auto;
+}
+
+#WIPTable {
+    margin-left: auto;
+    margin-right: auto;
+}
