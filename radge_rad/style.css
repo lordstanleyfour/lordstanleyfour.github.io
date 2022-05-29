@@ -18,6 +18,9 @@ canvas {
     /*    width: 800px;
     height: 500px;*/
 }
+#canvas1:hover {
+    cursor: crosshair;
+}
 
 h4 {
     text-align: center;

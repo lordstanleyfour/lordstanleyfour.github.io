@@ -45,8 +45,14 @@ warningSpriteOff.src = "controlled.png";
 const warningSpriteOn = new Image();
 warningSpriteOn.src = "red.png";
 
+const actx = new AudioContext();
+
 const meltNoise = new Audio();
-meltNoise.src = "melt.mp3";
+meltNoise.src = "sounds/melt.wav";
+
+const music = document.getElementById('music'); //the data on the cd (the song)
+const musicNode = actx.createMediaElementSource(music); //put the song on the actual cd
+musicNode.connect(actx.destination); //wire from the cd to speaker
 
 const gun = {
     w: canvas.width * 0.1,
@@ -75,10 +81,29 @@ var score, rejrate, winMessage, failMessage, startTime, endTime;
 
 /////////////////////////////////////////////////
 
+function audioHandler(pathway, volume){
+    fetch(pathway)
+    .then(data =>data.arrayBuffer())
+    .then(arrayBuffer => actx.decodeAudioData(arrayBuffer))
+    .then(decodedAudio => {
+        let sample = decodedAudio;
+        let playSound = actx.createBufferSource();
+        let gainNode = actx.createGain();
+
+        playSound.buffer = sample;
+        playSound.connect(gainNode);
+        gainNode.connect(actx.destination);
+        gainNode.gain.value = volume;
+        playSound.start(actx.currentTime);
+    });
+}
+
 canvas.addEventListener('click', function (e) {
     mouse.x = e.x-mouseOffsetFactor;
     mouse.y = e.y;
     projectileArray.push(new Projectile());
+    audioHandler('sounds/zap.wav', 0.3);
+    console.log(actx.state);
     if (winCondition == false) shotsFired++;
 });
 
@@ -419,6 +444,7 @@ var melting = {
 }
 
 function animate() {    
+    music.play();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawSprite(backFill, 0, 0, 800, 500, 0, 0, 800, 500);
     lowCanGraphics();
@@ -441,6 +467,7 @@ function animate() {
 animate();
 
 /*TODO
- * add html for game instructions
- * more patient sprites
- */
+    * add html for game instructions
+    * sound effects and music
+    * more patient sprites
+    */
