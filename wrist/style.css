@@ -20,7 +20,8 @@ body {
     width: 900px;
     height: 600px;
     background: white;
-    display: none;
+    z-index: -1;
+    /* display: none; */
 }
 
 img{
