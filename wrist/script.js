@@ -15,6 +15,7 @@ const controlsBar = {
     width: controlBarSize,
     height: canvas1.height,
 }
+var currentMode = undefined;
 
 //the masked image
 var maskData;
@@ -27,6 +28,7 @@ const mouse1 = {
     y: undefined,
     width: 0.00001,
     height: 0.00001,
+    click: false,
     positionX: undefined,
     positionY: undefined,
     position: undefined,
@@ -76,6 +78,16 @@ canvas1.addEventListener('mouseleave', function(e){
     mouse1.y = undefined;
 });
 
+
+canvas1.addEventListener('mousedown', function (event) {
+    mouse1.click = true;
+    mouse1.x = event.x - canvasPosition1.left;
+    mouse1.y = event.y - canvasPosition1.top;
+    });
+    canvas1.addEventListener('mouseup', function (event) {
+    mouse1.click = false;
+    })
+
 /* let canvasPosition2 = canvas2.getBoundingClientRect();
 canvas2.addEventListener('mousemove', function(e){
     mouse2.x = e.x - canvasPosition2.left;
@@ -117,6 +129,34 @@ const trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trap
 const radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline', 'radius');
 const ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline', 'ulna');
 
+class Button {
+    constructor(x, y, width, height, text) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.text = text;
+    }
+    draw(){
+        //placeholder: replace with an image
+        ctx1.save();
+        ctx1.fillStyle = 'beige';
+        ctx1.fillRect(this.x, this.y, this.width, this.height);
+        ctx1.strokeStyle = 'green';
+        ctx1.lineWidth = 5;
+        ctx1.rect(this.x, this.y, this.width, this.height);
+        ctx1.stroke();
+        ctx1.fillStyle = 'black';
+        ctx1.textAlign = 'center';
+        ctx1.font = '15px Verdana';
+        ctx1.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
+        ctx1.restore();
+
+    }
+}
+learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
+studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
+
 
 // game board
 drawBackground = function(id){
@@ -134,17 +174,31 @@ window.addEventListener('resize', function(){
     //canvasPosition2 = canvas2.getBoundingClientRect();
 })
 
+function collision (first, second){
+    if (    !(  first.x > second.x + second.width ||
+                first.x + first.width < second.x ||
+                first.y > second.y + second.height ||
+                first.y + first.height < second.y)
+                //if any of these statements is true there can't be a collision
+    ) {
+        return true;
+    };    
+};
+
 UI = function (mouse1){
-    //text styling    
+    //UI generated text styling    
     ctx1.fillStyle = 'white';
-    ctx1.font = '20px Verdana'
-    ctx1.fillText(/* 'X: ' + mouse1.positionX + ' Y: ' + mouse1.positionY +  */' baseIndex: ' + mouse1.position,50, 50);
-    //needs this if statement as if it tries to read an index of "undefined" it will error
-    function checker(){
+    ctx1.font = '20px Verdana';
+    ctx1.fillText(' baseIndex: ' + mouse1.position,50, 100);
+    ctx1.fillText('Current mode: ' + currentMode, 20, 62);
+
+
+    function checker(){        
         if (mouse1.positionX > 0 ) {
-            ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 100);
-            ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 150);
-            ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 200);
+            //needs this if statement as if it tries to read an index of "undefined" it will error
+            ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
+            ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
+            ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250);
             if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'scaphoid';
             else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'lunate';
             else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'triquetrum';
@@ -191,19 +245,18 @@ UI = function (mouse1){
             ulnaOutline.draw();
             break;
 }
-    if (checker()) ctx1.fillText(checker(),50, 250);
+    if (checker()) ctx1.fillText(checker(),50, 300);
+
+    learningButton.draw();
+    studyButton.draw();
+
+    //insert code for collision between mouse click and learning button to change currentmode
+
 }
 
-function collision (first, second){
-    if (    !(  first.x > second.x + second.width ||
-                first.x + first.width < second.x ||
-                first.y > second.y + second.height ||
-                first.y + first.height < second.y)
-                //if any of these statements is true there can't be a collision
-    ) {
-        return true;
-    };    
-};
+
+
+
 
 
 //animate loop
