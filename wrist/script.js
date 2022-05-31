@@ -18,7 +18,7 @@ const controlsBar = {
 var currentMode = undefined;
 
 //the masked image
-var maskData;
+let maskData = [];
 const mask = new Image();
 mask.src = './PAwristmask.png';
 
@@ -135,7 +135,7 @@ const ringMCOutline = new Outline(controlBarSize, 0, 600, 600, 'ringmcoutline', 
 const littleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'littlemcoutline', 'little MC');
 const thumbproxphalanxOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbproximalphalanxoutline', 'thumb prox phalanx');
 const sesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'sesamoidoutline', 'sesamoid');
-
+outlineArray.push(scaphoidOutline, lunateOutline, triquetrumOutline, pisiformOutline, hamateOutline, capitateOutline, trapezoidOutline, trapeziumOutline, radiusOutline, ulnaOutline, thumbMCOutline, indexMCOutline, middleMCOutline, ringMCOutline, littleMCOutline, thumbproxphalanxOutline, sesamoidOutline);
 
 class Button {
     constructor(x, y, width, height, text) {
@@ -344,20 +344,35 @@ function modeSelect() {
 //correct bone has been clicked before scoring and progressing
 
 //animate loop
+
+let fps, fpsInterval, startTime, now, then, elapsed; //declare empty variables
+
+function startAnimating(fps){ //function needed to kick off the animation by getting system time and tying fps to system time.
+  fpsInterval = 1000/fps; //how much time passes before the next frame is served
+  then = Date.now(); //Date.now is no. of ms elapsed since 1.1.1970
+  startTime = then;
+  animate();
+}
+
 function animate(){
+    requestAnimationFrame(animate);
+    now = Date.now();
+    elapsed = now - then;
+    if (elapsed > fpsInterval) { //check to see if it's time to draw the next frame
+      then = now - (elapsed % fpsInterval);
     ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
     drawBackground('PAwrist');
     modeSelect();
     UI(mouse1, maskData)
 
-
     //TESTING
 
-    requestAnimationFrame(animate);
+
+    }
 }
 //time delay before first frame to ensure maskdata loaded otherwise occasional error thrown when array not ready
 //array takes up to 33ms on my PC, liekyl slower on others
-setTimeout(animate, 100);
+startAnimating(15);
 
 //TODO
 //basic functions
