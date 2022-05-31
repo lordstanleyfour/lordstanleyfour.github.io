@@ -192,7 +192,6 @@ UI = function (mouse1){
     ctx1.fillText(' baseIndex: ' + mouse1.position,50, 100);
     ctx1.fillText('Current mode: ' + currentMode, 20, 62);
 
-
     function checker(){        
         if (mouse1.positionX > 0 ) {
             //needs this if statement as if it tries to read an index of "undefined" it will error
@@ -245,7 +244,11 @@ UI = function (mouse1){
             ulnaOutline.draw();
             break;
 }
-    if (checker()) ctx1.fillText(checker(),50, 300);
+    //display bone name on sidebar when in learning mode
+    if (currentMode === 'LEARNING'){
+        if (checker()) ctx1.fillText(checker(),50, 300);
+    }
+    
 
     learningButton.draw();
     studyButton.draw();
@@ -254,7 +257,15 @@ UI = function (mouse1){
 
 }
 
-
+function modeSelect() {
+    if (currentMode === undefined) currentMode = 'LEARNING';
+    if (collision(mouse1, learningButton) && mouse1.click) {
+        currentMode = 'LEARNING';
+    }
+    if (collision(mouse1, studyButton) && mouse1.click) {
+        currentMode = 'STUDY';
+    }
+}
 
 
 
@@ -263,10 +274,11 @@ UI = function (mouse1){
 function animate(){
     ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
     drawBackground('PAwrist');
+    modeSelect();
+    UI(mouse1, maskData)
 
 
     //TESTING
-   UI(mouse1, maskData)
 
     requestAnimationFrame(animate);
 }
