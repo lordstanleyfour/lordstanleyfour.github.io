@@ -249,7 +249,6 @@ UI = function (mouse1){
         if (checker()) ctx1.fillText(checker(),50, 300);
     }
     
-
     learningButton.draw();
     studyButton.draw();
 
@@ -303,6 +302,13 @@ setTimeout(animate, 100);
 ////trapezium 0, 0, 200
 ////radius 200, 0, 0
 ////ulna 200, 200, 0
+////thumb MC 100, 0, 0
+////index MC 0, 100, 0
+////middle MC 0, 0, 100
+////ring MC 100, 100, 0
+////little MC 100, 0, 100
+////thumb prox phalanx 0, 100, 100
+////sesamoid 200, 100, 0
 
 //gamify
 ////
