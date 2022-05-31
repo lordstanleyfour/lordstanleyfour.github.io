@@ -16,6 +16,9 @@ const controlsBar = {
     height: canvas1.height,
 }
 var currentMode = undefined;
+var studyModeWon = false;
+const shuffledButtonArray = [];
+const shuffledOutlineArray = [];
 
 //the masked image
 let maskData = [];
@@ -37,26 +40,10 @@ const mouse1 = {
     positionBlue: undefined
 
 }
-/* const mouse2 = {
-    x: undefined,
-    y: undefined,
-    width: 0.00001,
-    height: 0.00001,
-    positionX: undefined,
-    positionY: undefined,
-    position: undefined
-} */
 
 mask.addEventListener('load', function(){
     ctx2.drawImage(mask, controlBarSize, 0, mask.naturalWidth, mask.naturalHeight);
-    
-    //var startTime = performance.now();
-    maskData = ctx2.getImageData(controlBarSize, 0, 600, 600)
-    //var endTime = performance.now();
-    //var time = endTime - startTime;
-    //console.log(time);
-    //console.log(maskData);
-
+    maskData = ctx2.getImageData(controlBarSize, 0, 600, 600);
 });
 
 let canvasPosition1 = canvas1.getBoundingClientRect();
@@ -78,7 +65,6 @@ canvas1.addEventListener('mouseleave', function(e){
     mouse1.y = undefined;
 });
 
-
 canvas1.addEventListener('mousedown', function (event) {
     mouse1.click = true;
     mouse1.x = event.x - canvasPosition1.left;
@@ -86,23 +72,7 @@ canvas1.addEventListener('mousedown', function (event) {
     });
     canvas1.addEventListener('mouseup', function (event) {
     mouse1.click = false;
-    })
-
-/* let canvasPosition2 = canvas2.getBoundingClientRect();
-canvas2.addEventListener('mousemove', function(e){
-    mouse2.x = e.x - canvasPosition2.left;
-    mouse2.y = e.y - canvasPosition2.top;
-    if (Math.floor(mouse2.x - controlBarSize > 0)) mouse2.positionX = mouse2.x - controlBarSize;
-    else mouse2.positionX = 0;
-    mouse2.positionBlue = ((Math.floor(mouse2.y) * 600) + mouse2.positionX) * 4;
-    mouse2.positionGreen = (((Math.floor(mouse2.y) * 600) + mouse2.positionX) * 4)-1;
-    mouse2.positionRed = (((Math.floor(mouse2.y) * 600) + mouse2.positionX) * 4)-2;
-
-});
-canvas2.addEventListener('mouseleave', function(e){
-    mouse2.x = undefined;
-    mouse2.y = undefined;
-}); */
+    });
 
 //classes
 class Outline {
@@ -118,23 +88,23 @@ class Outline {
         ctx1.drawImage(this.source, this.x, this.y, this.width, this.height);
     }
 }
-const scaphoidOutline = new Outline(controlBarSize, 0, 600, 600, 'scaphoidoutline', 'scaphoid');
-const lunateOutline = new Outline(controlBarSize, 0, 600, 600, 'lunateoutline', 'lunate');
-const triquetrumOutline = new Outline(controlBarSize, 0, 600, 600, 'triquetrumoutline', 'triquetrum');
-const pisiformOutline = new Outline(controlBarSize, 0, 600, 600, 'pisiformoutline', 'pisiform');
-const hamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hamateoutline', 'hamate');
-const capitateOutline = new Outline(controlBarSize, 0, 600, 600, 'capitateoutline', 'capitate');
-const trapezoidOutline = new Outline(controlBarSize, 0, 600, 600, 'trapezoidoutline', 'trapezoid');
-const trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapeziumoutline', 'trapezium');
-const radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline', 'radius');
-const ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline', 'ulna');
-const thumbMCOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbmcoutline', 'thumb MC');
-const indexMCOutline = new Outline(controlBarSize, 0, 600, 600, 'indexmcoutline', 'index MC');
-const middleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'middlemcoutline', 'middle MC');
-const ringMCOutline = new Outline(controlBarSize, 0, 600, 600, 'ringmcoutline', 'ring MC');
-const littleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'littlemcoutline', 'little MC');
-const thumbproxphalanxOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbproximalphalanxoutline', 'thumb prox phalanx');
-const sesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'sesamoidoutline', 'sesamoid');
+var scaphoidOutline = new Outline(controlBarSize, 0, 600, 600, 'scaphoidoutline', 'scaphoid');
+var lunateOutline = new Outline(controlBarSize, 0, 600, 600, 'lunateoutline', 'lunate');
+var triquetrumOutline = new Outline(controlBarSize, 0, 600, 600, 'triquetrumoutline', 'triquetrum');
+var pisiformOutline = new Outline(controlBarSize, 0, 600, 600, 'pisiformoutline', 'pisiform');
+var hamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hamateoutline', 'hamate');
+var capitateOutline = new Outline(controlBarSize, 0, 600, 600, 'capitateoutline', 'capitate');
+var trapezoidOutline = new Outline(controlBarSize, 0, 600, 600, 'trapezoidoutline', 'trapezoid');
+var trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapeziumoutline', 'trapezium');
+var radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline', 'radius');
+var ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline', 'ulna');
+var thumbMCOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbmcoutline', 'thumb MC');
+var indexMCOutline = new Outline(controlBarSize, 0, 600, 600, 'indexmcoutline', 'index MC');
+var middleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'middlemcoutline', 'middle MC');
+var ringMCOutline = new Outline(controlBarSize, 0, 600, 600, 'ringmcoutline', 'ring MC');
+var littleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'littlemcoutline', 'little MC');
+var thumbproxphalanxOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbproximalphalanxoutline', 'thumb prox phalanx');
+var sesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'sesamoidoutline', 'sesamoid');
 outlineArray.push(scaphoidOutline, lunateOutline, triquetrumOutline, pisiformOutline, hamateOutline, capitateOutline, trapezoidOutline, trapeziumOutline, radiusOutline, ulnaOutline, thumbMCOutline, indexMCOutline, middleMCOutline, ringMCOutline, littleMCOutline, thumbproxphalanxOutline, sesamoidOutline);
 
 class Button {
@@ -143,37 +113,32 @@ class Button {
         this.y = y;
         this.width = width;
         this.height = height;
+        this.image = document.getElementById("buttonimage")
         this.text = text;
     }
-    draw(){
-        //placeholder: replace with an image
-        ctx1.save();
-        ctx1.fillStyle = 'beige';
-        ctx1.fillRect(this.x, this.y, this.width, this.height);
-        ctx1.strokeStyle = 'green';
-        ctx1.lineWidth = 5;
-        ctx1.rect(this.x, this.y, this.width, this.height);
-        ctx1.stroke();
-        ctx1.fillStyle = 'black';
-        ctx1.textAlign = 'center';
-        ctx1.font = '15px Verdana';
-        ctx1.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
-        ctx1.restore();
-
+    draw(context){
+        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        context.font = '15px Verdana';
+        context.fillStyle = "black";
+        context.textAlign = 'center';
+        context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
     }
 }
-learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
-studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
-scaphoidButton = new Button(10, 110, 150, 40, 'SCAPHOID');
-lunateButton = new Button(10, 160, 150, 40, 'LUNATE');
-triquetrumButton = new Button(10, 210, 150, 40, 'TRIQUETRUM');
-pisiformButton = new Button(10, 260, 150, 40, 'PISIFORM');
-hamateButton = new Button(10, 310, 150, 40, 'HAMATE');
-capitateButton = new Button(10, 360, 150, 40, 'CAPITATE');
-trapezoidButton = new Button(10, 410, 150, 40, 'TRAPEZOID');
-trapeziumButton = new Button(10, 460, 150, 40, 'TRAPEZIUM');
-metacarpalsButton = new Button(10, 510, 150, 40, 'METACARPALS');
-sesamoidButton = new Button(10, 560, 150, 40, 'SESAMOID');
+const buttonArray = [];
+const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
+const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
+
+const scaphoidButton = new Button(10, 105, 150, 40, 'SCAPHOID');
+const lunateButton = new Button(10, 155, 150, 40, 'LUNATE');
+const triquetrumButton = new Button(10, 205, 150, 40, 'TRIQUETRUM');
+const pisiformButton = new Button(10, 255, 150, 40, 'PISIFORM');
+const hamateButton = new Button(10, 305, 150, 40, 'HAMATE');
+const capitateButton = new Button(10, 355, 150, 40, 'CAPITATE');
+const trapezoidButton = new Button(10, 405, 150, 40, 'TRAPEZOID');
+const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM');
+const metacarpalsButton = new Button(10, 505, 150, 40, 'METACARPALS');
+const sesamoidButton = new Button(10, 555, 150, 40, 'SESAMOID');
+buttonArray.push(scaphoidButton, lunateButton, triquetrumButton, pisiformButton, hamateButton, capitateButton, trapezoidButton, trapeziumButton, metacarpalsButton, sesamoidButton);
 
 // game board
 drawBackground = function(id){
@@ -206,11 +171,12 @@ UI = function (mouse1){
     //UI generated text styling    
     ctx1.fillStyle = 'white';
     ctx1.font = '20px Verdana';
+    ctx1.textAlign = 'left';
     //ctx1.fillText(' baseIndex: ' + mouse1.position,50, 100);
     ctx1.fillText('Current mode: ' + currentMode, 20, 62);
 
     function checker(){        
-        if (mouse1.positionX > 0 ) {
+        if (mouse1.positionX > 0) {
             //needs this if statement as if it tries to read an index of "undefined" it will error
 /*             ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
             ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
@@ -288,43 +254,16 @@ UI = function (mouse1){
         case 'sesamoid':
             sesamoidOutline.draw();
             break;
-}
+        }
     //display bone name on sidebar when in learning mode
     if (currentMode === 'LEARNING'){
         if (checker()) ctx1.fillText(checker(),50, 90);
     }    
     
-    learningButton.draw();
-    studyButton.draw();
-    scaphoidButton.draw();
-    lunateButton.draw();
-    triquetrumButton.draw();
-    pisiformButton.draw();
-    hamateButton.draw();
-    capitateButton.draw();
-    trapezoidButton.draw();
-    trapeziumButton.draw();
-    metacarpalsButton.draw();
-    sesamoidButton.draw();
+    learningButton.draw(ctx1);
+    studyButton.draw(ctx1);
 
-    //hover over buttons in learning mode to highlight bone
-    if (mouse1.x && collision(scaphoidButton, mouse1)) scaphoidOutline.draw();
-    else if (mouse1.x && collision(lunateButton, mouse1)) lunateOutline.draw();
-    else if (mouse1.x && collision(triquetrumButton, mouse1)) triquetrumOutline.draw();
-    else if (mouse1.x && collision(pisiformButton, mouse1)) pisiformOutline.draw();
-    else if (mouse1.x && collision(hamateButton, mouse1)) hamateOutline.draw();
-    else if (mouse1.x && collision(capitateButton, mouse1)) capitateOutline.draw();
-    else if (mouse1.x && collision(trapezoidButton, mouse1)) trapezoidOutline.draw();
-    else if (mouse1.x && collision(trapeziumButton, mouse1)) trapeziumOutline.draw();
-    else if (mouse1.x && collision(metacarpalsButton, mouse1)) {
-        thumbMCOutline.draw();
-        indexMCOutline.draw();
-        middleMCOutline.draw();
-        ringMCOutline.draw();
-        littleMCOutline.draw();
-    }
-    else if (mouse1.x && collision(sesamoidButton, mouse1)) sesamoidOutline.draw();
-
+    //insert UI element for when studyModeWone === true
 
 }
 
@@ -333,10 +272,51 @@ function modeSelect() {
     if (currentMode === undefined) currentMode = 'LEARNING';
     if (collision(mouse1, learningButton) && mouse1.click) {
         currentMode = 'LEARNING';
+        document.getElementById('canvas1').style.borderColor = 'goldenrod';
     }
     if (collision(mouse1, studyButton) && mouse1.click) {
         currentMode = 'STUDY';
+        document.getElementById('canvas1').style.borderColor = 'red';
     }
+}
+
+function buttonHandler(mouse1) {
+    //insert function to shuffle arrays if shuffled array.length === 0
+
+    //draw
+    if (currentMode === 'LEARNING'){
+        for (let i = 0; i < buttonArray.length; i++){
+            buttonArray[i].draw(ctx1);
+        }
+    }
+    //else insert code to draw only selected button
+
+    //hover over buttons in learning mode to highlight bone
+    if (mouse1.x && currentMode === 'LEARNING' && collision(scaphoidButton, mouse1)) scaphoidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(lunateButton, mouse1)) lunateOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(triquetrumButton, mouse1)) triquetrumOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(pisiformButton, mouse1)) pisiformOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(hamateButton, mouse1)) hamateOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(capitateButton, mouse1)) capitateOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(trapezoidButton, mouse1)) trapezoidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(trapeziumButton, mouse1)) trapeziumOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(metacarpalsButton, mouse1)) {
+        thumbMCOutline.draw();
+        indexMCOutline.draw();
+        middleMCOutline.draw();
+        ringMCOutline.draw();
+        littleMCOutline.draw();
+    }
+    else if (mouse1.xx && currentMode === 'LEARNING' && collision(sesamoidButton, mouse1)) sesamoidOutline.draw();
+
+    //insert code to check if mouseclick on image matches button
+    //if so then splice button from array and display the next one
+    //until array length is 0 and studyModeWon gets true
+
+    //insert code to check if mouseclick on button corresponds to outline
+    //if so then splice outline from array and display the next one
+    //until array length is 0 and studyModeWon gets true
+
 }
 
 //
@@ -344,16 +324,13 @@ function modeSelect() {
 //correct bone has been clicked before scoring and progressing
 
 //animate loop
-
 let fps, fpsInterval, startTime, now, then, elapsed; //declare empty variables
-
 function startAnimating(fps){ //function needed to kick off the animation by getting system time and tying fps to system time.
   fpsInterval = 1000/fps; //how much time passes before the next frame is served
   then = Date.now(); //Date.now is no. of ms elapsed since 1.1.1970
   startTime = then;
   animate();
 }
-
 function animate(){
     requestAnimationFrame(animate);
     now = Date.now();
@@ -364,21 +341,20 @@ function animate(){
     drawBackground('PAwrist');
     modeSelect();
     UI(mouse1, maskData)
+    buttonHandler(mouse1);
+
 
     //TESTING
 
 
     }
 }
-//time delay before first frame to ensure maskdata loaded otherwise occasional error thrown when array not ready
-//array takes up to 33ms on my PC, liekyl slower on others
-startAnimating(15);
+startAnimating(30);
 
 //TODO
 //basic functions
 ////
 //refactor code so it's more plug and play (bone names and RGB data in an object)
-//hover buttons on left which trigger the outlines for the relevant bone (learning mode)
 
 //colours used
 ////scaphoid 255, 0, 0
@@ -391,7 +367,6 @@ startAnimating(15);
 ////trapezium 0, 0, 200
 ////radius 200, 0, 0
 ////ulna 200, 200, 0
-
 ////thumb MC 100, 0, 0
 ////index MC 0, 100, 0
 ////middle MC 0, 0, 100
@@ -402,13 +377,11 @@ startAnimating(15);
 
 //gamify
 ////
-//able to select either teaching bar or training bar
-//make controlbar handler function to display and contain functions of whichever chosen
-//training bar
-//click the cards to highlight the bone
-//teaching bar
-//cards down the side of the game bar
-//select a card then click the corresponding bone
-//true or false result given
-
+//LEARNING MODE
+//--hover over the buttons to outline the bone. Hover over the bone to display the bone name
+//--needs tidied up a little bit
+////
+//STUDY MODE
+//mode1--randomly selected button flashes up, correct bone needs clicked on to pass.
+//mode2--outline appears, correct button needs clicked to pass
 
