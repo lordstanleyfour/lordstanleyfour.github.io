@@ -128,6 +128,14 @@ const trapezoidOutline = new Outline(controlBarSize, 0, 600, 600, 'trapezoidoutl
 const trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapeziumoutline', 'trapezium');
 const radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline', 'radius');
 const ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline', 'ulna');
+const thumbMCOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbmcoutline', 'thumb MC');
+const indexMCOutline = new Outline(controlBarSize, 0, 600, 600, 'indexmcoutline', 'index MC');
+const middleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'middlemcoutline', 'middle MC');
+const ringMCOutline = new Outline(controlBarSize, 0, 600, 600, 'ringmcoutline', 'ring MC');
+const littleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'littlemcoutline', 'little MC');
+const thumbproxphalanxOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbproximalphalanxoutline', 'thumb prox phalanx');
+const sesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'sesamoidoutline', 'sesamoid');
+
 
 class Button {
     constructor(x, y, width, height, text) {
@@ -156,7 +164,16 @@ class Button {
 }
 learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
-
+scaphoidButton = new Button(10, 110, 150, 40, 'SCAPHOID');
+lunateButton = new Button(10, 160, 150, 40, 'LUNATE');
+triquetrumButton = new Button(10, 210, 150, 40, 'TRIQUETRUM');
+pisiformButton = new Button(10, 260, 150, 40, 'PISIFORM');
+hamateButton = new Button(10, 310, 150, 40, 'HAMATE');
+capitateButton = new Button(10, 360, 150, 40, 'CAPITATE');
+trapezoidButton = new Button(10, 410, 150, 40, 'TRAPEZOID');
+trapeziumButton = new Button(10, 460, 150, 40, 'TRAPEZIUM');
+metacarpalsButton = new Button(10, 510, 150, 40, 'METACARPALS');
+sesamoidButton = new Button(10, 560, 150, 40, 'SESAMOID');
 
 // game board
 drawBackground = function(id){
@@ -189,15 +206,15 @@ UI = function (mouse1){
     //UI generated text styling    
     ctx1.fillStyle = 'white';
     ctx1.font = '20px Verdana';
-    ctx1.fillText(' baseIndex: ' + mouse1.position,50, 100);
+    //ctx1.fillText(' baseIndex: ' + mouse1.position,50, 100);
     ctx1.fillText('Current mode: ' + currentMode, 20, 62);
 
     function checker(){        
         if (mouse1.positionX > 0 ) {
             //needs this if statement as if it tries to read an index of "undefined" it will error
-            ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
+/*             ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
             ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
-            ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250);
+            ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
             if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'scaphoid';
             else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'lunate';
             else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'triquetrum';
@@ -208,6 +225,13 @@ UI = function (mouse1){
             else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'trapezium';
             else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'radius';
             else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'ulna';
+            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'thumb MC';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'index MC';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'middle MC';
+            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'ring MC';
+            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'little MC';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 100) return 'thumb prox phalanx';
+            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'sesamoid';
             else return 'Keep looking...';
         }
     }
@@ -243,19 +267,68 @@ UI = function (mouse1){
         case 'ulna':
             ulnaOutline.draw();
             break;
+        case 'thumb MC':
+            thumbMCOutline.draw();
+            break;        
+        case 'index MC':
+            indexMCOutline.draw();
+            break;
+        case 'middle MC':
+            middleMCOutline.draw();
+            break;
+        case 'ring MC':
+            ringMCOutline.draw();
+            break;
+        case 'little MC':
+            littleMCOutline.draw();
+            break;
+        case 'thumb prox phalanx':
+            thumbproxphalanxOutline.draw();
+            break;
+        case 'sesamoid':
+            sesamoidOutline.draw();
+            break;
 }
     //display bone name on sidebar when in learning mode
     if (currentMode === 'LEARNING'){
-        if (checker()) ctx1.fillText(checker(),50, 300);
-    }
+        if (checker()) ctx1.fillText(checker(),50, 90);
+    }    
     
     learningButton.draw();
     studyButton.draw();
+    scaphoidButton.draw();
+    lunateButton.draw();
+    triquetrumButton.draw();
+    pisiformButton.draw();
+    hamateButton.draw();
+    capitateButton.draw();
+    trapezoidButton.draw();
+    trapeziumButton.draw();
+    metacarpalsButton.draw();
+    sesamoidButton.draw();
 
-    //insert code for collision between mouse click and learning button to change currentmode
+    //hover over buttons in learning mode to highlight bone
+    if (mouse1.x && collision(scaphoidButton, mouse1)) scaphoidOutline.draw();
+    else if (mouse1.x && collision(lunateButton, mouse1)) lunateOutline.draw();
+    else if (mouse1.x && collision(triquetrumButton, mouse1)) triquetrumOutline.draw();
+    else if (mouse1.x && collision(pisiformButton, mouse1)) pisiformOutline.draw();
+    else if (mouse1.x && collision(hamateButton, mouse1)) hamateOutline.draw();
+    else if (mouse1.x && collision(capitateButton, mouse1)) capitateOutline.draw();
+    else if (mouse1.x && collision(trapezoidButton, mouse1)) trapezoidOutline.draw();
+    else if (mouse1.x && collision(trapeziumButton, mouse1)) trapeziumOutline.draw();
+    else if (mouse1.x && collision(metacarpalsButton, mouse1)) {
+        thumbMCOutline.draw();
+        indexMCOutline.draw();
+        middleMCOutline.draw();
+        ringMCOutline.draw();
+        littleMCOutline.draw();
+    }
+    else if (mouse1.x && collision(sesamoidButton, mouse1)) sesamoidOutline.draw();
+
 
 }
 
+//code for collision between mouse click and learning button to change currentmode
 function modeSelect() {
     if (currentMode === undefined) currentMode = 'LEARNING';
     if (collision(mouse1, learningButton) && mouse1.click) {
@@ -266,8 +339,9 @@ function modeSelect() {
     }
 }
 
-
-
+//
+////function to shuffle buttons to an array, select each element and judge whether the 
+//correct bone has been clicked before scoring and progressing
 
 //animate loop
 function animate(){
@@ -302,6 +376,7 @@ setTimeout(animate, 100);
 ////trapezium 0, 0, 200
 ////radius 200, 0, 0
 ////ulna 200, 200, 0
+
 ////thumb MC 100, 0, 0
 ////index MC 0, 100, 0
 ////middle MC 0, 0, 100
