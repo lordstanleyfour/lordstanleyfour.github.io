@@ -15,8 +15,8 @@ const controlsBar = {
     width: controlBarSize,
     height: canvas1.height,
 }
-var currentMode = undefined;
-var studyModeWon = false;
+var currentMode = 'LEARNING'; //set this back to undefined@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+var studyModeWon = false; //set this back to false@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 var shuffledButtonArray = [];
 var shuffledOutlineArray = [];
 
@@ -111,6 +111,8 @@ class Button {
     constructor(x, y, width, height, text, name) {
         this.x = x;
         this.y = y;
+        this.studyX = 70;
+        this.studyY = 205;
         this.width = width;
         this.height = height;
         this.image = document.getElementById("buttonimage")
@@ -118,17 +120,43 @@ class Button {
         this.name = name;
     }
     draw(context){
-        context.drawImage(this.image, this.x, this.y, this.width, this.height);
-        context.font = '15px Verdana';
-        if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
-        context.fillStyle = "black";
-        context.textAlign = 'center';
-        context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
+        //have a proper look at this code and tidy it up
+        if (currentMode === 'LEARNING'){
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            context.font = '15px Verdana';
+            if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
+            context.fillStyle = "black";
+            context.textAlign = 'center';
+            context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
+        } 
+        else if (currentMode === 'STUDY' && this.text != 'LEARNING MODE' && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
+            context.drawImage(this.image, this.studyX, this.studyY, this.width, this.height);
+            context.font = '15px Verdana';
+            context.fillStyle = "black";
+            context.textAlign = 'center';
+            if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
+            context.fillText(this.text, this.studyX + (this.width/2), this.studyY+(this.height/1.75));
+        }  
+        else if (currentMode === 'STUDY' && (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE' || this.text === 'WELL DONE!')){
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            context.font = 'bold 14px Verdana';
+            context.fillStyle = "black";
+            context.textAlign = 'center';
+            context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
+            if (this.text === 'WELL DONE!') {
+                context.font = '12px Verdana';
+                context.fillStyle = "black";
+                context.textAlign = 'center';
+                context.fillText('Click to restart', this.x + (this.width/2), this.y+(this.height/1.75) + 20);
+            }
+        }
+
     }
 }
 const buttonArray = [];
 const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
+const winButton = new Button(250, 250, 450, 120, 'WELL DONE!');
 
 const scaphoidButton = new Button(10, 105, 150, 40, 'SCAPHOID', 'Scaphoid');
 const lunateButton = new Button(10, 155, 150, 40, 'LUNATE', 'Lunate');
@@ -180,6 +208,7 @@ UI = function (mouse1){
     
     learningButton.draw(ctx1);
     studyButton.draw(ctx1);
+
 
     //display highlight images
     switch(checker()){
@@ -244,8 +273,6 @@ UI = function (mouse1){
         if (checker()) ctx1.fillText(checker(),150, 90);
     }
 
-    //insert UI element for when studyModeWon === true @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
 }
 
 //code for collision between mouse click and learning button to change currentmode
@@ -263,13 +290,33 @@ function modeSelect() {
 
 function studyMode() {
     //mode1 (button prompt)
-    //select the first element in the shuffled button array and draw to control bar
-    //run checker on mouseclick
-    //if checker return matches button.name property
-    //if true then splice from array and continue
-    //if false then return try again message
-    //on last splice studyModeWon set to true
     //add a win screen which will set studModeWon to false and repopulate the array
+    if (currentMode === 'STUDY' && !studyModeWon){
+        if (shuffledButtonArray.length <= 0) shuffleArrays();
+        //console.log(shuffledButtonArray[0]);
+/*         shuffledButtonArray[0].x = 70;
+        shuffledButtonArray[0].y = 205; */
+        if (shuffledButtonArray.length > 0) {
+            shuffledButtonArray[0].draw(ctx1);
+            if (checker() === shuffledButtonArray[0].name && mouse1.click) {
+                shuffledButtonArray.splice(0, 1);
+                console.log('true');
+            }
+        } else if (shuffledButtonArray.length <= 0 && !studyModeWon) {
+            studyModeWon = true;
+        }
+    }
+    if (studyModeWon){
+        winButton.draw(ctx1);
+        if (collision(winButton, mouse1) && mouse1.click){
+            studyModeWon = false;
+            shuffleArrays();
+        }
+
+    }
+console.log(studyModeWon)
+console.log(shuffledButtonArray.length)
+
 }
 
 function checker(){        
@@ -300,13 +347,13 @@ function checker(){
 }
 
 
-
-
-function buttonHandler(mouse1) {
-    //shuffle arrays if shuffled array.length === 0
-    if (shuffledButtonArray.length === 0 && !studyModeWon) {
+function shuffleArrays(){
+    console.log('shuffle fired');
+    if (shuffledButtonArray.length === 0) {
         shuffledButtonArray = buttonArray;
-        //add code to splice metacarpals button@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //remove unusable learning mode specific buttons
+        let index = shuffledButtonArray.indexOf(metacarpalsButton);
+        shuffledButtonArray.splice(index, 1);
         for (let i = shuffledButtonArray.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = shuffledButtonArray[i];
@@ -323,6 +370,11 @@ function buttonHandler(mouse1) {
             shuffledOutlineArray[j] = temp;
         }
     }
+}
+
+function buttonHandler(mouse1) {
+    //shuffle arrays if shuffled array.length === 0
+    
     
 
     //draw
@@ -387,7 +439,7 @@ function animate(){
 
 
     //TESTING
-
+        studyMode();
 
     }
 }
