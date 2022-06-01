@@ -17,8 +17,8 @@ const controlsBar = {
 }
 var currentMode = undefined;
 var studyModeWon = false;
-const shuffledButtonArray = [];
-const shuffledOutlineArray = [];
+var shuffledButtonArray = [];
+var shuffledOutlineArray = [];
 
 //the masked image
 let maskData = [];
@@ -119,6 +119,7 @@ class Button {
     draw(context){
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
         context.font = '15px Verdana';
+        if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
         context.fillStyle = "black";
         context.textAlign = 'center';
         context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
@@ -164,16 +165,16 @@ function collision (first, second){
                 //if any of these statements is true there can't be a collision
     ) {
         return true;
-    };    
-};
+    }    
+}
 
 UI = function (mouse1){
     //UI generated text styling    
     ctx1.fillStyle = 'white';
     ctx1.font = '20px Verdana';
-    ctx1.textAlign = 'left';
+    ctx1.textAlign = 'center';
     //ctx1.fillText(' baseIndex: ' + mouse1.position,50, 100);
-    ctx1.fillText('Current mode: ' + currentMode, 20, 62);
+    ctx1.fillText('Current mode: ' + currentMode, 150, 62);
 
     function checker(){        
         if (mouse1.positionX > 0) {
@@ -181,84 +182,85 @@ UI = function (mouse1){
 /*             ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
             ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
             ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
-            if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'scaphoid';
-            else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'lunate';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'triquetrum';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'pisiform';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'hamate';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'capitate';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'trapezoid';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'trapezium';
-            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'radius';
-            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'ulna';
-            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'thumb MC';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'index MC';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'middle MC';
-            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'ring MC';
-            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'little MC';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 100) return 'thumb prox phalanx';
-            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'sesamoid';
+            if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Scaphoid';
+            else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Lunate';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Triquetrum';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Pisiform';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Hamate';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Capitate';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Trapezoid';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'Trapezium';
+            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Radius';
+            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Ulna';
+            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Thumb Metacarpal';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Index Metacarpal';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Middle Metacarpal';
+            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Ring Metacarpal';
+            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Little Metacarpal';
+            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 100) return 'Thumb Proximal Phalanx';
+            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Sesamoid';
             else return 'Keep looking...';
-        } //tidy up these strings
+        }
     }
-    //instert code to display highlight images here
+
+    //display highlight images
     switch(checker()){
-        case 'scaphoid':
+        case 'Scaphoid':
             scaphoidOutline.draw();
             break;
-        case 'lunate':
+        case 'Lunate':
             lunateOutline.draw();
             break;
-        case 'triquetrum':
+        case 'Triquetrum':
             triquetrumOutline.draw();
             break;
-        case 'pisiform':
+        case 'Pisiform':
             pisiformOutline.draw();
             break;
-        case 'hamate':
+        case 'Hamate':
             hamateOutline.draw();
             break;
-        case 'capitate':
+        case 'Capitate':
             capitateOutline.draw();
             break;
-        case 'trapezoid':
+        case 'Trapezoid':
             trapezoidOutline.draw();
             break;
-        case 'trapezium':
+        case 'Trapezium':
             trapeziumOutline.draw();
             break;
-        case 'radius':
+        case 'Radius':
             radiusOutline.draw();
             break;
-        case 'ulna':
+        case 'Ulna':
             ulnaOutline.draw();
             break;
-        case 'thumb MC':
+        case 'Thumb Metacarpal':
             thumbMCOutline.draw();
             break;        
-        case 'index MC':
+        case 'Index Metacarpal':
             indexMCOutline.draw();
             break;
-        case 'middle MC':
+        case 'Middle Metacarpal':
             middleMCOutline.draw();
             break;
-        case 'ring MC':
+        case 'Ring Metacarpal':
             ringMCOutline.draw();
             break;
-        case 'little MC':
+        case 'Little Metacarpal':
             littleMCOutline.draw();
             break;
-        case 'thumb prox phalanx':
+        case 'Thumb Proximal Phalanx':
             thumbproxphalanxOutline.draw();
             break;
-        case 'sesamoid':
+        case 'Sesamoid':
             sesamoidOutline.draw();
             break;
         }
     //display bone name on sidebar when in learning mode
     if (currentMode === 'LEARNING'){
-        if (checker()) ctx1.fillText(checker(),50, 90);
-    }    
+        if (checker()) ctx1.fillText(checker(),150, 90);
+    }
     
     learningButton.draw(ctx1);
     studyButton.draw(ctx1);
@@ -281,7 +283,27 @@ function modeSelect() {
 }
 
 function buttonHandler(mouse1) {
-    //insert function to shuffle arrays if shuffled array.length === 0
+    //shuffle arrays if shuffled array.length === 0
+    if (shuffledButtonArray.length === 0) {
+        shuffledButtonArray = buttonArray;
+        for (let i = shuffledButtonArray.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = shuffledButtonArray[i];
+            shuffledButtonArray[i] = shuffledButtonArray[j];
+            shuffledButtonArray[j] = temp;
+        }
+    }
+    if (shuffledOutlineArray.length === 0) {
+        shuffledOutlineArray = outlineArray;
+        for (let i = shuffledOutlineArray.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = shuffledOutlineArray[i];
+            shuffledOutlineArray[i] = shuffledOutlineArray[j];
+            shuffledOutlineArray[j] = temp;
+        }
+        console.log(shuffledOutlineArray);
+    }
+    
 
     //draw
     if (currentMode === 'LEARNING'){
