@@ -108,13 +108,14 @@ var sesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'sesamoidoutline'
 outlineArray.push(scaphoidOutline, lunateOutline, triquetrumOutline, pisiformOutline, hamateOutline, capitateOutline, trapezoidOutline, trapeziumOutline, radiusOutline, ulnaOutline, thumbMCOutline, indexMCOutline, middleMCOutline, ringMCOutline, littleMCOutline, thumbproxphalanxOutline, sesamoidOutline);
 
 class Button {
-    constructor(x, y, width, height, text) {
+    constructor(x, y, width, height, text, name) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.image = document.getElementById("buttonimage")
         this.text = text;
+        this.name = name;
     }
     draw(context){
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -129,16 +130,17 @@ const buttonArray = [];
 const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
 
-const scaphoidButton = new Button(10, 105, 150, 40, 'SCAPHOID');
-const lunateButton = new Button(10, 155, 150, 40, 'LUNATE');
-const triquetrumButton = new Button(10, 205, 150, 40, 'TRIQUETRUM');
-const pisiformButton = new Button(10, 255, 150, 40, 'PISIFORM');
-const hamateButton = new Button(10, 305, 150, 40, 'HAMATE');
-const capitateButton = new Button(10, 355, 150, 40, 'CAPITATE');
-const trapezoidButton = new Button(10, 405, 150, 40, 'TRAPEZOID');
-const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM');
+const scaphoidButton = new Button(10, 105, 150, 40, 'SCAPHOID', 'Scaphoid');
+const lunateButton = new Button(10, 155, 150, 40, 'LUNATE', 'Lunate');
+const triquetrumButton = new Button(10, 205, 150, 40, 'TRIQUETRUM', 'Triquetrum');
+const pisiformButton = new Button(10, 255, 150, 40, 'PISIFORM', 'Pisiform');
+const hamateButton = new Button(10, 305, 150, 40, 'HAMATE', 'Hamate');
+const capitateButton = new Button(10, 355, 150, 40, 'CAPITATE', 'Capitate');
+const trapezoidButton = new Button(10, 405, 150, 40, 'TRAPEZOID', 'Trapezoid');
+const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM', 'Trapezium');
 const metacarpalsButton = new Button(10, 505, 150, 40, 'METACARPALS');
-const sesamoidButton = new Button(10, 555, 150, 40, 'SESAMOID');
+const sesamoidButton = new Button(10, 555, 150, 40, 'SESAMOID', 'Sesamoid');
+//add seperate metacarpal buttons for study mode and push to array @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 buttonArray.push(scaphoidButton, lunateButton, triquetrumButton, pisiformButton, hamateButton, capitateButton, trapezoidButton, trapeziumButton, metacarpalsButton, sesamoidButton);
 
 // game board
@@ -175,33 +177,9 @@ UI = function (mouse1){
     ctx1.textAlign = 'center';
     //ctx1.fillText(' baseIndex: ' + mouse1.position,50, 100);
     ctx1.fillText('Current mode: ' + currentMode, 150, 62);
-
-    function checker(){        
-        if (mouse1.positionX > 0) {
-            //needs this if statement as if it tries to read an index of "undefined" it will error
-/*             ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
-            ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
-            ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
-            if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Scaphoid';
-            else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Lunate';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Triquetrum';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Pisiform';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Hamate';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Capitate';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Trapezoid';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'Trapezium';
-            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Radius';
-            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Ulna';
-            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Thumb Metacarpal';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Index Metacarpal';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Middle Metacarpal';
-            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Ring Metacarpal';
-            else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Little Metacarpal';
-            else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 100) return 'Thumb Proximal Phalanx';
-            else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Sesamoid';
-            else return 'Keep looking...';
-        }
-    }
+    
+    learningButton.draw(ctx1);
+    studyButton.draw(ctx1);
 
     //display highlight images
     switch(checker()){
@@ -257,15 +235,16 @@ UI = function (mouse1){
             sesamoidOutline.draw();
             break;
         }
+
     //display bone name on sidebar when in learning mode
     if (currentMode === 'LEARNING'){
+        ctx1.fillStyle = 'white';
+        ctx1.font = '20px Verdana';
+        ctx1.textAlign = 'center';
         if (checker()) ctx1.fillText(checker(),150, 90);
     }
-    
-    learningButton.draw(ctx1);
-    studyButton.draw(ctx1);
 
-    //insert UI element for when studyModeWone === true
+    //insert UI element for when studyModeWon === true @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 }
 
@@ -282,10 +261,52 @@ function modeSelect() {
     }
 }
 
+function studyMode() {
+    //mode1 (button prompt)
+    //select the first element in the shuffled button array and draw to control bar
+    //run checker on mouseclick
+    //if checker return matches button.name property
+    //if true then splice from array and continue
+    //if false then return try again message
+    //on last splice studyModeWon set to true
+    //add a win screen which will set studModeWon to false and repopulate the array
+}
+
+function checker(){        
+    if (mouse1.positionX > 0) {
+        //needs this if statement as if it tries to read an index of "undefined" it will error
+/*             ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
+        ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
+        ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
+        if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Scaphoid';
+        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Lunate';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Triquetrum';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Pisiform';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Hamate';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Capitate';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Trapezoid';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'Trapezium';
+        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Radius';
+        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Ulna';
+        else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Thumb Metacarpal';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Index Metacarpal';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Middle Metacarpal';
+        else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Ring Metacarpal';
+        else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Little Metacarpal';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 100) return 'Thumb Proximal Phalanx';
+        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Sesamoid';
+        else return 'Keep looking...';
+    }
+}
+
+
+
+
 function buttonHandler(mouse1) {
     //shuffle arrays if shuffled array.length === 0
-    if (shuffledButtonArray.length === 0) {
+    if (shuffledButtonArray.length === 0 && !studyModeWon) {
         shuffledButtonArray = buttonArray;
+        //add code to splice metacarpals button@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         for (let i = shuffledButtonArray.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = shuffledButtonArray[i];
@@ -293,7 +314,7 @@ function buttonHandler(mouse1) {
             shuffledButtonArray[j] = temp;
         }
     }
-    if (shuffledOutlineArray.length === 0) {
+    if (shuffledOutlineArray.length === 0 && !studyModeWon) {
         shuffledOutlineArray = outlineArray;
         for (let i = shuffledOutlineArray.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -301,7 +322,6 @@ function buttonHandler(mouse1) {
             shuffledOutlineArray[i] = shuffledOutlineArray[j];
             shuffledOutlineArray[j] = temp;
         }
-        console.log(shuffledOutlineArray);
     }
     
 
