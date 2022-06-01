@@ -199,7 +199,7 @@ UI = function (mouse1){
             else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 100) return 'thumb prox phalanx';
             else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'sesamoid';
             else return 'Keep looking...';
-        }
+        } //tidy up these strings
     }
     //instert code to display highlight images here
     switch(checker()){
@@ -307,7 +307,7 @@ function buttonHandler(mouse1) {
         ringMCOutline.draw();
         littleMCOutline.draw();
     }
-    else if (mouse1.xx && currentMode === 'LEARNING' && collision(sesamoidButton, mouse1)) sesamoidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(sesamoidButton, mouse1)) sesamoidOutline.draw();
 
     //insert code to check if mouseclick on image matches button
     //if so then splice button from array and display the next one
