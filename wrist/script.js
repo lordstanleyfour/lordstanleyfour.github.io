@@ -444,7 +444,7 @@ function animate(){
         ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
         drawBackground('PAwrist');
         modeSelect();
-        UI()
+        UI();
         buttonHandler(mouse1);
 
 
