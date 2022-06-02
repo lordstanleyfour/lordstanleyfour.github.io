@@ -524,7 +524,6 @@ function animate(){
 
 
         //TESTING
-        console.log(buttonArray.length);
 
     }
 }
