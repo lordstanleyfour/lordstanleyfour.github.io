@@ -20,6 +20,7 @@ var studyModeWon = false;
 var shuffledButtonArray = [];
 var shuffledButtonArrayLength = null;
 var shuffledOutlineArray = [];
+var shuffledOutlineArrayLength = null;
 
 //the masked image
 let maskData = [];
@@ -72,8 +73,14 @@ canvas1.addEventListener('mousedown', function (event) {
     mouse1.y = event.y - canvasPosition1.top;
 });
 canvas1.addEventListener('mouseup', function (event) {
-mouse1.click = false;
+    mouse1.click = false;
 });    
+canvas1.addEventListener('touchstart', function (event) {
+    mouse1.click = true;
+});
+canvas1.addEventListener('touchend', function (event) {
+    mouse1.click = false;
+});
 
 //classes and class object declarations
 class Outline {
@@ -91,23 +98,23 @@ class Outline {
 }
 
 //declare outline objects
-var scaphoidOutline = new Outline(controlBarSize, 0, 600, 600, 'scaphoidoutline', 'scaphoid');
-var lunateOutline = new Outline(controlBarSize, 0, 600, 600, 'lunateoutline', 'lunate');
-var triquetrumOutline = new Outline(controlBarSize, 0, 600, 600, 'triquetrumoutline', 'triquetrum');
-var pisiformOutline = new Outline(controlBarSize, 0, 600, 600, 'pisiformoutline', 'pisiform');
-var hamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hamateoutline', 'hamate');
-var capitateOutline = new Outline(controlBarSize, 0, 600, 600, 'capitateoutline', 'capitate');
-var trapezoidOutline = new Outline(controlBarSize, 0, 600, 600, 'trapezoidoutline', 'trapezoid');
-var trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapeziumoutline', 'trapezium');
-var radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline', 'radius');
-var ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline', 'ulna');
-var thumbMCOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbmcoutline', 'thumb MC');
-var indexMCOutline = new Outline(controlBarSize, 0, 600, 600, 'indexmcoutline', 'index MC');
-var middleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'middlemcoutline', 'middle MC');
-var ringMCOutline = new Outline(controlBarSize, 0, 600, 600, 'ringmcoutline', 'ring MC');
-var littleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'littlemcoutline', 'little MC');
-var thumbproxphalanxOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbproximalphalanxoutline', 'thumb prox phalanx');
-var sesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'sesamoidoutline', 'sesamoid');
+var scaphoidOutline = new Outline(controlBarSize, 0, 600, 600, 'scaphoidoutline', 'Scaphoid');
+var lunateOutline = new Outline(controlBarSize, 0, 600, 600, 'lunateoutline', 'Lunate');
+var triquetrumOutline = new Outline(controlBarSize, 0, 600, 600, 'triquetrumoutline', 'Triquetrum');
+var pisiformOutline = new Outline(controlBarSize, 0, 600, 600, 'pisiformoutline', 'Pisiform');
+var hamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hamateoutline', 'Hamate');
+var capitateOutline = new Outline(controlBarSize, 0, 600, 600, 'capitateoutline', 'Capitate');
+var trapezoidOutline = new Outline(controlBarSize, 0, 600, 600, 'trapezoidoutline', 'Trapezoid');
+var trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapeziumoutline', 'Trapezium');
+var radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline');
+var ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline');
+var thumbMCOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbmcoutline');
+var indexMCOutline = new Outline(controlBarSize, 0, 600, 600, 'indexmcoutline');
+var middleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'middlemcoutline');
+var ringMCOutline = new Outline(controlBarSize, 0, 600, 600, 'ringmcoutline');
+var littleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'littlemcoutline');
+var thumbproxphalanxOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbproximalphalanxoutline');
+var sesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'sesamoidoutline', 'Sesamoid');
 outlineArray.push(scaphoidOutline, lunateOutline, triquetrumOutline, pisiformOutline, hamateOutline, capitateOutline, trapezoidOutline, trapeziumOutline, radiusOutline, ulnaOutline, thumbMCOutline, indexMCOutline, middleMCOutline, ringMCOutline, littleMCOutline, thumbproxphalanxOutline, sesamoidOutline);
 
 class Button {
@@ -124,7 +131,7 @@ class Button {
     }
     draw(context){
         //draw the buttons and their text in learning mode
-        if (currentMode === 'LEARNING'){
+        if (currentMode === 'LEARNING' || currentMode === 'STUDY2'){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
             context.font = '15px Verdana';
             if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
@@ -133,7 +140,7 @@ class Button {
             context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
         }
         //draw the buttons and their text in study mode, excluding the mode selectors and win button
-        else if (currentMode === 'STUDY' && this.text != 'LEARNING MODE' && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
+        if (currentMode === 'STUDY1' && this.text != 'LEARNING MODE' && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
             context.drawImage(this.image, this.studyX, this.studyY, this.width, this.height);
             context.font = '15px Verdana';
             context.fillStyle = "black";
@@ -141,7 +148,7 @@ class Button {
             context.fillText(this.text, this.studyX + (this.width/2), this.studyY+(this.height/1.75));
         }
         //draw the mode selectors in study mode
-        else if (currentMode === 'STUDY' && (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE')){
+        if (currentMode === 'STUDY1' && (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE')){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
             context.font = 'bold 14px Verdana';
             context.fillStyle = "black";
@@ -149,7 +156,7 @@ class Button {
             context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
         }
         //draw the win button in study mode
-        else if (currentMode === 'STUDY' && this.text === 'WELL DONE!'){
+        if ((currentMode === 'STUDY1' || currentMode === 'STUDY2') && this.text === 'WELL DONE!'){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
             context.font = 'bold 16px Verdana';
             context.fillStyle = "black";
@@ -165,7 +172,7 @@ class Button {
     }
 }
 //non removable buttons
-const buttonArray = [];
+var buttonArray = [];
 const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
 const winButton = new Button(70, 205, 150, 120, 'WELL DONE!');
@@ -181,9 +188,12 @@ const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM', 'Trapezium');
 const metacarpalsButton = new Button(10, 505, 150, 40, 'METACARPALS');
 const sesamoidButton = new Button(10, 555, 150, 40, 'SESAMOID', 'Sesamoid');
 //add seperate metacarpal buttons for study mode and push to array @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-buttonArray.push(scaphoidButton, lunateButton, triquetrumButton, pisiformButton, hamateButton, capitateButton, trapezoidButton, trapeziumButton, metacarpalsButton, sesamoidButton);
+function resetButtonArray(){
+    buttonArray = [];
+    buttonArray.push(scaphoidButton, lunateButton, triquetrumButton, pisiformButton, hamateButton, capitateButton, trapezoidButton, trapeziumButton, metacarpalsButton, sesamoidButton);
+}
+resetButtonArray();
 //initial shuffle for study mode
-shuffleArrays();
 
 //game board
 drawBackground = function(id){
@@ -252,58 +262,61 @@ UI = function (){
     studyButton.draw(ctx1);
 
     //display highlight images
-    switch(checker()){
-        case 'Scaphoid':
-            scaphoidOutline.draw();
-            break;
-        case 'Lunate':
-            lunateOutline.draw();
-            break;
-        case 'Triquetrum':
-            triquetrumOutline.draw();
-            break;
-        case 'Pisiform':
-            pisiformOutline.draw();
-            break;
-        case 'Hamate':
-            hamateOutline.draw();
-            break;
-        case 'Capitate':
-            capitateOutline.draw();
-            break;
-        case 'Trapezoid':
-            trapezoidOutline.draw();
-            break;
-        case 'Trapezium':
-            trapeziumOutline.draw();
-            break;
-        case 'Radius':
-            radiusOutline.draw();
-            break;
-        case 'Ulna':
-            ulnaOutline.draw();
-            break;
-        case 'Thumb Metacarpal':
-            thumbMCOutline.draw();
-            break;        
-        case 'Index Metacarpal':
-            indexMCOutline.draw();
-            break;
-        case 'Middle Metacarpal':
-            middleMCOutline.draw();
-            break;
-        case 'Ring Metacarpal':
-            ringMCOutline.draw();
-            break;
-        case 'Little Metacarpal':
-            littleMCOutline.draw();
-            break;
-        case 'Thumb Proximal Phalanx':
-            thumbproxphalanxOutline.draw();
-            break;
-        case 'Sesamoid':
-            sesamoidOutline.draw();
-            break;
+    if (currentMode === 'LEARNING' || currentMode === 'STUDY1'){
+        switch(checker()){
+            case 'Scaphoid':
+                scaphoidOutline.draw();
+                break;
+            case 'Lunate':
+                lunateOutline.draw();
+                break;
+            case 'Triquetrum':
+                triquetrumOutline.draw();
+                break;
+            case 'Pisiform':
+                pisiformOutline.draw();
+                break;
+            case 'Hamate':
+                hamateOutline.draw();
+                break;
+            case 'Capitate':
+                capitateOutline.draw();
+                break;
+            case 'Trapezoid':
+                trapezoidOutline.draw();
+                break;
+            case 'Trapezium':
+                trapeziumOutline.draw();
+                break;
+            case 'Radius':
+                radiusOutline.draw();
+                break;
+            case 'Ulna':
+                ulnaOutline.draw();
+                break;
+            case 'Thumb Metacarpal':
+                thumbMCOutline.draw();
+                break;        
+            case 'Index Metacarpal':
+                indexMCOutline.draw();
+                break;
+            case 'Middle Metacarpal':
+                middleMCOutline.draw();
+                break;
+            case 'Ring Metacarpal':
+                ringMCOutline.draw();
+                break;
+            case 'Little Metacarpal':
+                littleMCOutline.draw();
+                break;
+            case 'Thumb Proximal Phalanx':
+                thumbproxphalanxOutline.draw();
+                break;
+            case 'Sesamoid':
+                sesamoidOutline.draw();
+                break;
+    }
+    
     }
 
     //display bone name on sidebar when in learning mode
@@ -313,63 +326,118 @@ UI = function (){
         ctx1.textAlign = 'center';
         if (checker()) ctx1.fillText(checker(),150, 90);
     }
-    //display score in study mode
-    if (currentMode === 'STUDY'){
+    //display score in study mode 1
+    if (currentMode === 'STUDY1'){
         ctx1.fillStyle = 'white';
         ctx1.font = '20px Verdana';
         ctx1.textAlign = 'center';
         ctx1.fillText('Progress:  ' + (shuffledButtonArrayLength - shuffledButtonArray.length) + '/' + shuffledButtonArrayLength, 150, 100);
+        ctx1.font = '12px Verdana';
+        ctx1.fillText('Press RETURN to change study mode!', 150, 75);
+
+    }
+
+    //display score in study mode 2
+    if (currentMode === 'STUDY2'){
+        ctx1.fillStyle = 'white';
+        ctx1.font = '20px Verdana';
+        ctx1.textAlign = 'center';
+        ctx1.fillText('Progress:  ' + (shuffledOutlineArrayLength - shuffledOutlineArray.length) + '/' + shuffledOutlineArrayLength, 150, 100);
+        ctx1.font = '12px Verdana';
+        ctx1.fillText('Press RETURN to change study mode!', 150, 75);
     }
 }
 
 //mode selector button logic and initialisation of study mode
 function modeSelect() {
     if (currentMode === undefined) currentMode = 'LEARNING';
-    if (collision(mouse1, learningButton) && mouse1.click) {
+    if (collision(learningButton, mouse1) && mouse1.click) {
+        resetButtonArray();
         currentMode = 'LEARNING';
         document.getElementById('canvas1').style.borderColor = 'goldenrod';
     }
-    if (collision(mouse1, studyButton) && mouse1.click) {
-        currentMode = 'STUDY';
+    if (collision(studyButton, mouse1) && mouse1.click) {
+        currentMode = 'STUDY1';
         document.getElementById('canvas1').style.borderColor = 'red';
     }
-    if (currentMode === 'STUDY') studyMode();
+    if (currentMode === 'STUDY1' || currentMode === 'STUDY2') studyMode();
 }
 
-//debug (press delete to pass study mode question)
+//temp solution, press return to change study mode. @@@@@@@@@@@@replace with a button somewhere
 document.addEventListener('keyup', e => {
-    if (e.keyCode === 46) shuffledButtonArray.splice(0, 1);
+    if (e.keyCode === 13) {
+        if (currentMode === 'STUDY1') currentMode = 'STUDY2';
+        else if (currentMode === 'STUDY2') currentMode = 'STUDY1';
+    }
 });
 
 function studyMode() {
+    shuffleArrays();
     //mode1 (button prompt)
-
-    //main logic
-    if (shuffledButtonArray.length > 0) {
-        shuffledButtonArray[0].draw(ctx1);
-        if (checker() === shuffledButtonArray[0].name && mouse1.click) {
-            shuffledButtonArray.splice(0, 1);        
+    if (currentMode === 'STUDY1'){
+        //main logic
+        if (shuffledButtonArray.length > 0) {
+            shuffledButtonArray[0].draw(ctx1);
+            if (checker() === shuffledButtonArray[0].name && mouse1.click) {
+                shuffledButtonArray.splice(0, 1);        
+            }
+        }
+        //set win state
+        if (shuffledButtonArray.length === 0 && !studyModeWon) {
+            studyModeWon = true;
+        }
+        //restart button
+        if (studyModeWon){
+            winButton.draw(ctx1);
+            if (collision(winButton, mouse1) && mouse1.click){
+                studyModeWon = false;
+                shuffleArrays();
+            }
         }
     }
-    //set win state
-    if (shuffledButtonArray.length === 0 && !studyModeWon) {
-        studyModeWon = true;
-    }
-    //restart button
-    if (studyModeWon){
-        winButton.draw(ctx1);
-        if (collision(winButton, mouse1) && mouse1.click){
-            studyModeWon = false;
-            shuffleArrays();
+    
+    //mode 2 same but with outlines
+    function study2Checker(){
+        if (mouse1.click){
+            for (let i = 0; i < buttonArray.length; i++){
+                if (collision(mouse1, buttonArray[i])) return(buttonArray[i].name);
+            }
         }
+    }    
+    if (currentMode === 'STUDY2'){
+        //main logic
+        if (shuffledOutlineArray.length > 0) {
+            shuffledOutlineArray[0].draw(ctx1);
+        }
+        
+        if (!studyModeWon && study2Checker() === shuffledOutlineArray[0].name){
+            shuffledOutlineArray.splice(0,1);
+            //set win state
+            if (shuffledOutlineArray.length === 0 && !studyModeWon) {
+                studyModeWon = true;
+            }
+        }
+        
+        if (studyModeWon){
+            winButton.draw(ctx1);
+            if (collision(winButton, mouse1) && mouse1.click){
+                studyModeWon = false;
+                shuffleArrays();
+            }
+        }        
     }
-    //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-    //insert code to check if mouseclick on button corresponds to outline
-    //if so then splice outline from array and display the next one
-    //until array length is 0 and studyModeWon gets true
 }
 
 function shuffleArrays(){
+
+    for (let i = buttonArray.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tempBut = buttonArray[i];
+        buttonArray[i] = buttonArray[j];
+        buttonArray[j] = tempBut;
+    }
+    //@@@@@@@@@@@@@@@@@@@@@@@@write a loop to reassign this.y of buttons (can go sequentially as already shuffled array)
+
     if (shuffledButtonArray.length === 0) {
         //ducplicate the button array
         shuffledButtonArray = [...buttonArray];
@@ -388,7 +456,10 @@ function shuffleArrays(){
     }
 
     if (shuffledOutlineArray.length === 0 && !studyModeWon) {
-        shuffledOutlineArray = outlineArray;
+        shuffledOutlineArray = [...outlineArray];
+        //splice 8-15
+        shuffledOutlineArray.splice(8, 8);
+        shuffledOutlineArrayLength = shuffledOutlineArray.length;
         for (let i = shuffledOutlineArray.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
             var temp = shuffledOutlineArray[i];
@@ -396,11 +467,15 @@ function shuffleArrays(){
             shuffledOutlineArray[j] = temp;
         }
     }
+    
+    
+    
+
 }
 
 function buttonHandler(mouse1) {
     //draw buttons in learning mode
-    if (currentMode === 'LEARNING'){
+    if (currentMode === 'LEARNING' || (currentMode === 'STUDY2' && !studyModeWon)){
         for (let i = 0; i < buttonArray.length; i++){
             buttonArray[i].draw(ctx1);
         }
@@ -449,14 +524,16 @@ function animate(){
 
 
         //TESTING
-
+        console.log(buttonArray.length);
 
     }
 }
 startAnimating(30);
 
 //TODO
-//basic functions
+//basic functions\
+//study mode selector button (to work on mouseup event)
+//shuffle the order of the button array on study mode 2 (probably need new array)
 ////
 //refactor code so it's more plug and play (bone names and RGB data in an object)
 
@@ -488,4 +565,4 @@ startAnimating(30);
 //STUDY MODE
 //mode1--randomly selected button flashes up, correct bone needs clicked on to pass.
 //mode2--outline appears, correct button needs clicked to pass
-
+//
