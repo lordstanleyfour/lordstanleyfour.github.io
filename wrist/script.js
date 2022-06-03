@@ -40,7 +40,6 @@ const mouse1 = {
     positionRed: undefined,
     positionGreen: undefined,
     positionBlue: undefined
-
 }
 
 //draw the masked image to canvas2 and get image data
@@ -74,13 +73,15 @@ canvas1.addEventListener('mousedown', function (event) {
 });
 canvas1.addEventListener('mouseup', function (event) {
     mouse1.click = false;
-});    
+});
+
 canvas1.addEventListener('touchstart', function (event) {
     mouse1.click = true;
 });
 canvas1.addEventListener('touchend', function (event) {
     mouse1.click = false;
 });
+
 
 //classes and class object declarations
 class Outline {
@@ -140,7 +141,7 @@ class Button {
             context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
         }
         //draw the buttons and their text in study mode, excluding the mode selectors and win button
-        if (currentMode === 'STUDY1' && this.text != 'LEARNING MODE' && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
+        if (currentMode === 'STUDY1' && this.text != 'LEARNING MODE' && this.text && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
             context.drawImage(this.image, this.studyX, this.studyY, this.width, this.height);
             context.font = '15px Verdana';
             context.fillStyle = "black";
@@ -155,6 +156,12 @@ class Button {
             context.textAlign = 'center';
             context.fillText(this.text, this.x + (this.width/2), this.y+(this.height/1.75));
         }
+        //draw study mode change button
+        if (!this.text) {
+            this.image = document.getElementById('studySelectButton');
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        } 
+
         //draw the win button in study mode
         if ((currentMode === 'STUDY1' || currentMode === 'STUDY2') && this.text === 'WELL DONE!'){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
@@ -175,6 +182,7 @@ class Button {
 var buttonArray = [];
 const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
+const studySelectButton = new Button(180, 110, 100 * 1.1, 25 * 1.1);
 const winButton = new Button(70, 205, 150, 120, 'WELL DONE!');
 //declare button objects and push to the main button array
 const scaphoidButton = new Button(10, 105, 150, 40, 'SCAPHOID', 'Scaphoid');
@@ -498,6 +506,18 @@ function buttonHandler(mouse1) {
         littleMCOutline.draw();
     }
     else if (mouse1.x && currentMode === 'LEARNING' && collision(sesamoidButton, mouse1)) sesamoidOutline.draw();
+
+    //draw study mode change button
+    if (currentMode === 'STUDY1' || currentMode === 'STUDY2') {
+        studySelectButton.draw(ctx1);   
+    }
+
+    canvas1.addEventListener('click', function (event){
+        if (collision(mouse1, studySelectButton)) {
+            if (currentMode === 'STUDY1') currentMode = 'STUDY2';
+            else if (currentMode === 'STUDY2') currentMode = 'STUDY1';
+        }
+    }, {once: true});
 }
 
 //animation loop
@@ -524,7 +544,6 @@ function animate(){
 
 
         //TESTING
-
     }
 }
 startAnimating(30);
