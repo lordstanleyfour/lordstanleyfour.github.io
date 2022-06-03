@@ -2,6 +2,11 @@ body {
     background:black;
 }
 
+h4, h3, h5, p {
+    color: whitesmoke;
+}
+
+
 #canvas1 {
     position: absolute;
     top: 50%;
