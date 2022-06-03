@@ -196,7 +196,7 @@ const trapezoidButton = new Button(10, 405, 150, 40, 'TRAPEZOID', 'Trapezoid');
 const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM', 'Trapezium');
 const metacarpalsButton = new Button(10, 505, 150, 40, 'METACARPALS');
 const sesamoidButton = new Button(10, 555, 150, 40, 'SESAMOID', 'Sesamoid');
-//add seperate metacarpal buttons for study mode and push to array @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
 function resetButtonArray(){
     console.log('reset fired');
     buttonArray = [];
@@ -207,6 +207,42 @@ function resetButtonArray(){
 }
 resetButtonArray();
 //initial shuffle for study mode
+
+class FloatingMessage{
+    constructor(x, y, width, height, destX, destY, text){
+        this.x = x;
+        this.y = y;
+        this.destX = destX;
+        this.destY = destY;
+        this.width = width;
+        this.height = height
+        this.text = text;
+        this.image = document.getElementById('buttonimage')//placeholder
+        this.arrived = false;
+    }
+    draw(context){
+        context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        context.font = 'bold 16px Verdana';
+        context.fillStyle = "black";
+        context.textAlign = 'center';
+        context.fillText(this.text, this.x + (this.width/2), this.y + (this.height * 0.72) );
+    }
+    update(){
+        if (this.x != this.destX){
+            this.x += (this.destX - this.x) * 0.1;;
+        }
+        if (this.y != this.destY){
+            this.y += (this.destY - this.y )* 0.1;
+        }
+        if ((this.destX - this.x > -1 && this.destX - this.x < 1) && (this.destY - this.y > -1 && this.destY - this.y < 1)){
+            this.arrived = true;
+        }
+    }
+}
+var floatingMessageArray = [];
+const message = new FloatingMessage(160, 600, 120, 30, 180, 450, 'hello');
+floatingMessageArray.push(message);
+
 
 //game board
 drawBackground = function(id){
@@ -328,9 +364,19 @@ UI = function (){
             case 'Sesamoid':
                 sesamoidOutline.draw();
                 break;
-    }
+        }
     
     }
+    if (floatingMessageArray.length > 0){
+        for (let i = 0; i < floatingMessageArray.length; i++){
+            floatingMessageArray[i].draw(ctx1);
+            floatingMessageArray[i].update(ctx1);
+            if (floatingMessageArray[i].arrived){
+                floatingMessageArray.splice(i, 1);
+            }
+        };
+    };
+    
 
     //display bone name on sidebar when in learning mode
     if (currentMode === 'LEARNING'){
@@ -393,7 +439,8 @@ function studyMode() {
         if (shuffledButtonArray.length > 0) {
             shuffledButtonArray[0].draw(ctx1);
             if (checker() === shuffledButtonArray[0].name && mouse1.click) {
-                shuffledButtonArray.splice(0, 1);        
+                shuffledButtonArray.splice(0, 1);
+                floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'CORRECT!'));
             }
         }
         //set win state
@@ -406,6 +453,7 @@ function studyMode() {
             if (collision(winButton, mouse1) && mouse1.click){
                 studyModeWon = false;
                 shuffleArrays();
+                currentMode = 'STUDY2';
             }
         }
     }
@@ -426,6 +474,7 @@ function studyMode() {
         
         if (!studyModeWon && study2Checker() === shuffledOutlineArray[0].name){
             shuffledOutlineArray.splice(0,1);
+            floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'CORRECT!'));
             //set win state
             if (shuffledOutlineArray.length === 0 && !studyModeWon) {
                 studyModeWon = true;
@@ -438,6 +487,7 @@ function studyMode() {
                 studyModeWon = false;
                 shuffledButtonY = false;
                 shuffleArrays();
+                currentMode = 'STUDY1';
             }
         }        
     }
