@@ -23,7 +23,7 @@ var shuffledButtonY = false;
 var shuffledOutlineArray = [];
 var shuffledOutlineArrayLength = null;
 
-//the masked image
+//the masked image @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let maskData = [];
 const mask = new Image();
 mask.src = './PAwristmask.png';
@@ -86,12 +86,12 @@ canvas1.addEventListener('touchend', function (event) {
 
 //classes and class object declarations
 class Outline {
-    constructor(x, y, width, height, id, name){
+    constructor(x, y, width, height, image, name){
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.source = document.getElementById(id);
+        this.source = document.getElementById(image);
         this.name = name; //string to check answers in study mode, small case
     }
     draw(){
@@ -99,7 +99,7 @@ class Outline {
     }
 }
 
-//declare outline objects
+//declare outline objects @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 var scaphoidOutline = new Outline(controlBarSize, 0, 600, 600, 'scaphoidoutline', 'Scaphoid');
 var lunateOutline = new Outline(controlBarSize, 0, 600, 600, 'lunateoutline', 'Lunate');
 var triquetrumOutline = new Outline(controlBarSize, 0, 600, 600, 'triquetrumoutline', 'Triquetrum');
@@ -240,9 +240,6 @@ class FloatingMessage{
     }
 }
 var floatingMessageArray = [];
-const message = new FloatingMessage(160, 600, 120, 30, 180, 450, 'hello');
-floatingMessageArray.push(message);
-
 
 //game board
 drawBackground = function(id){
@@ -375,8 +372,7 @@ UI = function (){
                 floatingMessageArray.splice(i, 1);
             }
         };
-    };
-    
+    };    
 
     //display bone name on sidebar when in learning mode
     if (currentMode === 'LEARNING'){
@@ -605,18 +601,12 @@ function animate(){
         UI();
         buttonHandler(mouse1);
 
-
-        //TESTING
-
     }
 }
 startAnimating(60);
 
 //TODO
-//basic functions\
 //study mode selector button doesn't work well, fix it
-////
-//refactor code so it's more plug and play (bone names and RGB data in an object)
 
 //colours used
 ////scaphoid 255, 0, 0
@@ -636,14 +626,3 @@ startAnimating(60);
 ////little MC 100, 0, 100
 ////thumb prox phalanx 0, 100, 100
 ////sesamoid 200, 100, 0
-
-//gamify
-////
-//LEARNING MODE
-//--hover over the buttons to outline the bone. Hover over the bone to display the bone name
-//--needs tidied up a little bit
-////
-//STUDY MODE
-//mode1--randomly selected button flashes up, correct bone needs clicked on to pass.
-//mode2--outline appears, correct button needs clicked to pass
-//
