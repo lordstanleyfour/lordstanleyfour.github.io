@@ -4,12 +4,14 @@ body {
 
 h4, h3, h5, p {
     color: whitesmoke;
+    margin: 0em;
+    text-align: center;
 }
 
 
 #canvas1 {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 900px;
@@ -21,7 +23,7 @@ h4, h3, h5, p {
 
 #canvas2 {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 900px;
