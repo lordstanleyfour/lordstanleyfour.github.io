@@ -19,6 +19,7 @@ var currentMode = undefined;
 var studyModeWon = false;
 var shuffledButtonArray = [];
 var shuffledButtonArrayLength = null;
+var shuffledButtonY = false;
 var shuffledOutlineArray = [];
 var shuffledOutlineArrayLength = null;
 
@@ -197,8 +198,12 @@ const metacarpalsButton = new Button(10, 505, 150, 40, 'METACARPALS');
 const sesamoidButton = new Button(10, 555, 150, 40, 'SESAMOID', 'Sesamoid');
 //add seperate metacarpal buttons for study mode and push to array @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 function resetButtonArray(){
+    console.log('reset fired');
     buttonArray = [];
     buttonArray.push(scaphoidButton, lunateButton, triquetrumButton, pisiformButton, hamateButton, capitateButton, trapezoidButton, trapeziumButton, metacarpalsButton, sesamoidButton);
+    for (let i = 0; i < buttonArray.length; i++){
+        buttonArray[i].y = (105 + (50*i));
+    }
 }
 resetButtonArray();
 //initial shuffle for study mode
@@ -361,6 +366,7 @@ function modeSelect() {
     if (currentMode === undefined) currentMode = 'LEARNING';
     if (collision(learningButton, mouse1) && mouse1.click) {
         resetButtonArray();
+        shuffledButtonY = false;
         currentMode = 'LEARNING';
         document.getElementById('canvas1').style.borderColor = 'goldenrod';
     }
@@ -430,6 +436,7 @@ function studyMode() {
             winButton.draw(ctx1);
             if (collision(winButton, mouse1) && mouse1.click){
                 studyModeWon = false;
+                shuffledButtonY = false;
                 shuffleArrays();
             }
         }        
@@ -439,12 +446,22 @@ function studyMode() {
 function shuffleArrays(){
 
     for (let i = buttonArray.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var tempBut = buttonArray[i];
+        let j = Math.floor(Math.random() * (i + 1));
+        let tempBut = buttonArray[i];
         buttonArray[i] = buttonArray[j];
         buttonArray[j] = tempBut;
     }
-    //@@@@@@@@@@@@@@@@@@@@@@@@write a loop to reassign this.y of buttons (can go sequentially as already shuffled array)
+
+    if (!shuffledButtonY){
+        for (let i = buttonArray.length - 1; i > 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            let temp = buttonArray[i].y;
+            buttonArray[i].y = buttonArray[j].y;
+            buttonArray[j].y = temp;
+        }
+        shuffledButtonY = true;
+    }
+    
 
     if (shuffledButtonArray.length === 0) {
         //ducplicate the button array
@@ -475,10 +492,6 @@ function shuffleArrays(){
             shuffledOutlineArray[j] = temp;
         }
     }
-    
-    
-    
-
 }
 
 function buttonHandler(mouse1) {
@@ -544,14 +557,14 @@ function animate(){
 
 
         //TESTING
+
     }
 }
-startAnimating(30);
+startAnimating(60);
 
 //TODO
 //basic functions\
-//study mode selector button (to work on mouseup event)
-//shuffle the order of the button array on study mode 2 (probably need new array)
+//study mode selector button doesn't work well, fix it
 ////
 //refactor code so it's more plug and play (bone names and RGB data in an object)
 
