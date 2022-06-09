@@ -121,7 +121,7 @@ var fourthMTOutline = new Outline(controlBarSize, 0, 600, 600, '4thmt', '4rd MT'
 var fifthMTOutline = new Outline(controlBarSize, 0, 600, 600, '5thmt', '5th MT');
 var phalangesOutline = new Outline(controlBarSize, 0, 600, 600, 'phalangesoutline', 'Phalanges');
 
-outlineArray.push(talusOutline, calcaneumOutline, navicularOutline, cuboidOutline, medialCuneiformOutline, intermediateCuneiformOutline, lateralCuneiformOutline, medialHallucalSesamoidOutline, lateralHallucalSesamoidOutline, 1stMTOutline, 2ndMTOutline, 3rdMTOutline, 4thMTOutline, 5thMTOutline, phalangesOutline);
+outlineArray.push(talusOutline, calcaneumOutline, navicularOutline, cuboidOutline, medialCuneiformOutline, intermediateCuneiformOutline, lateralCuneiformOutline, medialHallucalSesamoidOutline, lateralHallucalSesamoidOutline, firstMTOutline, secondMTOutline, thirdMTOutline, fourthMTOutline, fifthMTOutline, phalangesOutline);
 
 class Button {
     constructor(x, y, width, height, text, name) {
