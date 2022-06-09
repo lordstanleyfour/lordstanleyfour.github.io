@@ -27,7 +27,7 @@ const studyModeButton = document.getElementById('studyMode');
 //the masked image @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let maskData = [];
 const mask = new Image();
-mask.src = './PAwristmask.png';
+mask.src = 'https://github.com/lordstanleyfour/lordstanleyfour.github.io/blob/master/boneNamer/foot/AP/APfootmask.png';
 
 //mouse
 const mouse1 = {
@@ -105,24 +105,23 @@ class Outline {
 }
 
 //declare outline objects @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-var scaphoidOutline = new Outline(controlBarSize, 0, 600, 600, 'scaphoidoutline', 'Scaphoid');
-var lunateOutline = new Outline(controlBarSize, 0, 600, 600, 'lunateoutline', 'Lunate');
-var triquetrumOutline = new Outline(controlBarSize, 0, 600, 600, 'triquetrumoutline', 'Triquetrum');
-var pisiformOutline = new Outline(controlBarSize, 0, 600, 600, 'pisiformoutline', 'Pisiform');
-var hamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hamateoutline', 'Hamate');
-var capitateOutline = new Outline(controlBarSize, 0, 600, 600, 'capitateoutline', 'Capitate');
-var trapezoidOutline = new Outline(controlBarSize, 0, 600, 600, 'trapezoidoutline', 'Trapezoid');
-var trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapeziumoutline', 'Trapezium');
-var radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline');
-var ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline');
-var thumbMCOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbmcoutline');
-var indexMCOutline = new Outline(controlBarSize, 0, 600, 600, 'indexmcoutline');
-var middleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'middlemcoutline');
-var ringMCOutline = new Outline(controlBarSize, 0, 600, 600, 'ringmcoutline');
-var littleMCOutline = new Outline(controlBarSize, 0, 600, 600, 'littlemcoutline');
-var thumbproxphalanxOutline = new Outline(controlBarSize, 0, 600, 600, 'thumbproximalphalanxoutline');
-var sesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'sesamoidoutline', 'Sesamoid');
-outlineArray.push(scaphoidOutline, lunateOutline, triquetrumOutline, pisiformOutline, hamateOutline, capitateOutline, trapezoidOutline, trapeziumOutline, radiusOutline, ulnaOutline, thumbMCOutline, indexMCOutline, middleMCOutline, ringMCOutline, littleMCOutline, thumbproxphalanxOutline, sesamoidOutline);
+var talusOutline = new Outline(controlBarSize, 0, 600, 600, 'talusoutline', 'Talus');
+var calcaneumOutline = new Outline(controlBarSize, 0, 600, 600, 'calcaneumoutline', 'Calcaneum');
+var navicularOutline = new Outline(controlBarSize, 0, 600, 600, 'navicularoutline', 'Navicular');
+var cuboidOutline = new Outline(controlBarSize, 0, 600, 600, 'cuboidoutline', 'Cuboid');
+var medialCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'medialcuneiformoutline', 'Med. Cuneiform');
+var intermediateCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'intermediatecuneiformoutline', 'Int. Cuneiform');
+var lateralCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralcuneiformoutline', 'Lat. Cuneiform');
+var medialHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'medialhallucalsesamoidoutline', 'Med. Hal. Sesamoid');
+var lateralHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralhallucalsesamoidoutline', 'Lat. Hal. Sesamoid');
+var 1stMTOutline = new Outline(controlBarSize, 0, 600, 600, '1stMToutline', '1st MT');
+var 2ndMTOutline = new Outline(controlBarSize, 0, 600, 600, '2ndMToutline', '2nd MT');
+var 3rdMTOutline = new Outline(controlBarSize, 0, 600, 600, '3rdMToutline', '3rd MT');
+var 4thMTOutline = new Outline(controlBarSize, 0, 600, 600, '4thMToutline', '4rd MT');
+var 5thMTOutline = new Outline(controlBarSize, 0, 600, 600, '5thMToutline', '5th MT');
+var phalangesOutline = new Outline(controlBarSize, 0, 600, 600, 'phalangesoutline', 'Phalanges');
+
+outlineArray.push(talusOutline, calcaneumOutline, navicularOutline, cuboidOutline, medialCuneiformOutline, intermediateCuneiformOutline, lateralCuneiformOutline, medialHallucalSesamoidOutline, lateralHallucalSesamoidOutline, 1stMTOutline, 2ndMTOutline, 3rdMTOutline, 4thMTOutline, 5thMTOutline, phalangesOutline);
 
 class Button {
     constructor(x, y, width, height, text, name) {
@@ -184,23 +183,24 @@ const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
 const winButton = new Button(70, 205, 150, 120, 'WELL DONE!');
 //declare button objects and push to the main button array
-const scaphoidButton = new Button(10, 105, 150, 40, 'SCAPHOID', 'Scaphoid');
-const lunateButton = new Button(10, 155, 150, 40, 'LUNATE', 'Lunate');
-const triquetrumButton = new Button(10, 205, 150, 40, 'TRIQUETRUM', 'Triquetrum');
-const pisiformButton = new Button(10, 255, 150, 40, 'PISIFORM', 'Pisiform');
-const hamateButton = new Button(10, 305, 150, 40, 'HAMATE', 'Hamate');
-const capitateButton = new Button(10, 355, 150, 40, 'CAPITATE', 'Capitate');
-const trapezoidButton = new Button(10, 405, 150, 40, 'TRAPEZOID', 'Trapezoid');
-const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM', 'Trapezium');
-const metacarpalsButton = new Button(10, 505, 150, 40, 'METACARPALS');
-const sesamoidButton = new Button(10, 555, 150, 40, 'SESAMOID', 'Sesamoid');
+const talusButton = new Button(10, 105, 150, 40, 'TALUS', 'Talus');
+const calcaneumButton = new Button(10, 145, 150, 40, 'CALCANEUM', 'Calcaneum');
+const navicularButton = new Button(10, 185, 150, 40, 'NAVICULAR', 'Navicular');
+const cuboidButton = new Button(10, 225, 150, 40, 'CUBOID', 'Cuboid');
+const medialCuneiformButton = new Button(10, 265, 150, 40, 'MED CUNEIFORM', 'Med. Cuneiform');
+const intermediateCuneiformButton = new Button(10, 305, 150, 40, 'INT CUNEIFORM', 'Int. Cuneiform');
+const lateralCuneiformButton = new Button(10, 345, 150, 40, 'LAT CUNEIFORM', 'Lat. Cuneiform');
+const medialHallucalSesamoidButton = new Button(10, 385, 150, 40, 'MED HAL SESAMOID', 'Med. Hal. Sesamoid');
+const lateralHallucalSesamoidButton = new Button(10, 425, 150, 40, 'LAT HAL SESAMOID', 'Lat, Hal, Sesamoid');
+const metatarsalsButton = new Button(10, 465, 150, 40, 'METATARSALS', 'Metatarsals');
+const phalangesButton = new Button(10, 505, 150, 40, 'PHALANGES', 'Phalanges');
 
-function resetButtonArray(){
+function resetButtonArray(talusButton, calcaneumButton, navicularButton, cuboidButton, medialCuneiformButton, intermediateCuneiformButton, lateralCuneiformButton, medialHallucalSesamoidButton, lateralHallucalSesamoidButton, metatarsalsButton, phalangesButton){
     console.log('reset fired');
     buttonArray = [];
-    buttonArray.push(scaphoidButton, lunateButton, triquetrumButton, pisiformButton, hamateButton, capitateButton, trapezoidButton, trapeziumButton, metacarpalsButton, sesamoidButton);
+    buttonArray.push();
     for (let i = 0; i < buttonArray.length; i++){
-        buttonArray[i].y = (105 + (50*i));
+        buttonArray[i].y = (105 + (40*i));
     }
 }
 resetButtonArray();
@@ -273,23 +273,21 @@ function checker(){
         /*ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
         ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
         ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
-        if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Scaphoid';
-        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Lunate';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Triquetrum';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Pisiform';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Hamate';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Capitate';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Trapezoid';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'Trapezium';
-        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Radius';
-        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Ulna';
-        else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Thumb Metacarpal';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Index Metacarpal';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Middle Metacarpal';
-        else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Ring Metacarpal';
-        else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Little Metacarpal';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 100) return 'Thumb Proximal Phalanx';
-        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Sesamoid';
+        if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Talus';
+        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Calcaneum';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Navicular';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Cuboid';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Med. Cuneiform';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Int. Cuneiform';
+        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Lat. Cuneiform';
+        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Med. Hal. Sesamoid';
+        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Lat. Hal. Sesamoid';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 255) return '1st MT';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 255) return '2nd MT';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 125) return '3rd MT';
+        else if (maskData.data[mouse1.positionRed] === 75 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return '4th MT';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 75 && maskData.data[mouse1.positionBlue] === 0) return '5th MT';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 75) return 'Phalanges';
         else return 'Keep looking...';
     }
 }
@@ -308,56 +306,50 @@ UI = function (){
     //display highlight images
     if (currentMode === 'LEARNING' || currentMode === 'STUDY1'){
         switch(checker()){
-            case 'Scaphoid':
-                scaphoidOutline.draw();
+            case 'Talus':
+                talusOutline.draw();
                 break;
-            case 'Lunate':
-                lunateOutline.draw();
+            case 'Calcaneum':
+                calcaneumOutline.draw();
                 break;
-            case 'Triquetrum':
-                triquetrumOutline.draw();
+            case 'Navicular':
+                navicularOutline.draw();
                 break;
-            case 'Pisiform':
-                pisiformOutline.draw();
+            case 'Cuboid':
+                cuboidOutline.draw();
                 break;
-            case 'Hamate':
-                hamateOutline.draw();
+            case 'Med. Cuneiform':
+                medialCuneiformOutline.draw();
                 break;
-            case 'Capitate':
-                capitateOutline.draw();
+            case 'Int. Cuneiform':
+                intermediateCuneiformOutline.draw();
                 break;
-            case 'Trapezoid':
-                trapezoidOutline.draw();
+            case 'Lat. Cuneiform':
+                lateralCuneiformOutline.draw();
                 break;
-            case 'Trapezium':
-                trapeziumOutline.draw();
+            case 'Med. Hal. Sesamoid':
+                medialHallucalSesamoidOutline.draw();
                 break;
-            case 'Radius':
-                radiusOutline.draw();
+            case 'Lat. Hal. Sesamoid':
+                lateralHallucalSesamoidOutline.draw();
                 break;
-            case 'Ulna':
-                ulnaOutline.draw();
+            case '1st MT':
+                1stMTOutline.draw();
                 break;
-            case 'Thumb Metacarpal':
-                thumbMCOutline.draw();
+            case '2nd MT':
+                2ndMTOutline.draw();
                 break;        
-            case 'Index Metacarpal':
-                indexMCOutline.draw();
+            case '3rd MT':
+                3rdMTOutline.draw();
                 break;
-            case 'Middle Metacarpal':
-                middleMCOutline.draw();
+            case '4th MT':
+                4thMTOutline.draw();
                 break;
-            case 'Ring Metacarpal':
-                ringMCOutline.draw();
+            case '5th MT':
+                5thMTOutline.draw();
                 break;
-            case 'Little Metacarpal':
-                littleMCOutline.draw();
-                break;
-            case 'Thumb Proximal Phalanx':
-                thumbproxphalanxOutline.draw();
-                break;
-            case 'Sesamoid':
-                sesamoidOutline.draw();
+            case 'Phalanges':
+                phalangesOutline.draw();
                 break;
         }
     
@@ -534,22 +526,22 @@ function buttonHandler(mouse1) {
     }
 
     //hover over buttons in learning mode to highlight bone
-    if (mouse1.x && currentMode === 'LEARNING' && collision(scaphoidButton, mouse1)) scaphoidOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(lunateButton, mouse1)) lunateOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(triquetrumButton, mouse1)) triquetrumOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(pisiformButton, mouse1)) pisiformOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(hamateButton, mouse1)) hamateOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(capitateButton, mouse1)) capitateOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(trapezoidButton, mouse1)) trapezoidOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(trapeziumButton, mouse1)) trapeziumOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(metacarpalsButton, mouse1)) {
-        thumbMCOutline.draw();
-        indexMCOutline.draw();
-        middleMCOutline.draw();
-        ringMCOutline.draw();
-        littleMCOutline.draw();
+    if (mouse1.x && currentMode === 'LEARNING' && collision(talusButton, mouse1)) lunateOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(calcaneumButton, mouse1)) calcaneumOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(navicularButton, mouse1)) navicularOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(cuboidButton, mouse1)) cuboidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(medialCuneiformButton, mouse1)) medialCuneiformOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralCuneiformButton, mouse1)) lateralCuneiformOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(medialHallucalSesamoidButton, mouse1)) medialHallucalSesamoidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralHallucalSesaoidButton, mouse1)) lateralHallucalSesamoidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(metatarsalsButton, mouse1)) {
+        1stMTOutline.draw();
+        2ndMTOutline.draw();
+        3rdMTOutline.draw();
+        4thMTOutline.draw();
+        5thMTOutline.draw();
     }
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(sesamoidButton, mouse1)) sesamoidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(phalangesButton, mouse1)) phalangesOutline.draw();
 
     //draw study mode change button
     if (currentMode === 'STUDY1' || currentMode === 'STUDY2') {
@@ -574,7 +566,7 @@ function animate(){
         then = now - (elapsed % fpsInterval);
 
         ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-        drawBackground('PAwrist');
+        drawBackground('APfoot');
         modeSelect();
         UI();
         buttonHandler(mouse1);
@@ -582,22 +574,3 @@ function animate(){
     }
 }
 startAnimating(60);
-
-//colours used
-////scaphoid 255, 0, 0
-////lunate 125, 0, 0
-////triquetrum 0, 255, 0
-////pisiform 0, 125, 0
-////hamate 0, 0, 255
-////capitate 0, 0, 125
-////trapezoid 0, 200, 0
-////trapezium 0, 0, 200
-////radius 200, 0, 0
-////ulna 200, 200, 0
-////thumb MC 100, 0, 0
-////index MC 0, 100, 0
-////middle MC 0, 0, 100
-////ring MC 100, 100, 0
-////little MC 100, 0, 100
-////thumb prox phalanx 0, 100, 100
-////sesamoid 200, 100, 0
