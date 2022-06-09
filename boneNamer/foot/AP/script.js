@@ -114,11 +114,11 @@ var intermediateCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'int
 var lateralCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralcuneiformoutline', 'Lat. Cuneiform');
 var medialHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'medialhallucalsesamoidoutline', 'Med. Hal. Sesamoid');
 var lateralHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralhallucalsesamoidoutline', 'Lat. Hal. Sesamoid');
-var firstMTOutline = new Outline(controlBarSize, 0, 600, 600, '1stMToutline', '1st MT');
-var secondMTOutline = new Outline(controlBarSize, 0, 600, 600, '2ndMToutline', '2nd MT');
-var thirdMTOutline = new Outline(controlBarSize, 0, 600, 600, '3rdMToutline', '3rd MT');
-var fourthMTOutline = new Outline(controlBarSize, 0, 600, 600, '4thMToutline', '4rd MT');
-var fifthMTOutline = new Outline(controlBarSize, 0, 600, 600, '5thMToutline', '5th MT');
+var firstMTOutline = new Outline(controlBarSize, 0, 600, 600, '1stmtoutline', '1st MT');
+var secondMTOutline = new Outline(controlBarSize, 0, 600, 600, '2ndmtoutline', '2nd MT');
+var thirdMTOutline = new Outline(controlBarSize, 0, 600, 600, '3rdmtoutline', '3rd MT');
+var fourthMTOutline = new Outline(controlBarSize, 0, 600, 600, '4thmtoutline', '4rd MT');
+var fifthMTOutline = new Outline(controlBarSize, 0, 600, 600, '5thmtoutline', '5th MT');
 var phalangesOutline = new Outline(controlBarSize, 0, 600, 600, 'phalangesoutline', 'Phalanges');
 
 outlineArray.push(talusOutline, calcaneumOutline, navicularOutline, cuboidOutline, medialCuneiformOutline, intermediateCuneiformOutline, lateralCuneiformOutline, medialHallucalSesamoidOutline, lateralHallucalSesamoidOutline, 1stMTOutline, 2ndMTOutline, 3rdMTOutline, 4thMTOutline, 5thMTOutline, phalangesOutline);
