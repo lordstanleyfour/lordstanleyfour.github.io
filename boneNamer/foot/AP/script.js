@@ -114,11 +114,11 @@ var intermediateCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'int
 var lateralCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralcuneiformoutline', 'Lat. Cuneiform');
 var medialHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'medialhallucalsesamoidoutline', 'Med. Hal. Sesamoid');
 var lateralHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralhallucalsesamoidoutline', 'Lat. Hal. Sesamoid');
-var 1stMTOutline = new Outline(controlBarSize, 0, 600, 600, '1stMToutline', '1st MT');
-var 2ndMTOutline = new Outline(controlBarSize, 0, 600, 600, '2ndMToutline', '2nd MT');
-var 3rdMTOutline = new Outline(controlBarSize, 0, 600, 600, '3rdMToutline', '3rd MT');
-var 4thMTOutline = new Outline(controlBarSize, 0, 600, 600, '4thMToutline', '4rd MT');
-var 5thMTOutline = new Outline(controlBarSize, 0, 600, 600, '5thMToutline', '5th MT');
+var firstMTOutline = new Outline(controlBarSize, 0, 600, 600, '1stMToutline', '1st MT');
+var secondMTOutline = new Outline(controlBarSize, 0, 600, 600, '2ndMToutline', '2nd MT');
+var thirdMTOutline = new Outline(controlBarSize, 0, 600, 600, '3rdMToutline', '3rd MT');
+var fourthMTOutline = new Outline(controlBarSize, 0, 600, 600, '4thMToutline', '4rd MT');
+var fifthMTOutline = new Outline(controlBarSize, 0, 600, 600, '5thMToutline', '5th MT');
 var phalangesOutline = new Outline(controlBarSize, 0, 600, 600, 'phalangesoutline', 'Phalanges');
 
 outlineArray.push(talusOutline, calcaneumOutline, navicularOutline, cuboidOutline, medialCuneiformOutline, intermediateCuneiformOutline, lateralCuneiformOutline, medialHallucalSesamoidOutline, lateralHallucalSesamoidOutline, 1stMTOutline, 2ndMTOutline, 3rdMTOutline, 4thMTOutline, 5thMTOutline, phalangesOutline);
@@ -334,19 +334,19 @@ UI = function (){
                 lateralHallucalSesamoidOutline.draw();
                 break;
             case '1st MT':
-                1stMTOutline.draw();
+                firstMTOutline.draw();
                 break;
             case '2nd MT':
-                2ndMTOutline.draw();
+                secondMTOutline.draw();
                 break;        
             case '3rd MT':
-                3rdMTOutline.draw();
+                thirdMTOutline.draw();
                 break;
             case '4th MT':
-                4thMTOutline.draw();
+                fourthMTOutline.draw();
                 break;
             case '5th MT':
-                5thMTOutline.draw();
+                fifthMTOutline.draw();
                 break;
             case 'Phalanges':
                 phalangesOutline.draw();
@@ -535,11 +535,11 @@ function buttonHandler(mouse1) {
     else if (mouse1.x && currentMode === 'LEARNING' && collision(medialHallucalSesamoidButton, mouse1)) medialHallucalSesamoidOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralHallucalSesaoidButton, mouse1)) lateralHallucalSesamoidOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(metatarsalsButton, mouse1)) {
-        1stMTOutline.draw();
-        2ndMTOutline.draw();
-        3rdMTOutline.draw();
-        4thMTOutline.draw();
-        5thMTOutline.draw();
+        firstMTOutline.draw();
+        secondMTOutline.draw();
+        thirdMTOutline.draw();
+        fourthMTOutline.draw();
+        fifthMTOutline.draw();
     }
     else if (mouse1.x && currentMode === 'LEARNING' && collision(phalangesButton, mouse1)) phalangesOutline.draw();
 
