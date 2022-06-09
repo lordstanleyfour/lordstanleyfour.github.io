@@ -533,7 +533,7 @@ function buttonHandler(mouse1) {
     else if (mouse1.x && currentMode === 'LEARNING' && collision(medialCuneiformButton, mouse1)) medialCuneiformOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralCuneiformButton, mouse1)) lateralCuneiformOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(medialHallucalSesamoidButton, mouse1)) medialHallucalSesamoidOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralHallucalSesaoidButton, mouse1)) lateralHallucalSesamoidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralHallucalSesamoidButton, mouse1)) lateralHallucalSesamoidOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(metatarsalsButton, mouse1)) {
         firstMTOutline.draw();
         secondMTOutline.draw();
