@@ -105,21 +105,21 @@ class Outline {
 }
 
 //declare outline objects @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-var talusOutline = new Outline(controlBarSize, 0, 600, 600, 'talusoutline', 'Talus');
-var calcaneumOutline = new Outline(controlBarSize, 0, 600, 600, 'calcaneumoutline', 'Calcaneum');
-var navicularOutline = new Outline(controlBarSize, 0, 600, 600, 'navicularoutline', 'Navicular');
-var cuboidOutline = new Outline(controlBarSize, 0, 600, 600, 'cuboidoutline', 'Cuboid');
-var medialCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'medialcuneiformoutline', 'Med. Cuneiform');
-var intermediateCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'intermediatecuneiformoutline', 'Int. Cuneiform');
-var lateralCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralcuneiformoutline', 'Lat. Cuneiform');
-var medialHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'medialhallucalsesamoidoutline', 'Med. Hal. Sesamoid');
-var lateralHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralhallucalsesamoidoutline', 'Lat. Hal. Sesamoid');
+var talusOutline = new Outline(controlBarSize, 0, 600, 600, 'talus', 'Talus');
+var calcaneumOutline = new Outline(controlBarSize, 0, 600, 600, 'calcaneum', 'Calcaneum');
+var navicularOutline = new Outline(controlBarSize, 0, 600, 600, 'navicular', 'Navicular');
+var cuboidOutline = new Outline(controlBarSize, 0, 600, 600, 'cuboid', 'Cuboid');
+var medialCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'medialcuneiform', 'Med. Cuneiform');
+var intermediateCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'intermediatecuneiform', 'Int. Cuneiform');
+var lateralCuneiformOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralcuneiform', 'Lat. Cuneiform');
+var medialHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'medialhallucalsesamoid', 'Med. Hal. Sesamoid');
+var lateralHallucalSesamoidOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralhallucalsesamoid', 'Lat. Hal. Sesamoid');
 var firstMTOutline = new Outline(controlBarSize, 0, 600, 600, '1stmt', '1st MT');
 var secondMTOutline = new Outline(controlBarSize, 0, 600, 600, '2ndmt', '2nd MT');
 var thirdMTOutline = new Outline(controlBarSize, 0, 600, 600, '3rdmt', '3rd MT');
 var fourthMTOutline = new Outline(controlBarSize, 0, 600, 600, '4thmt', '4rd MT');
 var fifthMTOutline = new Outline(controlBarSize, 0, 600, 600, '5thmt', '5th MT');
-var phalangesOutline = new Outline(controlBarSize, 0, 600, 600, 'phalangesoutline', 'Phalanges');
+var phalangesOutline = new Outline(controlBarSize, 0, 600, 600, 'phalanges', 'Phalanges');
 
 outlineArray.push(talusOutline, calcaneumOutline, navicularOutline, cuboidOutline, medialCuneiformOutline, intermediateCuneiformOutline, lateralCuneiformOutline, medialHallucalSesamoidOutline, lateralHallucalSesamoidOutline, firstMTOutline, secondMTOutline, thirdMTOutline, fourthMTOutline, fifthMTOutline, phalangesOutline);
 
@@ -140,6 +140,7 @@ class Button {
         if (currentMode === 'LEARNING' || currentMode === 'STUDY2'){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
             context.font = '15px Verdana';
+            if (this.text === 'MED HAL. SESAMOID' || this.text === 'LAT HAL. SESAMOID') context.font = '12px Verdana';
             if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
             context.fillStyle = "black";
             context.textAlign = 'center';
@@ -149,6 +150,7 @@ class Button {
         if (currentMode === 'STUDY1' && this.text != 'LEARNING MODE' && this.text && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
             context.drawImage(this.image, this.studyX, this.studyY, this.width, this.height);
             context.font = '15px Verdana';
+            if (this.text === 'MED HAL. SESAMOID' || this.text === 'LAT HAL. SESAMOID') context.font = '12px Verdana';
             context.fillStyle = "black";
             context.textAlign = 'center';
             context.fillText(this.text, this.studyX + (this.width/2), this.studyY+(this.height/1.75));
@@ -183,24 +185,24 @@ const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
 const winButton = new Button(70, 205, 150, 120, 'WELL DONE!');
 //declare button objects and push to the main button array
-const talusButton = new Button(10, 105, 150, 40, 'TALUS', 'Talus');
-const calcaneumButton = new Button(10, 145, 150, 40, 'CALCANEUM', 'Calcaneum');
-const navicularButton = new Button(10, 185, 150, 40, 'NAVICULAR', 'Navicular');
-const cuboidButton = new Button(10, 225, 150, 40, 'CUBOID', 'Cuboid');
-const medialCuneiformButton = new Button(10, 265, 150, 40, 'MED CUNEIFORM', 'Med. Cuneiform');
-const intermediateCuneiformButton = new Button(10, 305, 150, 40, 'INT CUNEIFORM', 'Int. Cuneiform');
-const lateralCuneiformButton = new Button(10, 345, 150, 40, 'LAT CUNEIFORM', 'Lat. Cuneiform');
-const medialHallucalSesamoidButton = new Button(10, 385, 150, 40, 'MED HAL SESAMOID', 'Med. Hal. Sesamoid');
-const lateralHallucalSesamoidButton = new Button(10, 425, 150, 40, 'LAT HAL SESAMOID', 'Lat, Hal, Sesamoid');
-const metatarsalsButton = new Button(10, 465, 150, 40, 'METATARSALS', 'Metatarsals');
-const phalangesButton = new Button(10, 505, 150, 40, 'PHALANGES', 'Phalanges');
+const talusButton = new Button(10, null, 150, 40, 'TALUS', 'Talus');
+const calcaneumButton = new Button(10, null, 150, 40, 'CALCANEUM', 'Calcaneum');
+const navicularButton = new Button(10, null, 150, 40, 'NAVICULAR', 'Navicular');
+const cuboidButton = new Button(10, null, 150, 40, 'CUBOID', 'Cuboid');
+const medialCuneiformButton = new Button(10, null, 150, 40, 'MED. CUNEIFORM', 'Med. Cuneiform');
+const intermediateCuneiformButton = new Button(10, null, 150, 40, 'INT. CUNEIFORM', 'Int. Cuneiform');
+const lateralCuneiformButton = new Button(10, null, 150, 40, 'LAT. CUNEIFORM', 'Lat. Cuneiform');
+const medialHallucalSesamoidButton = new Button(10, null, 150, 40, 'MED HAL. SESAMOID', 'Med. Hal. Sesamoid');
+const lateralHallucalSesamoidButton = new Button(10, null, 150, 40, 'LAT HAL. SESAMOID', 'Lat. Hal. Sesamoid');
+const metatarsalsButton = new Button(10, null, 150, 40, 'METATARSALS', 'Metatarsals');
+const phalangesButton = new Button(10, null, 150, 40, 'PHALANGES', 'Phalanges');
 
-function resetButtonArray(talusButton, calcaneumButton, navicularButton, cuboidButton, medialCuneiformButton, intermediateCuneiformButton, lateralCuneiformButton, medialHallucalSesamoidButton, lateralHallucalSesamoidButton, metatarsalsButton, phalangesButton){
+function resetButtonArray(){
     console.log('reset fired');
     buttonArray = [];
-    buttonArray.push();
+    buttonArray.push(talusButton, calcaneumButton, navicularButton, cuboidButton, medialCuneiformButton, intermediateCuneiformButton, lateralCuneiformButton, medialHallucalSesamoidButton, lateralHallucalSesamoidButton, metatarsalsButton, phalangesButton);
     for (let i = 0; i < buttonArray.length; i++){
-        buttonArray[i].y = (105 + (40*i));
+        buttonArray[i].y = (105 + (44*i));
     }
 }
 resetButtonArray();
@@ -277,9 +279,9 @@ function checker(){
         else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Calcaneum';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Navicular';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Cuboid';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Med. Cuneiform';
+        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Med. Cuneiform';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Int. Cuneiform';
-        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Lat. Cuneiform';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Lat. Cuneiform';
         else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Med. Hal. Sesamoid';
         else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Lat. Hal. Sesamoid';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 255) return '1st MT';
@@ -322,6 +324,7 @@ UI = function (){
                 medialCuneiformOutline.draw();
                 break;
             case 'Int. Cuneiform':
+                console.log('poo')
                 intermediateCuneiformOutline.draw();
                 break;
             case 'Lat. Cuneiform':
@@ -489,8 +492,8 @@ function shuffleArrays(){
     if (shuffledButtonArray.length === 0) {
         //ducplicate the button array
         shuffledButtonArray = [...buttonArray];
-        //remove unusable learning mode specific buttons
-        let index = shuffledButtonArray.indexOf(metacarpalsButton);
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@remove unusable learning mode specific buttons
+        let index = shuffledButtonArray.indexOf(metatarsalsButton);
         shuffledButtonArray.splice(index, 1);
         //for the scoring UI element
         shuffledButtonArrayLength = shuffledButtonArray.length;
@@ -526,11 +529,12 @@ function buttonHandler(mouse1) {
     }
 
     //hover over buttons in learning mode to highlight bone
-    if (mouse1.x && currentMode === 'LEARNING' && collision(talusButton, mouse1)) lunateOutline.draw();
+    if (mouse1.x && currentMode === 'LEARNING' && collision(talusButton, mouse1)) talusOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(calcaneumButton, mouse1)) calcaneumOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(navicularButton, mouse1)) navicularOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(cuboidButton, mouse1)) cuboidOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(medialCuneiformButton, mouse1)) medialCuneiformOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(intermediateCuneiformButton, mouse1)) intermediateCuneiformOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralCuneiformButton, mouse1)) lateralCuneiformOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(medialHallucalSesamoidButton, mouse1)) medialHallucalSesamoidOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralHallucalSesamoidButton, mouse1)) lateralHallucalSesamoidOutline.draw();
@@ -570,6 +574,8 @@ function animate(){
         modeSelect();
         UI();
         buttonHandler(mouse1);
+
+        
 
     }
 }
