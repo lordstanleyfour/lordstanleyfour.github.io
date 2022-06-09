@@ -27,7 +27,7 @@ const studyModeButton = document.getElementById('studyMode');
 //the masked image @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let maskData = [];
 const mask = new Image();
-mask.src = 'https://github.com/lordstanleyfour/lordstanleyfour.github.io/blob/master/boneNamer/foot/AP/APfootmask.png';
+mask.src = './APfootmask.png';
 
 //mouse
 const mouse1 = {
