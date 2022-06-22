@@ -570,9 +570,6 @@ function animate(){
         modeSelect();
         UI();
         buttonHandler(mouse1);
-
-        console.log(outlineArray);
-
     }
 }
 startAnimating(60);
