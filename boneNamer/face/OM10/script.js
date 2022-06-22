@@ -27,7 +27,7 @@ const studyModeButton = document.getElementById('studyMode');
 //the masked image @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let maskData = [];
 const mask = new Image();
-mask.src = './OM10mask.png';
+mask.src = './om10mask.png';
 
 //mouse
 const mouse1 = {
