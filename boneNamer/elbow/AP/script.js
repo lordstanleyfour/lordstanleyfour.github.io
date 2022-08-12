@@ -556,7 +556,7 @@ function animate(){
         then = now - (elapsed % fpsInterval);
 
         ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-        drawBackground('OM10');
+        drawBackground('APelbow');
         modeSelect();
         UI();
         buttonHandler(mouse1);
