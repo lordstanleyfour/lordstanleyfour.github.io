@@ -314,7 +314,7 @@ UI = function (){
             case 'Coronoid':
                 coronoidOutline.draw();
                 break;
-            case 'humerus':
+            case 'Humerus':
                 humerusOutline.draw();
                 break;
             case 'Lateral Epicondyle':
