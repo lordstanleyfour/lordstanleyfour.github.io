@@ -27,7 +27,7 @@ const studyModeButton = document.getElementById('studyMode');
 //the masked image @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let maskData = [];
 const mask = new Image();
-mask.src = './om10mask.png';
+mask.src = './APelbowmask.png';
 
 //mouse
 const mouse1 = {
@@ -105,23 +105,22 @@ class Outline {
 }
 
 //declare outline objects @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-var frontalOutline = new Outline(controlBarSize, 0, 600, 600, 'frontaloutline', 'Frontal Bone');
-var frontalSinusesOutline = new Outline(controlBarSize, 0, 600, 600, 'frontalsinusesoutline', 'Frontal Sinuses');
-var mandibleOutline = new Outline(controlBarSize, 0, 600, 600, 'mandibleoutline', 'Mandible');
-var mastoidsOutline = new Outline(controlBarSize, 0, 600, 600, 'mastoidsoutline', 'Mastoids');
-var maxillaOutline = new Outline(controlBarSize, 0, 600, 600, 'maxillaoutline', 'Maxilla');
-var maxilliarySinusesOutline = new Outline(controlBarSize, 0, 600, 600, 'maxilliarysinusesoutline', 'Maxilliary Sinuses');
-var nasalBonesOutline = new Outline(controlBarSize, 0, 600, 600, 'nasalbonesoutline', 'Nasal Bones');
-var nasalSpaceOutline = new Outline(controlBarSize, 0, 600, 600, 'nasalspaceoutline', 'Nasal Space');
-var orbitsOutline = new Outline(controlBarSize, 0, 600, 600, 'orbitsoutline', 'Orbits');
-var parietalsOutline = new Outline(controlBarSize, 0, 600, 600, 'parietalsoutline', 'Parietals');
-var perpindicularPlateOutline = new Outline(controlBarSize, 0, 600, 600, 'perpindicularplateoutline', 'Perpindicular Plate');
-var petrousRidgesOutline = new Outline(controlBarSize, 0, 600, 600, 'petrousridgesoutline', 'Petrous Ridges');
-var temporalsOutline = new Outline(controlBarSize, 0, 600, 600, 'temporalsoutline', 'Temporal Bones');
-var vomerOutline = new Outline(controlBarSize, 0, 600, 600, 'vomeroutline', 'Vomer');
-var zygomaOutline = new Outline(controlBarSize, 0, 600, 600, 'zygomaoutline', 'Zygoma');
 
-outlineArray.push(frontalOutline, frontalSinusesOutline, mandibleOutline, mastoidsOutline, maxillaOutline, maxilliarySinusesOutline, nasalBonesOutline, nasalSpaceOutline, orbitsOutline, parietalsOutline, perpindicularPlateOutline, petrousRidgesOutline, temporalsOutline, vomerOutline, zygomaOutline);
+var capitellumOutline = new Outline(controlBarSize, 0, 600, 600, 'capitellumoutline', 'Capitellum');
+var coronoidOutline = new Outline(controlBarSize, 0, 600, 600, 'coronoidoutline', 'Coronoid');
+var humerusOutline = new Outline(controlBarSize, 0, 600, 600, 'humerusoutline', 'Humerus');
+var lateralEpicondyleOutline = new Outline(controlBarSize, 0, 600, 600, 'lateralepicondyleoutline', 'Lateral Epicondyle');
+var medialEpicondyleOutline = new Outline(controlBarSize, 0, 600, 600, 'medialepicondyleoutline', 'Medial Epicondyle');
+var olecranonFossaOutline = new Outline(controlBarSize, 0, 600, 600, 'olecranonfossaoutline', 'Olecranon Fossa');
+var olecranonOutline = new Outline(controlBarSize, 0, 600, 600, 'olecranonoutline', 'Olecranon');
+var radialHeadOutline = new Outline(controlBarSize, 0, 600, 600, 'radialheadoutline', 'Radial Head');
+var radialNeckOutline = new Outline(controlBarSize, 0, 600, 600, 'radialneckoutline', 'Radial Neck');
+var radialTuberosityOutline = new Outline(controlBarSize, 0, 600, 600, 'radialtuberosityoutline', 'Radial Tuberosity');
+var radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline', 'Radius');
+var trochleaOutline = new Outline(controlBarSize, 0, 600, 600, 'trochleaoutline', 'Trochlea');
+var ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline', 'Ulna');
+
+outlineArray.push(capitellumOutline, coronoidOutline, humerusOutline, lateralEpicondyleOutline, medialEpicondyleOutline, olecranonFossaOutline, olecranonOutline, radialHeadOutline, radialNeckOutline, radialTuberosityOutline, radiusOutline, trochleaOutline, ulnaOutline);
 
 class Button {
     constructor(x, y, width, height, text, name) {
@@ -139,7 +138,7 @@ class Button {
         //draw the buttons and their text in learning mode
         if (currentMode === 'LEARNING' || currentMode === 'STUDY2'){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
-            if (this.text === 'FRONTAL SINUSES' || this.text === 'PERPINDICULAR PLATE' || this.text === 'MAXILLIARY SINUSES') context.font = '12px Verdana';
+            if (this.text === 'LATERAL EPICONDYLE' || this.text === 'MEDIAL EPICONDYLE' || this.text === 'OLECRANON FOSSA'|| this.text === 'RADIAL TUBEROSITY') context.font = '12px Verdana';
             else context.font = '15px Verdana';
             if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
             context.fillStyle = "black";
@@ -149,7 +148,7 @@ class Button {
         //draw the buttons and their text in study mode, excluding the mode selectors and win button
         if (currentMode === 'STUDY1' && this.text != 'LEARNING MODE' && this.text && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
             context.drawImage(this.image, this.studyX, this.studyY, this.width, this.height);
-            if (this.text === 'FRONTAL SINUSES' || this.text === 'PERPINDICULAR PLATE' || this.text === 'MAXILLIARY SINUSES') context.font = '12px Verdana';
+            if (this.text === 'LATERAL EPICONDYLE' || this.text === 'MEDIAL EPICONDYLE' || this.text === 'OLECRANON FOSSA'|| this.text === 'RADIAL TUBEROSITY') context.font = '12px Verdana';
             else context.font = '15px Verdana';
             context.fillStyle = "black";
             context.textAlign = 'center';
@@ -185,24 +184,25 @@ const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
 const winButton = new Button(70, 205, 150, 120, 'WELL DONE!');
 //declare button objects and push to the main button array
-const frontalButton = new Button(10, 105, 150, 40, 'FRONTAL', 'Frontal Bone');
-const frontalSinusesButton = new Button(10, 105, 150, 40, 'FRONTAL SINUSES', 'Frontal Sinuses');
-const mandibleButton = new Button(10, 105, 150, 40, 'MANDIBLE', 'Mandible');
-const mastoidsButton = new Button(10, 105, 150, 40, 'MASTOIDS', 'Mastoids');
-const maxillaButton = new Button(10, 105, 150, 40, 'MAXILLA', 'Maxilla');
-const maxilliarySinusesButton = new Button(10, 105, 150, 40, 'MAXILLIARY SINUSES', 'Maxilliary Sinuses');
-const nasalBonesButton = new Button(10, 105, 150, 40, 'NASAL BONES', 'Nasal Bones');
-const orbitsButton = new Button(10, 105, 150, 40, 'ORBITS', 'Orbits');
-const perpindicularPlateButton = new Button(10, 105, 150, 40, 'PERPINDICULAR PLATE', 'Perpindicular Plate');
-const petrousRidgesButton = new Button(10, 105, 150, 40, 'PETROUS RIDGES', 'Petrous Ridges');
-const vomerButton = new Button(10, 105, 150, 40, 'VOMER', 'Vomer');
-const zygomaButton = new Button(10, 105, 150, 40, 'ZYGOMA', 'Zygoma');
+const capitellumButton = new Button(10, 105, 150, 40, 'CAPITELLUM', 'Capitellum Bone');
+const coronoidButton = new Button(10, 105, 150, 40, 'CORONOID', 'Coronoid');
+const humerusButton = new Button(10, 105, 150, 40, 'HUMERUS', 'Humerus');
+const lateralEpicondyleButton = new Button(10, 105, 150, 40, 'LATERAL EPICONDYLE', 'Lateral Epicondyle');
+const medialEpicondyleButton = new Button(10, 105, 150, 40, 'MEDIAL EPICONDYLE', 'Medial Epicondyle');
+const olecranonFossaButton = new Button(10, 105, 150, 40, 'OLECRANON FOSSA', 'Olecranon Fossa');
+const olecranonButton = new Button(10, 105, 150, 40, 'OLECRANON', 'Olecranon');
+const radialHeadButton = new Button(10, 105, 150, 40, 'RADIAL HEAD', 'Radial Head');
+const radialTuberosityButton = new Button(10, 105, 150, 40, 'RADIAL TUBEROSITY', 'Radial Tuberosity');
+const radiusButton = new Button(10, 105, 150, 40, 'RADIUS', 'Radius');
+const trochleaButton = new Button(10, 105, 150, 40, 'TROCHLEA', 'Trochlea');
+const ulnaButton = new Button(10, 105, 150, 40, 'ULNA', 'Ulna');
+const radialNeckButton = new Button(10, 105, 150, 40, 'RADIAL NECK', 'Radial Neck');
 
 
 function resetButtonArray(){
     console.log('reset fired');
     buttonArray = [];
-    buttonArray.push(frontalButton, frontalSinusesButton, mandibleButton, mastoidsButton, maxillaButton, maxilliarySinusesButton, nasalBonesButton, orbitsButton, perpindicularPlateButton, petrousRidgesButton, vomerButton, zygomaButton);
+    buttonArray.push(capitellumButton, coronoidButton, humerusButton, lateralEpicondyleButton, medialEpicondyleButton, olecranonFossaButton, olecranonButton, radialHeadButton, radialTuberosityButton, radiusButton, trochleaButton, ulnaButton);
     for (let i = 0; i < buttonArray.length; i++){
         buttonArray[i].y = (105 + (41*i));
     }
@@ -277,21 +277,19 @@ function checker(){
         /*ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
         ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
         ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
-        if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Frontal Bone';
-        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Frontal Sinuses';
-        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Mandible';
-        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Mastoids';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Maxilla';
-        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Maxilliary Sinuses';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 255) return 'Nasal Bones';
-        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Nasal Space';
-        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Orbits';
-        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Parietals';
-        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Perpindicular Plate';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 125) return 'Petrous Ridges';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'Temporal Bones';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Vomer';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Zygoma';
+        if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Capitellum';
+        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Coronoid';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Humerus';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Lateral Epicondyle';
+        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Medial Epicondyle';
+        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Olecranon Fossa';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Olecranon';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 125) return 'Radial Head';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Radial Neck';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 100 && maskData.data[mouse1.positionBlue] === 0) return 'Radial Tuberosity';
+        else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Radius';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Trochlea';
+        else if (maskData.data[mouse1.positionRed] === 100 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 100) return 'Ulna';
         else return 'Keep looking...';
     }
 }
@@ -310,50 +308,44 @@ UI = function (){
     //display highlight images
     if (currentMode === 'LEARNING' || currentMode === 'STUDY1'){
         switch(checker()){
-            case 'Frontal Bone':
-                frontalOutline.draw();
+            case 'Capitellum':
+                capitellumOutline.draw();
                 break;
-            case 'Frontal Sinuses':
-                frontalSinusesOutline.draw();
+            case 'Coronoid':
+                coronoidOutline.draw();
                 break;
-            case 'Mandible':
-                mandibleOutline.draw();
+            case 'humerus':
+                humerusOutline.draw();
                 break;
-            case 'Mastoids':
-                mastoidsOutline.draw();
+            case 'Lateral Epicondyle':
+                lateralEpicondyleOutline.draw();
                 break;
-            case 'Maxilla':
-                maxillaOutline.draw();
+            case 'Medial Epicondyle':
+                medialEpicondyleOutline.draw();
                 break;
-            case 'Maxilliary Sinuses':
-                maxilliarySinusesOutline.draw();
+            case 'Olecranon Fossa':
+                olecranonFossaOutline.draw();
                 break;
-            case 'Nasal Bones':
-                nasalBonesOutline.draw();
+            case 'Olecranon':
+                olecranonOutline.draw();
                 break;
-            case 'Nasal Space':
-                nasalSpaceOutline.draw();
+            case 'Radial Head':
+                radialHeadOutline.draw();
                 break;
-            case 'Orbits':
-                orbitsOutline.draw();
+            case 'Radial Neck':
+                radialNeckOutline.draw();
                 break;
-            case 'Parietals':
-                parietalsOutline.draw();
+            case 'Radial Tuberosity':
+                radialTuberosityOutline.draw();
                 break;
-            case 'Perpindicular Plate':
-                perpindicularPlateOutline.draw();
+            case 'Radius':
+                radiusOutline.draw();
                 break;        
-            case 'Petrous Ridges':
-                petrousRidgesOutline.draw();
+            case 'Trochlea':
+                trochleaOutline.draw();
                 break;
-            case 'Temporal Bones':
-                temporalsOutline.draw();
-                break;
-            case 'Vomer':
-                vomerOutline.draw();
-                break;
-            case 'Zygoma':
-                zygomaOutline.draw();
+            case 'Ulna':
+                ulnaOutline.draw();
                 break;
         }
     
@@ -506,10 +498,8 @@ function shuffleArrays(){
 
     if (shuffledOutlineArray.length === 0 && !studyModeWon) {
         shuffledOutlineArray = [...outlineArray];
-        //splice 8-15
-        shuffledOutlineArray.splice(7, 1);
+        //splice
         shuffledOutlineArray.splice(8, 1);
-        shuffledOutlineArray.splice(10, 1);
 
         shuffledOutlineArrayLength = shuffledOutlineArray.length;
         for (let i = shuffledOutlineArray.length - 1; i > 0; i--) {
@@ -530,18 +520,18 @@ function buttonHandler(mouse1) {
     }
 
     //hover over buttons in learning mode to highlight bone
-    if (mouse1.x && currentMode === 'LEARNING' && collision(frontalButton, mouse1)) frontalOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(frontalSinusesButton, mouse1)) frontalSinusesOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(mandibleButton, mouse1)) mandibleOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(mastoidsButton, mouse1)) mastoidsOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(maxillaButton, mouse1)) maxillaOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(maxilliarySinusesButton, mouse1)) maxilliarySinusesOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(nasalBonesButton, mouse1)) nasalBonesOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(orbitsButton, mouse1)) orbitsOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(perpindicularPlateButton, mouse1)) perpindicularPlateOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(petrousRidgesButton, mouse1)) petrousRidgesOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(vomerButton, mouse1)) vomerOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(zygomaButton, mouse1)) zygomaOutline.draw();
+    if (mouse1.x && currentMode === 'LEARNING' && collision(capitellumButton, mouse1)) capitellumOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(coronoidButton, mouse1)) coronoidOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(humerusButton, mouse1)) humerusOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(lateralEpicondyleButton, mouse1)) lateralEpicondyleOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(medialEpicondyleButton, mouse1)) medialEpicondyleOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(olecranonFossaButton, mouse1)) olecranonFossaOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(olecranonButton, mouse1)) olecranonOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(radialHeadButton, mouse1)) radialHeadOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(radialTuberosityButton, mouse1)) radialTuberosityOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(radiusButton, mouse1)) radiusOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(trochleaButton, mouse1)) trochleaOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(ulnaButton, mouse1)) ulnaOutline.draw();
 
     //draw study mode change button
     if (currentMode === 'STUDY1' || currentMode === 'STUDY2') {
