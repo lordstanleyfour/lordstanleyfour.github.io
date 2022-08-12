@@ -184,7 +184,7 @@ const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
 const winButton = new Button(70, 205, 150, 120, 'WELL DONE!');
 //declare button objects and push to the main button array
-const capitellumButton = new Button(10, 105, 150, 40, 'CAPITELLUM', 'Capitellum Bone');
+const capitellumButton = new Button(10, 105, 150, 40, 'CAPITELLUM', 'Capitellum');
 const coronoidButton = new Button(10, 105, 150, 40, 'CORONOID', 'Coronoid');
 const humerusButton = new Button(10, 105, 150, 40, 'HUMERUS', 'Humerus');
 const lateralEpicondyleButton = new Button(10, 105, 150, 40, 'LATERAL EPICONDYLE', 'Lateral Epicondyle');
