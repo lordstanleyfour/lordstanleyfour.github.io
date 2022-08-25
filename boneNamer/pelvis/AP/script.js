@@ -27,7 +27,7 @@ const studyModeButton = document.getElementById('studyMode');
 //the masked image @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let maskData = [];
 const mask = new Image();
-mask.src = './PAchestmask.png';
+mask.src = './APpelvismask.png';
 
 //mouse
 const mouse1 = {
@@ -105,21 +105,24 @@ class Outline {
 }
 
 //declare outline objects @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-var aorticKnuckleOutline = new Outline(controlBarSize, 0, 600, 600, 'aorticknuckleoutline', 'Aortic Knuckle');
-var carinaOutline = new Outline(controlBarSize, 0, 600, 600, 'carinaoutline', 'Carina');
-var claviclesOutline = new Outline(controlBarSize, 0, 600, 600, 'claviclesoutline', 'Clavicles');
-var costophrenicAnglesOutline = new Outline(controlBarSize, 0, 600, 600, 'costophrenicanglesoutline', 'Costophrenic Angles');
-var diaphragmsOutline = new Outline(controlBarSize, 0, 600, 600, 'diaphragmsoutline', 'Diaphragms');
-var fundusOutline = new Outline(controlBarSize, 0, 600, 600, 'fundusoutline', 'Fundus');
-var heartOutline = new Outline(controlBarSize, 0, 600, 600, 'heartoutline', 'Heart');
-var hilaOutline = new Outline(controlBarSize, 0, 600, 600, 'hilaoutline', 'Hila');
-var ribsOutline = new Outline(controlBarSize, 0, 600, 600, 'ribsoutline', 'Ribs');
-var scapulaeOutline = new Outline(controlBarSize, 0, 600, 600, 'scapulaeoutline', 'Scapulae');
-var spinousProcessesOutline = new Outline(controlBarSize, 0, 600, 600, 'spinousprocessesoutline', 'Spinous Processes');
-var sternumOutline = new Outline(controlBarSize, 0, 600, 600, 'sternumoutline', 'Sternum');
-var tracheaOutline = new Outline(controlBarSize, 0, 600, 600, 'tracheaoutline', 'Trachea');
+var acetabulaOutline = new Outline(controlBarSize, 0, 600, 600, 'acetabulaoutline', 'Acetabulum');
+var ASISOutline = new Outline(controlBarSize, 0, 600, 600, 'ASIS', 'ASIS');
+var bowelgasOutline = new Outline(controlBarSize, 0, 600, 600, 'bowelgas', 'Bowel Gas');
+var femoraOutline = new Outline(controlBarSize, 0, 600, 600, 'femora', 'Femur');
+var greatertrochantersOutline = new Outline(controlBarSize, 0, 600, 600, 'greatertrochanters', 'Greater Trochanter');
+var iliaccrestsOutline = new Outline(controlBarSize, 0, 600, 600, 'iliaccrests', 'Iliac Crest');
+var iliaOutline = new Outline(controlBarSize, 0, 600, 600, 'ilia', 'Ilium');
+var inferiorpubicramiOutline = new Outline(controlBarSize, 0, 600, 600, 'inferiorpubicrami', 'Inferior Pubic Ramus');
+var lessertrochantersOutline = new Outline(controlBarSize, 0, 600, 600, 'lessertrochanters', 'Lesser Trochanter');
+var obturatorforaminaOutline = new Outline(controlBarSize, 0, 600, 600, 'obturatorforamina', 'Obturator Foramen');
+var pelvicteardropsOutline = new Outline(controlBarSize, 0, 600, 600, 'pelvicteardrops', 'Pelvic Teardrop');
+var sacroiliacjointsOutline = new Outline(controlBarSize, 0, 600, 600, 'sacroiliacjoints', 'Sacroiliac Joints');
+var sacrumOutline = new Outline(controlBarSize, 0, 600, 600, 'sacrum', 'Sacrum');
+var superiorpubicramiOutline = new Outline(controlBarSize, 0, 600, 600, 'superiorpubicrami', 'Superior Pubic Rami');
+var symphysispubisOutline = new Outline(controlBarSize, 0, 600, 600, 'symphysispubis', 'Symphysis Pubis');
+var vertebralbodiesOutline = new Outline(controlBarSize, 0, 600, 600, 'vertebralbodies', 'Vertebral Bodies');
 
-outlineArray.push(aorticKnuckleOutline, carinaOutline, claviclesOutline, costophrenicAnglesOutline, diaphragmsOutline, fundusOutline, heartOutline, hilaOutline, ribsOutline, scapulaeOutline, spinousProcessesOutline, sternumOutline, tracheaOutline);
+outlineArray.push(acetabulaOutline, ASISOutline, bowelgasOutline, femoraOutline, greatertrochantersOutline, iliaccrestsOutline, iliaOutline, inferiorpubicramiOutline, lessertrochantersOutline, obturatorforaminaOutline, pelvicteardropsOutline, sacroiliacjointsOutline, sacrumOutline, superiorpubicramiOutline, symphysispubisOutline, vertebralbodiesOutline);
 
 class Button {
     constructor(x, y, width, height, text, name) {
@@ -137,7 +140,7 @@ class Button {
         //draw the buttons and their text in learning mode
         if (currentMode === 'LEARNING' || currentMode === 'STUDY2'){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
-            if(this.text === 'COSTOPHRENIC ANGLE' || this.text === 'SPINOUS PROCESS') context.font = '11px Verdana';
+            if(this.text === 'GREATER TROCHANTER' || this.text === 'INFERIOR PUBIC RAMUS' || this.text === 'SUPERIOR PUBIC RAMUS'|| this.text === 'LESSER TROCHANTER') context.font = '11px Verdana';
             else context.font = '15px Verdana';
             if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
             context.fillStyle = "black";
@@ -147,7 +150,7 @@ class Button {
         //draw the buttons and their text in study mode, excluding the mode selectors and win button
         if (currentMode === 'STUDY1' && this.text != 'LEARNING MODE' && this.text && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
             context.drawImage(this.image, this.studyX, this.studyY, this.width, this.height);
-            if(this.text === 'COSTOPHRENIC ANGLE' || this.text === 'SPINOUS PROCESS') context.font = '11px Verdana';
+            if(this.text === 'GREATER TROCHANTER' || this.text === 'INFERIOR PUBIC RAMUS' || this.text === 'SUPERIOR PUBIC RAMUS'|| this.text === 'LESSER TROCHANTER') context.font = '11px Verdana';
             else context.font = '15px Verdana';
             context.fillStyle = "black";
             context.textAlign = 'center';
@@ -183,24 +186,25 @@ const learningButton = new Button(0, 0, 150, 40, 'LEARNING MODE');
 const studyButton = new Button(150, 0, 150, 40, 'STUDY MODE');
 const winButton = new Button(70, 205, 150, 120, 'WELL DONE!');
 //declare button objects and push to the main button array
-const aorticKnuckleButton = new Button(10, 105, 150, 40, 'AORTIC KNUCKLE', 'Aortic Knuckle');
-const carinaButton = new Button(10, 105, 150, 40, 'CARINA', 'Carina');
-const claviclesButton = new Button(10, 105, 150, 40, 'CLAVICLE', 'Clavicles');
-const costophrenicAnglesButton = new Button(10, 105, 150, 40, 'COSTOPHRENIC ANGLE', 'Costophrenic Angles');
-const diaphragmsButton = new Button(10, 105, 150, 40, 'DIAPHRAGM', 'Diaphragms');
-const fundusButton = new Button(10, 105, 150, 40, 'FUNDUS', 'Fundus');
-const heartButton = new Button(10, 105, 150, 40, 'HEART', 'Heart');
-const hilaButton = new Button(10, 105, 150, 40, 'HILUM', 'Hila');
-const ribsButton = new Button(10, 105, 150, 40, 'RIBS', 'Ribs');
-const scapulaeButton = new Button(10, 105, 150, 40, 'SCAPULA', 'Scapulae');
-const spinousProcessesButton = new Button(10, 105, 150, 40, 'SPINOUS PROCESS', 'Spinous Processes');
-const tracheaButton = new Button(10, 105, 150, 40, 'TRACHEA', 'Trachea');
+const acetabulumButton = new Button(10, 105, 150, 40, 'ACETABULUM', 'Acetabulum');
+const ASISButton = new Button(10, 105, 150, 40, 'ASIS', 'ASIS');
+const femurButton = new Button(10, 105, 150, 40, 'FEMUR', 'Femur');
+const greaterTrochanterButton = new Button(10, 105, 150, 40, 'GREATER TROCHANTER', 'Greater Trochanter');
+const iliacCrestButton = new Button(10, 105, 150, 40, 'ILIAC CREST', 'Iliac Crest');
+const inferiorPubicRamusButton = new Button(10, 105, 150, 40, 'INFERIOR PUBIC RAMUS', 'Inferior Pubic Ramus');
+const lesserTrochanterButton = new Button(10, 105, 150, 40, 'LESSER TROCHANTER', 'Lesser Trochanter');
+const pelvicTeardropButton = new Button(10, 105, 150, 40, 'PELVIS TEARDROP', 'Pelvic Teardrop');
+const sacroiliacJointsButton = new Button(10, 105, 150, 40, 'SACROILIAC JOINTS', 'Sacroiliac Joints');
+const sacrumButton = new Button(10, 105, 150, 40, 'SACRUM', 'Sacrum');
+const superiorPubicRamusButton = new Button(10, 105, 150, 40, 'SUPERIOR PUBIC RAMUS', 'Superior Pubic Ramus');
+const symphysisPubisButton = new Button(10, 105, 150, 40, 'SYMPHYSIS PUBIS', 'Symphysis Pubis');
 
 
 function resetButtonArray(){
     console.log('reset fired');
     buttonArray = [];
-    buttonArray.push(aorticKnuckleButton, carinaButton, claviclesButton, costophrenicAnglesButton, diaphragmsButton, fundusButton, heartButton, hilaButton, ribsButton, scapulaeButton, spinousProcessesButton, tracheaButton);
+    buttonArray.push(acetabulumButton, ASISButton, femurButton, greaterTrochanterButton, iliacCrestButton, inferiorPubicRamusButton, lesserTrochanterButton, pelvicTeardropButton, 
+                     sacroiliacJointsButton, sacrumButton, superiorPubicRamusButton, symphysisPubisButton);
     for (let i = 0; i < buttonArray.length; i++){
         buttonArray[i].y = (105 + (41*i));
     }
@@ -275,19 +279,22 @@ function checker(){
         /*ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
         ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
         ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
-        if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Aortic Knuckle';
-        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Carina';
-        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Clavicles';
-        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Costophrenic Angles';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Diaphragms';
-        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Fundus';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Heart';
-        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Hila';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 125) return 'Ribs';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Scapulae';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Spinous Processes';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 255) return 'Sternum';
-        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Trachea';
+        if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Acetabulum';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'ASIS';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255eturn 'Bowel Gas';
+        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Femur';
+        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Greater Trochanter';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 255) return 'Iliac Crest';
+        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Ilium';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Inferior Pubic Ramus';
+        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Lesser Trochanter';
+        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Obturator Foramen';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 125) return 'Pelvis Teardrop';
+        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Sacroiliac Joints';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Sacrum';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'Superior Pubic Ramus';
+        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Symphysis Pubis';
+        else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'Vertebral Bodies';
         else return 'Keep looking...';
     }
 }
@@ -306,36 +313,39 @@ UI = function (){
     //display highlight images
     if (currentMode === 'LEARNING' || currentMode === 'STUDY1'){
         switch(checker()){
-            case 'Aortic Knuckle':
-                aorticKnuckleOutline.draw();
+            case 'Acetabulum':
+                acetabulaOutline.draw();
                 break;
-            case 'Carina':
-                carinaOutline.draw();
+            case 'ASIS':
+                ASISOutline.draw();
                 break;
-            case 'Clavicles':
-                claviclesOutline.draw();
+            case 'Bowel Gas':
+                bowelgasOutline.draw();
                 break;
-            case 'Costophrenic Angles':
-                costophrenicAnglesOutline.draw();
+            case 'Femur':
+                femoraOutline.draw();
                 break;
-            case 'Diaphragms':
-                diaphragmsOutline.draw();
+            case 'Greater Trochanter':
+                greatertrochantersOutline.draw();
                 break;
-            case 'Fundus':
-                fundusOutline.draw();
+            case 'Iliac Crest':
+                iliaccrestsOutline.draw();
                 break;
-            case 'Heart':
-                heartOutline.draw();
+            case 'Ilium':
+                iliaOutline.draw();
                 break;
-            case 'Hila':
-                hilaOutline.draw();
+            case 'Inferior Pubic Ramus':
+                inferiorpubicramiOutline.draw();
                 break;
-            case 'Ribs':
-                ribsOutline.draw();
+            case 'Lesser Trochanter':
+                lessertrochantersOutline.draw();
                 break;
-            case 'Scapulae':
-                scapulaeOutline.draw();
+            case 'Obturator Foramen':
+                obturatorforaminaOutline.draw();
                 break;
+                
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               
+                
             case 'Spinous Processes':
                 spinousProcessesOutline.draw();
                 break;        
