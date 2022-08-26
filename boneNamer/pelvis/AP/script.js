@@ -105,7 +105,7 @@ class Outline {
 }
 
 //declare outline objects @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-var acetabulaOutline = new Outline(controlBarSize, 0, 600, 600, 'acetabulaoutline', 'Acetabulum');
+var acetabulaOutline = new Outline(controlBarSize, 0, 600, 600, 'acetabula', 'Acetabulum');
 var ASISOutline = new Outline(controlBarSize, 0, 600, 600, 'ASIS', 'ASIS');
 var bowelgasOutline = new Outline(controlBarSize, 0, 600, 600, 'bowelgas', 'Bowel Gas');
 var femoraOutline = new Outline(controlBarSize, 0, 600, 600, 'femora', 'Femur');
@@ -118,7 +118,7 @@ var obturatorforaminaOutline = new Outline(controlBarSize, 0, 600, 600, 'obturat
 var pelvicteardropsOutline = new Outline(controlBarSize, 0, 600, 600, 'pelvicteardrops', 'Pelvic Teardrop');
 var sacroiliacjointsOutline = new Outline(controlBarSize, 0, 600, 600, 'sacroiliacjoints', 'Sacroiliac Joints');
 var sacrumOutline = new Outline(controlBarSize, 0, 600, 600, 'sacrum', 'Sacrum');
-var superiorpubicramiOutline = new Outline(controlBarSize, 0, 600, 600, 'superiorpubicrami', 'Superior Pubic Rami');
+var superiorpubicramiOutline = new Outline(controlBarSize, 0, 600, 600, 'superiorpubicrami', 'Superior Pubic Ramus');
 var symphysispubisOutline = new Outline(controlBarSize, 0, 600, 600, 'symphysispubis', 'Symphysis Pubis');
 var vertebralbodiesOutline = new Outline(controlBarSize, 0, 600, 600, 'vertebralbodies', 'Vertebral Bodies');
 
@@ -140,7 +140,7 @@ class Button {
         //draw the buttons and their text in learning mode
         if (currentMode === 'LEARNING' || currentMode === 'STUDY2'){
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
-            if(this.text === 'GREATER TROCHANTER' || this.text === 'INFERIOR PUBIC RAMUS' || this.text === 'SUPERIOR PUBIC RAMUS'|| this.text === 'LESSER TROCHANTER') context.font = '11px Verdana';
+            if(this.text === 'GREATER TROCHANTER' || this.text === 'INFERIOR PUBIC RAMUS' || this.text === 'SUPERIOR PUBIC RAMUS' || this.text === 'LESSER TROCHANTER' || this.text === 'SACROILIAC JOINTS') context.font = '11px Verdana';
             else context.font = '15px Verdana';
             if (this.text === 'LEARNING MODE' || this.text === 'STUDY MODE') context.font = 'bold 14px Verdana';
             context.fillStyle = "black";
@@ -150,7 +150,7 @@ class Button {
         //draw the buttons and their text in study mode, excluding the mode selectors and win button
         if (currentMode === 'STUDY1' && this.text != 'LEARNING MODE' && this.text && this.text != 'STUDY MODE' && this.text != 'WELL DONE!'){
             context.drawImage(this.image, this.studyX, this.studyY, this.width, this.height);
-            if(this.text === 'GREATER TROCHANTER' || this.text === 'INFERIOR PUBIC RAMUS' || this.text === 'SUPERIOR PUBIC RAMUS'|| this.text === 'LESSER TROCHANTER') context.font = '11px Verdana';
+            if(this.text === 'GREATER TROCHANTER' || this.text === 'INFERIOR PUBIC RAMUS' || this.text === 'SUPERIOR PUBIC RAMUS'|| this.text === 'LESSER TROCHANTER' || this.text === 'SACROILIAC JOINTS') context.font = '11px Verdana';
             else context.font = '15px Verdana';
             context.fillStyle = "black";
             context.textAlign = 'center';
@@ -193,7 +193,7 @@ const greaterTrochanterButton = new Button(10, 105, 150, 40, 'GREATER TROCHANTER
 const iliacCrestButton = new Button(10, 105, 150, 40, 'ILIAC CREST', 'Iliac Crest');
 const inferiorPubicRamusButton = new Button(10, 105, 150, 40, 'INFERIOR PUBIC RAMUS', 'Inferior Pubic Ramus');
 const lesserTrochanterButton = new Button(10, 105, 150, 40, 'LESSER TROCHANTER', 'Lesser Trochanter');
-const pelvicTeardropButton = new Button(10, 105, 150, 40, 'PELVIS TEARDROP', 'Pelvic Teardrop');
+const pelvicTeardropButton = new Button(10, 105, 150, 40, 'PELVIC TEARDROP', 'Pelvic Teardrop');
 const sacroiliacJointsButton = new Button(10, 105, 150, 40, 'SACROILIAC JOINTS', 'Sacroiliac Joints');
 const sacrumButton = new Button(10, 105, 150, 40, 'SACRUM', 'Sacrum');
 const superiorPubicRamusButton = new Button(10, 105, 150, 40, 'SUPERIOR PUBIC RAMUS', 'Superior Pubic Ramus');
@@ -276,12 +276,12 @@ function checker(){
     //add a statement for each colour used and return a string to describe the landmark
     //string returned must match checker cases to draw the outlines; use .name property
     if (mouse1.positionX > 0) {
-        /*ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
-        ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
-        ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
+        /*ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],300, 300);
+        ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],300, 350);
+        ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],300, 400);*/
         if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Acetabulum';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'ASIS';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255eturn 'Bowel Gas';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Bowel Gas';
         else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Femur';
         else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Greater Trochanter';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 255) return 'Iliac Crest';
@@ -289,7 +289,7 @@ function checker(){
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Inferior Pubic Ramus';
         else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Lesser Trochanter';
         else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Obturator Foramen';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 125) return 'Pelvis Teardrop';
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 125) return 'Pelvic Teardrop';
         else if (maskData.data[mouse1.positionRed] === 200 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Sacroiliac Joints';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 200 && maskData.data[mouse1.positionBlue] === 0) return 'Sacrum';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 200) return 'Superior Pubic Ramus';
@@ -343,17 +343,23 @@ UI = function (){
             case 'Obturator Foramen':
                 obturatorforaminaOutline.draw();
                 break;
-                
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@               
-                
-            case 'Spinous Processes':
-                spinousProcessesOutline.draw();
+            case 'Pelvic Teardrop':
+                pelvicteardropsOutline.draw();
                 break;        
-            case 'Sternum':
-                sternumOutline.draw();
+            case 'Sacroiliac Joints':
+                sacroiliacjointsOutline.draw();
                 break;
-            case 'Trachea':
-                tracheaOutline.draw();
+            case 'Sacrum':
+                sacrumOutline.draw();
+                break;
+            case 'Superior Pubic Ramus':
+                superiorpubicramiOutline.draw();
+                break;            
+            case 'Symphysis Pubis':
+                symphysispubisOutline.draw();
+                break;            
+            case 'Vertebral Bodies':
+                vertebralbodiesOutline.draw();
                 break;
         }
     
@@ -507,7 +513,11 @@ function shuffleArrays(){
     if (shuffledOutlineArray.length === 0 && !studyModeWon) {
         shuffledOutlineArray = [...outlineArray];
         //splice 8-15
-        shuffledOutlineArray.splice(11, 1);
+        shuffledOutlineArray.splice(2, 1);
+        shuffledOutlineArray.splice(5, 1);
+        shuffledOutlineArray.splice(7, 1);
+        shuffledOutlineArray.splice(12, 1);
+        console.log(shuffledOutlineArray);
         shuffledOutlineArrayLength = shuffledOutlineArray.length;
         for (let i = shuffledOutlineArray.length - 1; i > 0; i--) {
             var j = Math.floor(Math.random() * (i + 1));
@@ -527,18 +537,18 @@ function buttonHandler(mouse1) {
     }
 
     //hover over buttons in learning mode to highlight bone
-    if (mouse1.x && currentMode === 'LEARNING' && collision(aorticKnuckleButton, mouse1)) aorticKnuckleOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(carinaButton, mouse1)) carinaOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(claviclesButton, mouse1)) claviclesOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(costophrenicAnglesButton, mouse1)) costophrenicAnglesOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(diaphragmsButton, mouse1)) diaphragmsOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(fundusButton, mouse1)) fundusOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(heartButton, mouse1)) heartOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(hilaButton, mouse1)) hilaOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(ribsButton, mouse1)) ribsOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(scapulaeButton, mouse1)) scapulaeOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(spinousProcessesButton, mouse1)) spinousProcessesOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(tracheaButton, mouse1)) tracheaOutline.draw();
+    if (mouse1.x && currentMode === 'LEARNING' && collision(acetabulumButton, mouse1)) acetabulaOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(ASISButton, mouse1)) ASISOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(femurButton, mouse1)) femoraOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(greaterTrochanterButton, mouse1)) greatertrochantersOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(iliacCrestButton, mouse1)) iliaccrestsOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(inferiorPubicRamusButton, mouse1)) inferiorpubicramiOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(lesserTrochanterButton, mouse1)) lessertrochantersOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(pelvicTeardropButton, mouse1)) pelvicteardropsOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(sacroiliacJointsButton, mouse1)) sacroiliacjointsOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(sacrumButton, mouse1)) sacrumOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(superiorPubicRamusButton, mouse1)) superiorpubicramiOutline.draw();
+    else if (mouse1.x && currentMode === 'LEARNING' && collision(symphysisPubisButton, mouse1)) symphysispubisOutline.draw();
 
 
     //draw study mode change button
@@ -564,7 +574,7 @@ function animate(){
         then = now - (elapsed % fpsInterval);
 
         ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-        drawBackground('PAchest');
+        drawBackground('APpelvis');
         modeSelect();
         UI();
         buttonHandler(mouse1);
@@ -572,22 +582,3 @@ function animate(){
     }
 }
 startAnimating(60);
-
-//colours used
-////scaphoid 255, 0, 0
-////lunate 125, 0, 0
-////triquetrum 0, 255, 0
-////pisiform 0, 125, 0
-////hamate 0, 0, 255
-////capitate 0, 0, 125
-////trapezoid 0, 200, 0
-////trapezium 0, 0, 200
-////radius 200, 0, 0
-////ulna 200, 200, 0
-////thumb MC 100, 0, 0
-////index MC 0, 100, 0
-////middle MC 0, 0, 100
-////ring MC 100, 100, 0
-////little MC 100, 0, 100
-////thumb prox phalanx 0, 100, 100
-////sesamoid 200, 100, 0
