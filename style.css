@@ -12,7 +12,79 @@ body {
 }
 
 h4, h3, h5, p {
-    color: whitesmoke;
+    color: whitesmoke;body {
+/*     background-color: lightblue;
+ */    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+    }
+
+#canvas1 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    background-color: aquamarine;
+}
+
+#top {
+    border: 2px dashed black;
+    border-radius: 30px;
+    z-index: 0;
+}
+
+h1 {
+    font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    background-color:orange;
+    text-align:center;
+    text-decoration:underline;
+}
+
+h3 {
+    background-color:rgba(255, 166, 0, 0.329);
+    text-align: center;
+}
+
+table {
+border: 2px solid black;
+border-collapse: collapse;
+}
+
+tr {
+border-bottom: 1px solid black;
+}
+
+th{
+border-right: 1px solid black;
+border-bottom: 3px solid black;
+padding: 5px;
+background-color: turquoise;
+}
+
+td{
+    border-right: 1px solid black;
+    padding: 5px;
+    background-color: paleturquoise;
+}
+
+.item:hover {
+background-color: yellowgreen;
+}
+
+#gameTable{
+margin-left: auto;
+margin-right: auto;
+}
+
+#anatomyTable {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#WIPTable {
+    margin-left: auto;
+    margin-right: auto;
+}
     margin: 0em;
     text-align: center;
 }
