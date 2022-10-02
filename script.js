@@ -2,12 +2,14 @@ const canvas = document.getElementById('canvas1');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
+
+console.log (document.body.offsetHeight);
 const particlesArray = [];
 let hue = 0;
 
 window.addEventListener('resize', function () {
     canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.height = document.body.offsetHeight;
 });
 
 const mouse = {
@@ -25,8 +27,8 @@ window.addEventListener('mousemove', function (e) {
 
 class Particle {
     constructor() {
-        this.x = mouse.x;
-        this.y = mouse.y;
+        this.x = mouse.x + window.scrollX;
+        this.y = mouse.y + window.scrollY;
         //this.x = Math.random() * canvas.width;
         //this.y = Math.random() * canvas.height;
         this.size = Math.random() * 5 + 1;
@@ -59,11 +61,12 @@ function handleParticles() {
 }
 
 function animate() {
+    canvas.width = window.innerWidth;
+    canvas.height = document.body.offsetHeight + 20;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'rgba(0, 0, 0, 0.02) ';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     handleParticles();
-//console.log (particlesArray.length);
     requestAnimationFrame(animate);
     hue+=5;
 }
