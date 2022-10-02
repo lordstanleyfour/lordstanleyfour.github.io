@@ -225,7 +225,10 @@ class FloatingMessage{
     draw(context){
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
         context.font = 'bold 16px Verdana';
-        context.fillStyle = "black";
+        if (this.text === 'NO!') {
+            context.fillStyle = "red";
+        }
+        else context.fillStyle = "black";
         context.textAlign = 'center';
         context.fillText(this.text, this.x + (this.width/2), this.y + (this.height * 0.72) );
     }
@@ -418,6 +421,8 @@ function studyMode() {
             if (checker() === shuffledButtonArray[0].name && mouse1.click) {
                 shuffledButtonArray.splice(0, 1);
                 floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'CORRECT!'));
+            } else if (checker() != shuffledButtonArray[0].name && mouse1.click && mouse1.x > 300 && floatingMessageArray.length < 1) {
+                floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'NO!'));
             }
         }
         //set win state
@@ -456,6 +461,8 @@ function studyMode() {
             if (shuffledOutlineArray.length === 0 && !studyModeWon) {
                 studyModeWon = true;
             }
+        } else if (!studyModeWon && study2Checker() != shuffledOutlineArray[0].name && mouse1.click && mouse1.x < 300 && floatingMessageArray.length < 1){
+            floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'NO!'));
         }
         
         if (studyModeWon){
