@@ -211,7 +211,7 @@ resetButtonArray();
 //initial shuffle for study mode
 
 class FloatingMessage{
-    constructor(x, y, width, height, destX, destY, text){
+    constructor(x, y, width, height, destX, destY, text, image){
         this.x = x;
         this.y = y;
         this.destX = destX;
@@ -219,16 +219,16 @@ class FloatingMessage{
         this.width = width;
         this.height = height
         this.text = text;
-        this.image = document.getElementById('buttonimage')//placeholder
+        this.image = image; //placeholder
         this.arrived = false;
     }
     draw(context){
         context.drawImage(this.image, this.x, this.y, this.width, this.height);
         context.font = 'bold 16px Verdana';
-        if (this.text === 'NO!') {
+        /* if (this.text === 'NO!') {
             context.fillStyle = "red";
         }
-        else context.fillStyle = "black";
+        else */ context.fillStyle = "black";
         context.textAlign = 'center';
         context.fillText(this.text, this.x + (this.width/2), this.y + (this.height * 0.72) );
     }
@@ -412,9 +412,9 @@ function studyMode() {
             shuffledButtonArray[0].draw(ctx1);
             if (checker() === shuffledButtonArray[0].name && mouse1.click) {
                 shuffledButtonArray.splice(0, 1);
-                floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'CORRECT!'));
+                floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'CORRECT!', document.getElementById('buttonimage')));
             } else if (checker() != shuffledButtonArray[0].name && mouse1.click && mouse1.x > 300 && floatingMessageArray.length < 1) {
-                floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'NO!'));
+                floatingMessageArray.push (new FloatingMessage(300, 600, 80, 80, 300, 250, 'NO!', document.getElementById('sadface')));
             }
         }
         //set win state
@@ -448,13 +448,13 @@ function studyMode() {
         
         if (!studyModeWon && study2Checker() === shuffledOutlineArray[0].name){
             shuffledOutlineArray.splice(0,1);
-            floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'CORRECT!'));
+            floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'CORRECT!', document.getElementById('buttonimage')));
             //set win state
             if (shuffledOutlineArray.length === 0 && !studyModeWon) {
                 studyModeWon = true;
             }
         } else if (!studyModeWon && study2Checker() != shuffledOutlineArray[0].name && mouse1.click && mouse1.x < 300 && floatingMessageArray.length < 1){
-            floatingMessageArray.push (new FloatingMessage(300, 600, 120, 30, 300, 250, 'NO!'));
+            floatingMessageArray.push (new FloatingMessage(300, 600, 80, 80, 300, 250, 'NO!', document.getElementById('sadface')));
         }
         
         if (studyModeWon){
