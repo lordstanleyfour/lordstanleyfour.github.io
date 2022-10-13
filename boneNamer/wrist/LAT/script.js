@@ -22,6 +22,7 @@ var shuffledButtonArrayLength = null;
 var shuffledButtonY = false;
 var shuffledOutlineArray = [];
 var shuffledOutlineArrayLength = null;
+var onMobile = false;
 const studyModeButton = document.getElementById('studyMode');
 
 //the masked image @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -30,12 +31,19 @@ const mask = new Image();
 mask.src = './latwristmask.png';
 
 //mouse
+if (
+    navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone/i)
+  ) {
+    onMobile = true;
+  }
+
 const mouse1 = {
     x: undefined,
     y: undefined,
     width: 0.00001,
     height: 0.00001,
     click: false,
+    touchMoving: false,
     positionX: undefined,
     positionY: undefined,
     position: undefined,
@@ -52,8 +60,8 @@ mask.addEventListener('load', function(){
 
 let canvasPosition1 = canvas1.getBoundingClientRect();
 canvas1.addEventListener('mousemove', function(e){
-    mouse1.x = e.x - canvasPosition1.left;
-    mouse1.y = e.y - canvasPosition1.top;
+    mouse1.x = e.x - canvasPosition1.left + window.pageXOffset;
+    mouse1.y = e.y - canvasPosition1.top + window.pageYOffset;
     //only calculate mouse X if positioned to right of control bar
     if (Math.floor(mouse1.x - controlBarSize > 0)) mouse1.positionX = Math.floor(mouse1.x - controlBarSize);
     else mouse1.positionX = 0;
@@ -70,8 +78,8 @@ canvas1.addEventListener('mouseleave', function(e){
 });
 canvas1.addEventListener('mousedown', function (event) {
     mouse1.click = true;
-    mouse1.x = event.x - canvasPosition1.left;
-    mouse1.y = event.y - canvasPosition1.top;
+    mouse1.x = event.x - canvasPosition1.left + window.pageXOffset;
+    mouse1.y = event.y - canvasPosition1.top + window.pageYOffset;
 });
 canvas1.addEventListener('mouseup', function (event) {
     mouse1.click = false;
@@ -79,9 +87,16 @@ canvas1.addEventListener('mouseup', function (event) {
 
 canvas1.addEventListener('touchstart', function (event) {
     mouse1.click = true;
+    
+});
+canvas1.addEventListener('touchmove', function (e) {
+    mouse1.x = e.x - canvasPosition1.left + window.pageXOffset;
+    mouse1.y = e.y - canvasPosition1.top + window.pageYOffset;
+    mouse1.touchMoving = true;
 });
 canvas1.addEventListener('touchend', function (event) {
     mouse1.click = false;
+    mouse1.touchMoving = false;
 });
 studyModeButton.addEventListener('click', function (){
     if (currentMode === 'STUDY1') currentMode = 'STUDY2';
@@ -114,7 +129,7 @@ var trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapez
 var radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline');
 var ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline');
 var ulnarStyloidOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnarstyloidoutline', 'Ulnar Styloid');
-var pronatorQuadratusOutline = new Outline(controlBarSize, 0, 600, 600, 'PQFPoutline', 'PQ Fat Pad');
+var pronatorQuadratusOutline = new Outline(controlBarSize, 0, 600, 600, 'PQFPoutline', 'Pronator Quadratus Fat Pad');
 var hookOfHamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hookofhamateoutline', 'Hook of Hamate');
 var dorsalSTOutline = new Outline(controlBarSize, 0, 600, 600, 'dorsalSToutline', 'Dorsal ST');
 var volarSTOutline = new Outline(controlBarSize, 0, 600, 600, 'volarSToutline', 'Volar ST');
@@ -187,7 +202,7 @@ const ulnarStyloidButton = new Button(10, 155, 150, 40, 'ULNAR STYLOID', 'Ulnar 
 const pisiformButton = new Button(10, 255, 150, 40, 'PISIFORM', 'Pisiform');
 const hamateButton = new Button(10, 305, 150, 40, 'HAMATE', 'Hamate');
 const capitateButton = new Button(10, 355, 150, 40, 'CAPITATE', 'Capitate');
-const PQFatPadButton = new Button(10, 155, 150, 40, 'PQ FAT PAD', 'PQ Fat Pad');
+const PQFatPadButton = new Button(10, 155, 150, 40, 'PQ FAT PAD', 'Pronator Quadratus Fat Pad');
 const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM', 'Trapezium');
 const hookOfHamateButton = new Button(10, 155, 150, 40, 'HOOK OF HAMATE', 'Hook of Hamate');
 const dorsalSTButton = new Button(10, 155, 150, 40, 'DORSAL ST', 'Dorsal ST');
@@ -278,7 +293,7 @@ function checker(){
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Lunate';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Hamate';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Capitate';
-        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'PQ Fat Pad';      
+        else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Pronator Quadratus Fat Pad';      
         else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Scaphoid';      
         else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Pisiform';      
         else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Hook of Hamate';      
@@ -323,7 +338,7 @@ UI = function (){
             case 'Capitate':
                 capitateOutline.draw();
                 break;
-            case 'PQ Fat Pad':
+            case 'Pronator Quadratus Fat Pad':
                 pronatorQuadratusOutline.draw();
                 break;
             case 'Trapezium':
@@ -390,7 +405,7 @@ function modeSelect() {
         currentMode = 'LEARNING';
         document.getElementById('canvas1').style.borderColor = 'goldenrod';
     }
-    if (collision(studyButton, mouse1) && mouse1.click) {
+    if (collision(studyButton, mouse1) && mouse1.click && !mouse1.touchMoving) {
         currentMode = 'STUDY1';
         document.getElementById('canvas1').style.borderColor = 'red';
     }
@@ -562,7 +577,6 @@ function animate(){
         modeSelect();
         UI();
         buttonHandler(mouse1);
-
     }
 }
 startAnimating(60);
