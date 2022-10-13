@@ -195,7 +195,7 @@ const volarSTButton = new Button(10, 155, 150, 40, 'VOLAR ST', 'Volar ST');
 
 function resetButtonArray(){
     buttonArray = [];
-    buttonArray.push(scaphoidButton, lunateButton, triquetrumButton, pisiformButton, hamateButton, capitateButton, ulnarStyloidButton, trapeziumButton, PQFatPadButton, hookOfHamateButton, dorsalSTButton, volarSTButton);
+    buttonArray.push(scaphoidButton, lunateButton, pisiformButton, hamateButton, capitateButton, ulnarStyloidButton, trapeziumButton, PQFatPadButton, hookOfHamateButton, dorsalSTButton, volarSTButton);
     for (let i = 0; i < buttonArray.length; i++){
         buttonArray[i].y = (105 + (50*i));
     }
