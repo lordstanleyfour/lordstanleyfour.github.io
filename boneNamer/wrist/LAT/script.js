@@ -197,7 +197,7 @@ function resetButtonArray(){
     buttonArray = [];
     buttonArray.push(scaphoidButton, lunateButton, pisiformButton, hamateButton, capitateButton, ulnarStyloidButton, trapeziumButton, PQFatPadButton, hookOfHamateButton, dorsalSTButton, volarSTButton);
     for (let i = 0; i < buttonArray.length; i++){
-        buttonArray[i].y = (105 + (40*i));
+        buttonArray[i].y = (105 + (45*i));
     }
 }
 resetButtonArray();
