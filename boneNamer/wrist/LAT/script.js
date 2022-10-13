@@ -487,8 +487,8 @@ function shuffleArrays(){
         //ducplicate the button array
         shuffledButtonArray = [...buttonArray];
         //remove unusable learning mode specific buttons
-        let index = shuffledButtonArray.indexOf(metacarpalsButton);
-        shuffledButtonArray.splice(index, 1);
+        /*let index = shuffledButtonArray.indexOf(metacarpalsButton);
+        shuffledButtonArray.splice(index, 1);*/
         //for the scoring UI element
         shuffledButtonArrayLength = shuffledButtonArray.length;
         //shuffle the array
