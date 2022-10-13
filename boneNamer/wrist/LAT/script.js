@@ -119,7 +119,7 @@ var hookOfHamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hookofhamate
 var dorsalSTOutline = new Outline(controlBarSize, 0, 600, 600, 'dorsalSToutline', 'Dorsal ST');
 var volarSTOutline = new Outline(controlBarSize, 0, 600, 600, 'volarSToutline', 'Volar ST');
 
-outlineArray.push(scaphoidOutline, lunateOutline, pisiformOutline, hamateOutline, capitateOutline, trapeziumOutline, ulnarstyloidOutline, pronatorQuadratusOutline, hookOfHamateOutline, dorsalSTOutline, volarSTOutline, radiusOutline, ulnaOutline);
+outlineArray.push(scaphoidOutline, lunateOutline, pisiformOutline, hamateOutline, capitateOutline, trapeziumOutline, ulnarStyloidOutline, pronatorQuadratusOutline, hookOfHamateOutline, dorsalSTOutline, volarSTOutline, radiusOutline, ulnaOutline);
 
 class Button {
     constructor(x, y, width, height, text, name) {
