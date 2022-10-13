@@ -270,16 +270,16 @@ function checker(){
     //add a statement for each colour used and return a string to describe the landmark
     //string returned must match checker cases to draw the outlines; use .name property
     if (mouse1.positionX > 0) {
-        /*ctx1.fillText('R: ' + maskData.data[mouse1.positionRed],50, 150);
-        ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen],50, 200);
-        ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue],50, 250); */
+        /*ctx1.fillText('R: ' + maskData.data[mouse1.positionRed], 300, 150);
+        ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen], 300, 200);
+        ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue], 300, 250); */
         if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Ulnar Styloid';
         else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Trapezium';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Lunate';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Hamate';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Capitate';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'PQ Fat Pad';      
-        else if (maskData.data[mouse1.positionRed] === 225 && maskData.data[mouse1.positionGreen] === 225 && maskData.data[mouse1.positionBlue] === 0) return 'Scaphoid';      
+        else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Scaphoid';      
         else if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Pisiform';      
         else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Hook of Hamate';      
         else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 125) return 'Dorsal ST';      
