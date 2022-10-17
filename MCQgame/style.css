@@ -1,0 +1,15 @@
+body {
+    background:rgb(6, 2, 54);
+}
+
+#canvas1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 900px;
+    height: 600px;
+    background: white;
+/*     border: 5px solid rgb(172, 241, 10);
+    border-radius: 3px; */
+}
