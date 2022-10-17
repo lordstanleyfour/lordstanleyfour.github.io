@@ -32,13 +32,19 @@ let questions = [
         question: "A",
         correctAnswer: "1",
         altAnswer1: "2",
-        altAnswer2: "3"
+        altAnswer2: "3",
+        altAnswer3: "4"
     },
     {
         question: "B",
-        correctAnswer: "2"
+        correctAnswer: "5",
+        altAnswer1: "6",
+        altAnswer2: "7",
+        altAnswer3: "8"
     }
 ];
+
+let positionArray =[{x:50,y:150}, {x:150,y:150}, {x:50,y:250}, {x:150,y:250}]; 
 
 class TargetBox {
     constructor(x, y, w, h, text){
@@ -48,6 +54,7 @@ class TargetBox {
         this.h = h;
         this.text = text;
         this.correct = undefined;
+        this.position = undefined;
     }
     draw(){
         ctx.fillStyle = 'green';
@@ -55,6 +62,13 @@ class TargetBox {
         ctx.strokeText(this.text, this.x + (this.w/2), this.y + (this.h/2));
     }
     update(){
+        if (this.position) {
+            this.x = this.position.x;
+            this.y = this.position.y
+        } else {
+            this.x = 0; //find a better default for the boxes?
+            this.y - 0;
+        }
         if (collision(this)) console.log('clicked');       
     }
 }
@@ -75,6 +89,7 @@ function boxHandler(){
     for (i = 0; i < boxArray.length; i++){
         boxArray[i].x = 10+ 75*i;
         boxArray[i].y = 100;
+        //positionArray index i + rng sum
     }
     boxArray.forEach(element => {
         element.draw();
