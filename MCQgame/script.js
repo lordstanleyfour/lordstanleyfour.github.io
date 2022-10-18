@@ -230,3 +230,24 @@ startAnimating(15);
 //default (category not selected) behaviour for question box text
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
+
+//INITIALISATION PHASE
+////Opening screen introducing the game, instructions, interact to continue
+////Behind the scenes the rng runs for the first time
+//switch variable
+//CATEGORY PHASE
+////Select category function runs
+////UI element changes to draw attention to the category area
+////in selection of the chosen category box the question bank is randomised and the first in the array is passed to a variable as an object then spliced (will splicing also delete the variable data? Test)
+//QUESTION PHASE
+////the question boxes are populated and drawn
+////on selection of correct answer, adjust score, display UI treat then return to category phase
+////on selection of incorrect answer go to last chance phase
+//LAST CHANCE PHASE
+////draw 2 images with collision; select image marked as abnormal
+////images chosen from random indices of 2 arrays
+////rng odd/even test; if odd then wrong on left, if even then correct on left
+////if correct then UI treat then back to category phase
+////if wrong then go to game over phase
+//GAME OVER PHASE
+////game over screen with restart option and score displayed
