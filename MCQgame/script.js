@@ -64,6 +64,7 @@ let alternativeQuestions = [
 ];
 
 let questionBoxPositionArray =[{x:50,y:150}, {x:150,y:150}, {x:50,y:250}, {x:150,y:250}]; 
+//move this to Qbox handler
 
 class TargetBox {
     constructor(x, y, purposeSelect, category){
