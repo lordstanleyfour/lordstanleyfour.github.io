@@ -70,10 +70,10 @@ class TargetBox {
     constructor(x, y, purposeSelect, category){
         this.x = x;
         this.y = y;
-        this.w = 50;
+        this.w = 50; //add these back in as arguments so this can be used for all boxes
         this.h = 50;
         this.text = undefined;
-        this.purposeSelect = purposeSelect;
+        this.purposeSelect = purposeSelect; //refactor these to strings for readability
         this.category = category;
         this.correct = undefined;
         this.position = undefined;
@@ -85,11 +85,14 @@ class TargetBox {
         ctx.strokeText(this.text, this.x + (this.w/2), this.y + (this.h/2));
     }
     update(){
-        //for question boxes
+        //positioning for question boxes
         if (this.position) {
             this.x = this.position.x;
             this.y = this.position.y
+            //needed as Qboxes shuffle around
         }
+        
+        //text for question boxes
         if (questionArraySelected){
             if (this.purposeSelect === 0) {
                 this.text = questionArraySelected[0].correctAnswer;
@@ -108,18 +111,24 @@ class TargetBox {
             }
         }
 
-        //for category boxes
+        //text for category boxes
         if (this.purposeSelect === 4){
             if (this.category === 'default') this.text = "defaultQuestions";
             else if (this.category === 'alternative') this.text = "alternativeQuestions";
         }
 	
+        //question box select
         if (collision(this) && this.correct) {
             console.log('correct');
             correctAnswerSelected = true;
         } else if (collision(this) && this.correct === false){
-            console.log('false');
-        } else if (collision(this) && this.correct === undefined){
+            alert('false');
+            //insert trigger for last chance phase
+        } 
+
+        //category box select
+          else if (collision(this) && this.correct === undefined){
+                                     //stopgap - need something more flexible to provide for other box types
             if (this.category === 'default'){
                 questionArraySelected = defaultQuestions;
             } else if (this.category === 'alternative'){
@@ -129,12 +138,13 @@ class TargetBox {
     }
 }
 
+//create question boxes
 var questionBox1 = new TargetBox(undefined, undefined, 0);
 var questionBox2 = new TargetBox(undefined, undefined, 1);
 var questionBox3 = new TargetBox(undefined, undefined, 2);
 var questionBox4 = new TargetBox(undefined, undefined, 3);
 let questionBoxArray = [questionBox1, questionBox2, questionBox3, questionBox4];
-
+//create category boxes
 var categoryBox1 = new TargetBox(500, 150, 4, 'default');
 var categoryBox2 = new TargetBox(600, 150, 4, 'alternative');
 let categoryBoxArray = [categoryBox1, categoryBox2];
@@ -168,6 +178,7 @@ function questionHandler(){
 }
 
 function boxHandler(){
+    //if question phase active
     for (i = 0; i < questionBoxArray.length; i++){
 	    if ((rng + i) <= 3){
         	questionBoxArray[i].position = questionBoxPositionArray[rng + i];
@@ -175,6 +186,8 @@ function boxHandler(){
 		questionBoxArray[i].position = questionBoxPositionArray[((rng+i)-4)];
     	    }        
     }
+
+    //always active or phase dependant?
     questionBoxArray.forEach(element => {
         element.draw();
         element.update();    
@@ -208,13 +221,14 @@ function animate(){
 
         //rng = Math.floor(Math.random()*3); Put this wherever the reset ends up
 
-
+        //if statements to determine which main handlers running
         questionHandler();
-	    boxHandler();
+
+	boxHandler(); //always active
 
 
 
-        //reset mouse
+        //reset mouse, must be at the end
         if (mouse.lastClickX !== undefined){
             mouse.lastClickX = undefined;
             mouse.lastClickY = undefined;
@@ -223,13 +237,16 @@ function animate(){
 }
 startAnimating(15);
 
-//move the category box logic into the category handler function and refactor instructions
+//move the category/question box logic into the category/question handler function and refactor instructions
 //shuffle question array logic in category handler function
 //make more category boxes (5 needed)
 //for loop in box handler to place category boxes in position
 //if question array empty then splice category box
 //default (category not selected) behaviour for question box text
+
 //mess around with switch variables (categoryPhase = true/false etc.) to control game flow
+//make init screen with prompt to continue
+//start box
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
