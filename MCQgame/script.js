@@ -238,6 +238,7 @@ function animate(){
 startAnimating(15);
 
 //move the category/question box logic into the category/question handler function and refactor instructions
+//move Qbox order shuffle for loop from boxhandler to questionhandler
 //shuffle question array logic in category handler function
 //make more category boxes (5 needed)
 //for loop in box handler to place category boxes in position
