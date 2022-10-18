@@ -109,8 +109,8 @@ class TargetBox {
 
         //for category boxes
         if (this.purposeSelect === 4){
-            if (this.category === 0) this.text = "defaultQuestions";
-            else if (this.category === 1) this.text = "alternativeQuestions";
+            if (this.category === 'default') this.text = "defaultQuestions";
+            else if (this.category === 'alternative') this.text = "alternativeQuestions";
         }
 	
         if (collision(this) && this.correct) {
@@ -119,9 +119,9 @@ class TargetBox {
         } else if (collision(this) && this.correct === false){
             console.log('false');
         } else if (collision(this) && this.correct === undefined){
-            if (this.category === 0){
+            if (this.category === 'default'){
                 questionArraySelected = defaultQuestions;
-            } else if (this.category === 1){
+            } else if (this.category === 'alternative'){
                 questionArraySelected = alternativeQuestions;
             }
         }
@@ -134,8 +134,8 @@ var questionBox3 = new TargetBox(undefined, undefined, 2);
 var questionBox4 = new TargetBox(undefined, undefined, 3);
 let questionBoxArray = [questionBox1, questionBox2, questionBox3, questionBox4];
 
-var categoryBox1 = new TargetBox(500, 150, 4, 0);
-var categoryBox2 = new TargetBox(600, 150, 4, 1);
+var categoryBox1 = new TargetBox(500, 150, 4, 'default');
+var categoryBox2 = new TargetBox(600, 150, 4, 'alternative');
 let categoryBoxArray = [categoryBox1, categoryBox2];
 
 
@@ -228,6 +228,7 @@ startAnimating(15);
 //for loop in box handler to place category boxes in position
 //if question array empty then splice category box
 //default (category not selected) behaviour for question box text
+//mess around with switch variables (categoryPhase = true/false etc.) to control game flow
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
@@ -238,7 +239,7 @@ startAnimating(15);
 //CATEGORY PHASE
 ////Select category function runs
 ////UI element changes to draw attention to the category area
-////in selection of the chosen category box the question bank is randomised and the first in the array is passed to a variable as an object then spliced (will splicing also delete the variable data? Test)
+////on selection of the chosen category box the question bank is randomised and the first in the array is passed to a variable as an object then spliced (will splicing also delete the variable data? Test)
 //QUESTION PHASE
 ////the question boxes are populated and drawn
 ////on selection of correct answer, adjust score, display UI treat then return to category phase
