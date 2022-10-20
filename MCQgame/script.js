@@ -2,6 +2,7 @@ const canvas1 = document.getElementById('canvas1');
 const ctx = canvas1.getContext('2d');
 canvas1.width = 900;
 canvas1.height = 600;
+const fps = 15;
 
 const mouse = {
     lastClickX: undefined,
@@ -28,11 +29,10 @@ function collision (object){
 var rng = Math.floor(Math.random()*3);
 var questionArraySelected = undefined;
 var correctAnswerSelected = false;
-var initPhase = false;
-var categoryPhase, questionPhase, lastChancePhase, endPhase;
+var initPhase = true;
+var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose;
 var score = 0;
-
-lastChancePhase = true; //temp for debug
+var scoreTarget = 10;
 
 let defaultQuestions = [
     {
@@ -174,10 +174,14 @@ class TargetBox {
         }
 
         //text for last chance boxes
-        if (this.purposeSelect === 'lastchance'){
+        if (this.purposeSelect === 'lastChance'){
             if (this.category === 'correctImage') this.text = 'correct image';
             if (this.category === 'incorrectImage') this.text = 'incorrect image';
         }
+
+        //text for restart box
+        if (this.purposeSelect === 'restartPrompt') this.text = 'Click to restart';
+        
 
     }
     update(){
@@ -191,14 +195,24 @@ class TargetBox {
         //question box select
         if (collision(this) && this.correct) {
             correctAnswerSelected = true;
+            rng = Math.floor(Math.random()*3);
         } else if (collision(this) && this.correct === false){
-            alert('last chance phase triggered');
-            //insert trigger for last chance phase
+            //reset mouse so that it doesn't interfere with last chance
+            if (mouse.lastClickX !== undefined){
+                mouse.lastClickX = undefined;
+                mouse.lastClickY = undefined;
+            }
+            rng = Math.floor(Math.random()*3);
+            questionPhase = false;
+            lastChancePhase = true;
+            questionArraySelected = undefined;
+            score--;
         } 
 
         //init box select
         else if (collision (this) && this.purposeSelect === 'continuePrompt'){
             if (initPhase){
+                rng = Math.floor(Math.random()*3);
                 initPhase = false;
                 categoryPhase = true;
             }
@@ -206,48 +220,52 @@ class TargetBox {
 
         //category box select
         else if (collision(this) && this.purposeSelect === 'categorySelect' && !questionArraySelected){
-            if (this.category === 'default'){
+            if (this.category === 'default' && defaultQuestions.length > 0){
+                rng = Math.floor(Math.random()*3);
                 questionArraySelected = defaultQuestions;
-                if (defaultQuestions.length === 1){
-                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
-                }
-            } else if (this.category === 'alternative'){
+            } else if (this.category === 'alternative' && alternativeQuestions.length > 0){
+                rng = Math.floor(Math.random()*3);
                 questionArraySelected = alternativeQuestions;
-                if (alternativeQuestions.length === 1){
-                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
-                }
-            } else if (this.category === 'alternative2'){
+            } else if (this.category === 'alternative2' && alternativeQuestions2.length > 0){
+                rng = Math.floor(Math.random()*3);
                 questionArraySelected = alternativeQuestions2;
-                if (alternativeQuestions2.length === 1){
-                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
-                }
-            } else if (this.category === 'alternative3'){
+            } else if (this.category === 'alternative3' && alternativeQuestions3.length > 0){
+                rng = Math.floor(Math.random()*3);
                 questionArraySelected = alternativeQuestions3;
-                if (alternativeQuestions3.length === 1){
-                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
-                }
-            } else if (this.category === 'alternative4'){
+            } else if (this.category === 'alternative4' && alternativeQuestions4.length > 0){
+                rng = Math.floor(Math.random()*3);
                 questionArraySelected = alternativeQuestions4;
-                if (alternativeQuestions4.length === 1){
-                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
-                }
             }
             if (questionArraySelected){
+                rng = Math.floor(Math.random()*3);
                 categoryPhase = false;
                 questionPhase = true;
-            }
+            }            
         }
 
         //last chance box select
-        else if (collision(this) && this.purposeSelect === 'lastchance'){
-		//@@@@@@ assign positions based on test of whether rng is odd or even
-		//@@@@@@ display boxes side by side with logic to switch back to question phase or end phase depending on choice
-		//if(number % 2==0){//The number is even} else {//The number is odd}
-		
-            
+        else if (collision(this) && this.purposeSelect === 'lastChance'){
+            if (this.category === 'correctImage') {
+                lastChancePhase = false;
+                rng = Math.floor(Math.random()*3);
+                categoryPhase = true;
+            } else if (this.category === 'incorrectImage') {
+                lastChancePhase = false;
+                endPhase = true; 
+                lose = true;
+            }            
         }
 
+        //restart box select
+        else if (collision(this) && this.purposeSelect === 'restartPrompt'){
+            location.reload();
+        }
 
+        if (this.category === 'default' && defaultQuestions.length < 1) this.text = 'DONE';
+        if (this.category === 'alternative' && alternativeQuestions.length < 1) this.text = 'DONE';
+        if (this.category === 'alternative2' && alternativeQuestions2.length < 1) this.text = 'DONE';
+        if (this.category === 'alternative3' && alternativeQuestions3.length < 1) this.text = 'DONE';
+        if (this.category === 'alternative4' && alternativeQuestions4.length < 1) this.text = 'DONE';
     }
 }
 
@@ -267,9 +285,11 @@ let categoryBoxArray = [categoryBox1, categoryBox2, categoryBox3, categoryBox4, 
 //create init boxes
 var initBox1 = new TargetBox(400, 400, 100, 50, 'continuePrompt');
 //create last chance boxes
-var lastBox1 = new TargetBox(undefined, undefined, 75, 100, 'lastchance', 'correctImage');
-var lastBox1 = new TargetBox(undefined, undefined, 75, 100, 'lastchance', 'incorrectImage');
+var lastBox1 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'correctImage');
+var lastBox2 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'incorrectImage');
 let lastChanceBoxArray = [];
+//create restart button
+var restartBox = new TargetBox(395, 400, 110, 50, 'restartPrompt');
 
 function initHandler(){
     if (initPhase){
@@ -327,6 +347,14 @@ function questionHandler(){
         ctx.strokeText("THIS IS WHERE THE QUESTIONS LIVE", 650, 350);
         ctx.strokeText('QUESTION: ' + questionArraySelected[0].question, 650, 300);
 
+        for (i = 0; i < questionBoxArray.length; i++){
+            if ((rng + i) <= 3){
+                questionBoxArray[i].position = questionBoxPositionArray[rng + i];
+            } else if ((rng + i) > 3) {
+            questionBoxArray[i].position = questionBoxPositionArray[((rng+i)-4)];
+            }        
+        }
+
         questionBoxArray.forEach(element => {
             element.draw();
             element.update();
@@ -344,41 +372,58 @@ function questionHandler(){
         score++;
         rng = Math.floor(Math.random()*3);
         correctAnswerSelected = false;
-        
-    /* if (questionArraySelected.length === 0){
-        alert("Hooray.");
-        //stopgap
-    } */
-
-    questionArraySelected = undefined;
-    questionPhase = false;
-    categoryPhase = true;
-    }
-}
-
-function boxHandler(){
-    //if question phase active
-    for (i = 0; i < questionBoxArray.length; i++){
-	    if ((rng + i) <= 3){
-        	questionBoxArray[i].position = questionBoxPositionArray[rng + i];
-	    } else if ((rng + i) > 3) {
-		questionBoxArray[i].position = questionBoxPositionArray[((rng+i)-4)];
-    	    }        
+        questionArraySelected = undefined;
+        questionPhase = false;
+        categoryPhase = true;
     }
 }
 
 function lastChanceHandler(){
     if (lastChancePhase){
+        //darken background
         ctx.fillStyle = 'rgb(0, 0, 0, 0.5';
         ctx.fillRect(0, 0, canvas1.width, canvas1.height);
-	//@@@@ temporary -> draw and update last chance boxes
+        ctx.strokeStyle = 'black';
+        ctx.strokeText('LAST CHANCE! Pick the image with the abnormality...', canvas1.width/2, 25);
+
+        //temporary values and calls (w=300, h=500)
+        //randomise lastBox positions
+        if (rng % 2 == 0){
+            lastBox1.x = 50; lastBox1.y = 50; lastBox2.x = 450; lastBox2.y = 50;
+        } else {
+            lastBox2.x = 50; lastBox2.y = 50; lastBox1.x = 450; lastBox1.y = 50;
+        }
+
+        lastBox1.draw(); lastBox1.update(); lastBox2.draw(); lastBox2.update();        
     }
 	//@@@@ push last chance boxes to lastChanceBoxArray and assign images from correct and incorrect pools
 	//@@@@for each -> draw and update
 }
 
+function endPhaseHandler(){
+    if (endPhase){
+        if (win){
+            //background
+            ctx.fillStyle = 'orange';
+            ctx.fillRect(50, 50, 800, 500);
+            //text
+            ctx.strokeStyle = 'black';
+            ctx.textAlign = 'center';
+            ctx.strokeText('You won', 450, 200);
+        } else if (lose) {
+            ctx.fillStyle = 'orange';
+            ctx.fillRect(50, 50, 800, 500);
+            //text
+            ctx.strokeStyle = 'black';
+            ctx.textAlign = 'center';
+            ctx.strokeText('You failed to win', 450, 200);
+        }
+        //restartBox.draw(); restartBox.update;
+    }
+}
+
 function scoreHandler(){
-    if (!initPhase && !lastChancePhase){
+    if (!initPhase && !lastChancePhase && !endPhase){
         ctx.fillStyle = 'pink';
         ctx.fillRect(50, 75, 150, 475);
         ctx.strokeStyle = 'black';
@@ -389,6 +434,9 @@ function scoreHandler(){
         ctx.fillStyle = 'black';
         ctx.strokeText('SCORE:  ' + score, 100, 100);
     }
+    if (score >= scoreTarget){
+        questionPhase = false; categoryPhase = false; win = true; endPhase = true;
+    }
 
 }
 
@@ -397,7 +445,7 @@ function scoreHandler(){
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////animation loop/////////////////////////////////////
-let fps, fpsInterval, startTime, now, then, elapsed; //declare empty variables
+let fpsInterval, startTime, now, then, elapsed; //declare empty variables
 function startAnimating(fps){ //function needed to kick off the animation by getting system time and tying fps to system time.
   fpsInterval = 1000/fps; //how much time passes before the next frame is served
   then = Date.now(); //Date.now is no. of ms elapsed since 1.1.1970
@@ -412,20 +460,13 @@ function animate(){
     if (elapsed > fpsInterval) { //check to see if it's time to draw the next frame
         then = now - (elapsed % fpsInterval);
         ctx.clearRect(0, 0, canvas1.width, canvas1.height);
-
-        //rng = Math.floor(Math.random()*3); Put this wherever the reset ends up
-
-        //if statements to determine which main handlers running
-
         
         initHandler();
         categoryHandler();
         questionHandler();
         lastChanceHandler();
+        endPhaseHandler();
         scoreHandler();
-	    boxHandler(); //always active
-
-
 
         //reset mouse, must be at the end
         if (mouse.lastClickX !== undefined){
@@ -434,19 +475,11 @@ function animate(){
         }
     }
 }
-startAnimating(15);
+startAnimating(fps);
 
-//move the category/question box logic into the category/question handler function and refactor instructions
-//move Qbox order shuffle for loop from boxhandler to questionhandler
 //shuffle question array logic in category handler function
-//make more category boxes (5 needed)
-//for loop in box handler to place category boxes in position
-//if question array empty then splice category box
-//default (category not selected) behaviour for question box text
-
-//mess around with switch variables (categoryPhase = true/false etc.) to control game flow
-//make init screen with prompt to continue
-//start box
+//make a timer for each question
+//figure out reset button
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
