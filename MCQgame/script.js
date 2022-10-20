@@ -28,7 +28,8 @@ function collision (object){
 var rng = Math.floor(Math.random()*3);
 var questionArraySelected = undefined;
 var correctAnswerSelected = false;
-var initPhase, categoryPhase, questionPhase, lastChancePhase, endPhase; //switch variables
+var initPhase = true;
+var categoryPhase, questionPhase, lastChancePhase, endPhase; //switch variables
 
 let defaultQuestions = [
     {
@@ -67,11 +68,11 @@ let alternativeQuestions = [
 let questionBoxPositionArray =[{x:50,y:150}, {x:150,y:150}, {x:50,y:250}, {x:150,y:250}];
 
 class TargetBox {
-    constructor(x, y, purposeSelect, category){
+    constructor(x, y, w, h, purposeSelect, category){
         this.x = x;
         this.y = y;
-        this.w = 50; //add these back in as arguments so this can be used for all boxes
-        this.h = 50;
+        this.w = w; //add these back in as arguments so this can be used for all boxes
+        this.h = h;
         this.text = undefined;
         this.purposeSelect = purposeSelect; //refactor these to strings for readability
         this.category = category;
@@ -83,6 +84,36 @@ class TargetBox {
         ctx.fillRect(this.x, this.y, this.w, this.h);
         ctx.textAlign = 'center';
         ctx.strokeText(this.text, this.x + (this.w/2), this.y + (this.h/2));
+
+        //text for question boxes
+        if (questionArraySelected){
+            if (this.purposeSelect === 'correctAnswer') {
+                this.text = questionArraySelected[0].correctAnswer;
+                this.correct = true;
+            } else if (this.purposeSelect === 'altAnswer1') {
+                this.text = questionArraySelected[0].altAnswer1;
+                this.correct = false;
+            }
+            else if (this.purposeSelect === 'altAnswer2') {
+                this.text = questionArraySelected[0].altAnswer2;
+                this.correct = false;
+            }
+            else if (this.purposeSelect === 'altAnswer3') {
+                this.text = questionArraySelected[0].altAnswer3;
+                this.correct = false;
+            }
+        }
+
+        //text for category boxes
+        if (this.purposeSelect === 'categorySelect'){
+            if (this.category === 'default') this.text = "defaultQuestions";
+            else if (this.category === 'alternative') this.text = "alternativeQuestions";
+        }
+
+        //text for initBox
+        if (this.purposeSelect === 'continuePrompt'){
+            this.text = "CONTINUE";
+        }
     }
     update(){
         //positioning for question boxes
@@ -90,31 +121,6 @@ class TargetBox {
             this.x = this.position.x;
             this.y = this.position.y
             //needed as Qboxes shuffle around
-        }
-        
-        //text for question boxes
-        if (questionArraySelected){
-            if (this.purposeSelect === 0) {
-                this.text = questionArraySelected[0].correctAnswer;
-                this.correct = true;
-            } else if (this.purposeSelect === 1) {
-                this.text = questionArraySelected[0].altAnswer1;
-                this.correct = false;
-            }
-            else if (this.purposeSelect === 2) {
-                this.text = questionArraySelected[0].altAnswer2;
-                this.correct = false;
-            }
-            else if (this.purposeSelect === 3) {
-                this.text = questionArraySelected[0].altAnswer3;
-                this.correct = false;
-            }
-        }
-
-        //text for category boxes
-        if (this.purposeSelect === 4){
-            if (this.category === 'default') this.text = "defaultQuestions";
-            else if (this.category === 'alternative') this.text = "alternativeQuestions";
         }
 	
         //question box select
@@ -126,33 +132,74 @@ class TargetBox {
             //insert trigger for last chance phase
         } 
 
+        //init box select
+        else if (collision (this) && this.purposeSelect === 'continuePrompt'){
+            if (initPhase){
+                initPhase = false;
+                categoryPhase = true;
+            }
+        } 
+
         //category box select
-          else if (collision(this) && this.correct === undefined && !questionArraySelected){
-                                     //stopgap - need something more flexible to provide for other box types
+        else if (collision(this) && this.purposeSelect === 'categorySelect' && !questionArraySelected){
             if (this.category === 'default'){
                 questionArraySelected = defaultQuestions;
             } else if (this.category === 'alternative'){
                 questionArraySelected = alternativeQuestions;
             }
+            if (questionArraySelected){
+                categoryPhase = false;
+                questionPhase = true;
+            }
         }
+
+
     }
 }
 
 //create question boxes
-var questionBox1 = new TargetBox(undefined, undefined, 0);
-var questionBox2 = new TargetBox(undefined, undefined, 1);
-var questionBox3 = new TargetBox(undefined, undefined, 2);
-var questionBox4 = new TargetBox(undefined, undefined, 3);
+var questionBox1 = new TargetBox(undefined, undefined, 50, 50, 'correctAnswer');
+var questionBox2 = new TargetBox(undefined, undefined, 50, 50, 'altAnswer1');
+var questionBox3 = new TargetBox(undefined, undefined, 50, 50, 'altAnswer2');
+var questionBox4 = new TargetBox(undefined, undefined, 50, 50, 'altAnswer3');
 let questionBoxArray = [questionBox1, questionBox2, questionBox3, questionBox4];
 //create category boxes
-var categoryBox1 = new TargetBox(500, 150, 4, 'default');
-var categoryBox2 = new TargetBox(600, 150, 4, 'alternative');
+var categoryBox1 = new TargetBox(500, 150, 75, 100, 'categorySelect', 'default');
+var categoryBox2 = new TargetBox(600, 150, 75, 100, 'categorySelect', 'alternative');
 let categoryBoxArray = [categoryBox1, categoryBox2];
+//create init boxes
+var initBox1 = new TargetBox(400, 400, 100, 50, 'continuePrompt');
 
+function initHandler(){
+    if (initPhase){
+    //draw a background box
+    ctx.fillStyle = 'pink';
+    ctx.fillRect(50, 50, 800, 500);
+    //text for instructions
+    ctx.strokeStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.strokeText('This is where the instructions live', 450, 200);
+    ctx.strokeText('Press button to continue', 450, 300);
+    //draw and update a continue prompt box
+    initBox1.draw();
+    initBox1.update();
+    }
 
+}
 
 function categoryHandler(){
     //if no category selected then display text prompting a choice
+    if (categoryPhase){
+        if (!questionArraySelected){
+            ctx.strokeStyle = 'black';
+            ctx.textAlign = 'center';
+            ctx.strokeText('Choose a category', 600, 100);
+            categoryBoxArray.forEach(element => {
+                element.draw();
+                element.update();  
+            })
+        }
+    }
 
 }
 
@@ -162,18 +209,23 @@ function categoryHandler(){
 
 function questionHandler(){
 
-    if (questionArraySelected){
+    if (questionPhase && questionArraySelected){
         ctx.strokeText("THIS IS WHERE THE QUESTIONS LIVE", 100, 50);
         ctx.strokeText(questionArraySelected[0].question, 50, 75);
+        questionBoxArray.forEach(element => {
+            element.draw();
+            element.update();
+        })
     }
-
 
     if (correctAnswerSelected){
         questionArraySelected.splice(0, 1);
         correctAnswerSelected = false;
+        
         if (questionArraySelected.length === 0){
             alert("Hooray.");
         }
+        questionArraySelected = undefined;
     }
 }
 
@@ -188,14 +240,14 @@ function boxHandler(){
     }
 
     //always active or phase dependant?
-    questionBoxArray.forEach(element => {
+/*     questionBoxArray.forEach(element => {
         element.draw();
         element.update();    
     })
     categoryBoxArray.forEach(element => {
         element.draw();
         element.update();  
-    })
+    }) */
 }
 
 	
@@ -222,9 +274,12 @@ function animate(){
         //rng = Math.floor(Math.random()*3); Put this wherever the reset ends up
 
         //if statements to determine which main handlers running
-        questionHandler();
 
-	boxHandler(); //always active
+        
+        initHandler();
+        categoryHandler();
+        questionHandler();
+	    boxHandler(); //always active
 
 
 
