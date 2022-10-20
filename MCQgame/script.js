@@ -29,10 +29,10 @@ var rng = Math.floor(Math.random()*3);
 var questionArraySelected = undefined;
 var correctAnswerSelected = false;
 var initPhase = false;
-var categoryPhase, questionPhase, lastChancePhase, endPhase; //switch variables
+var categoryPhase, questionPhase, lastChancePhase, endPhase;
 var score = 0;
 
-lastChancePhase = true;
+lastChancePhase = true; //temp for debug
 
 let defaultQuestions = [
     {
@@ -120,21 +120,21 @@ let alternativeQuestions4 = [
 ];
 
 let questionBoxPositionArray =[{x:550,y:400}, {x:650,y:400}, {x:550,y:500}, {x:650,y:500}];
-let categoryBoxPositionArray = [{x:300,y:100}, {x:400,y:100}, {x:500,y:100}, {x:600,y:100}, {x:700,y:100}]
 
 class TargetBox {
     constructor(x, y, w, h, purposeSelect, category){
         this.x = x;
         this.y = y;
-        this.w = w; //add these back in as arguments so this can be used for all boxes
+        this.w = w;
         this.h = h;
         this.text = undefined;
-        this.purposeSelect = purposeSelect; //refactor these to strings for readability
+        this.purposeSelect = purposeSelect;
         this.category = category;
         this.correct = undefined;
         this.position = undefined;
     }
     draw(){
+	    //@@@@@ insert if statements to provide image or specific draw instructions based on purposeSelect
         ctx.fillStyle = 'green';
         ctx.fillRect(this.x, this.y, this.w, this.h);
         ctx.textAlign = 'center';
@@ -240,7 +240,11 @@ class TargetBox {
 
         //last chance box select
         else if (collision(this) && this.purposeSelect === 'lastchance'){
-            if ()
+		//@@@@@@ assign positions based on test of whether rng is odd or even
+		//@@@@@@ display boxes side by side with logic to switch back to question phase or end phase depending on choice
+		//if(number % 2==0){//The number is even} else {//The number is odd}
+		
+            
         }
 
 
@@ -263,8 +267,9 @@ let categoryBoxArray = [categoryBox1, categoryBox2, categoryBox3, categoryBox4, 
 //create init boxes
 var initBox1 = new TargetBox(400, 400, 100, 50, 'continuePrompt');
 //create last chance boxes
-var lastBox1 = new TargetBox(750, 100, 75, 100, 'lastchance', 'correctImage');
-var lastBox1 = new TargetBox(750, 100, 75, 100, 'lastchance', 'incorrectImage');
+var lastBox1 = new TargetBox(undefined, undefined, 75, 100, 'lastchance', 'correctImage');
+var lastBox1 = new TargetBox(undefined, undefined, 75, 100, 'lastchance', 'incorrectImage');
+let lastChanceBoxArray = [];
 
 function initHandler(){
     if (initPhase){
@@ -366,7 +371,10 @@ function lastChanceHandler(){
     if (lastChancePhase){
         ctx.fillStyle = 'rgb(0, 0, 0, 0.5';
         ctx.fillRect(0, 0, canvas1.width, canvas1.height);
+	//@@@@ temporary -> draw and update last chance boxes
     }
+	//@@@@ push last chance boxes to lastChanceBoxArray and assign images from correct and incorrect pools
+	//@@@@for each -> draw and update
 }
 
 function scoreHandler(){
