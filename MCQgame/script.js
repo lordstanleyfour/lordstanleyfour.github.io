@@ -28,6 +28,7 @@ function collision (object){
 var rng = Math.floor(Math.random()*3);
 var questionArraySelected = undefined;
 var correctAnswerSelected = false;
+var initPhase, categoryPhase, questionPhase, lastChancePhase, endPhase; //switch variables
 
 let defaultQuestions = [
     {
@@ -63,8 +64,7 @@ let alternativeQuestions = [
     }
 ];
 
-let questionBoxPositionArray =[{x:50,y:150}, {x:150,y:150}, {x:50,y:250}, {x:150,y:250}]; 
-//move this to Qbox handler
+let questionBoxPositionArray =[{x:50,y:150}, {x:150,y:150}, {x:50,y:250}, {x:150,y:250}];
 
 class TargetBox {
     constructor(x, y, purposeSelect, category){
@@ -127,7 +127,7 @@ class TargetBox {
         } 
 
         //category box select
-          else if (collision(this) && this.correct === undefined){
+          else if (collision(this) && this.correct === undefined && !questionArraySelected){
                                      //stopgap - need something more flexible to provide for other box types
             if (this.category === 'default'){
                 questionArraySelected = defaultQuestions;
