@@ -224,8 +224,11 @@ function questionHandler(){
         
         if (questionArraySelected.length === 0){
             alert("Hooray.");
+            //stopgap
         }
         questionArraySelected = undefined;
+        questionPhase = false;
+        categoryPhase = true;
     }
 }
 
