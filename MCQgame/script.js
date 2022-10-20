@@ -28,8 +28,11 @@ function collision (object){
 var rng = Math.floor(Math.random()*3);
 var questionArraySelected = undefined;
 var correctAnswerSelected = false;
-var initPhase = true;
+var initPhase = false;
 var categoryPhase, questionPhase, lastChancePhase, endPhase; //switch variables
+var score = 0;
+
+lastChancePhase = true;
 
 let defaultQuestions = [
     {
@@ -65,7 +68,59 @@ let alternativeQuestions = [
     }
 ];
 
-let questionBoxPositionArray =[{x:50,y:150}, {x:150,y:150}, {x:50,y:250}, {x:150,y:250}];
+let alternativeQuestions2 = [
+    {
+        question: "AAA",
+        correctAnswer: "111",
+        altAnswer1: "222",
+        altAnswer2: "333",
+        altAnswer3: "444"
+    },
+    {
+        question: "BBB",
+        correctAnswer: "555",
+        altAnswer1: "666",
+        altAnswer2: "777",
+        altAnswer3: "888"
+    }
+];
+
+let alternativeQuestions3 = [
+    {
+        question: "AAAA",
+        correctAnswer: "1111",
+        altAnswer1: "2222",
+        altAnswer2: "3333",
+        altAnswer3: "4444"
+    },
+    {
+        question: "BBBB",
+        correctAnswer: "5555",
+        altAnswer1: "6666",
+        altAnswer2: "7777",
+        altAnswer3: "8888"
+    }
+];
+
+let alternativeQuestions4 = [
+    {
+        question: "AAAAA",
+        correctAnswer: "11111",
+        altAnswer1: "22222",
+        altAnswer2: "33333",
+        altAnswer3: "44444"
+    },
+    {
+        question: "BBBBB",
+        correctAnswer: "55555",
+        altAnswer1: "66666",
+        altAnswer2: "77777",
+        altAnswer3: "88888"
+    }
+];
+
+let questionBoxPositionArray =[{x:550,y:400}, {x:650,y:400}, {x:550,y:500}, {x:650,y:500}];
+let categoryBoxPositionArray = [{x:300,y:100}, {x:400,y:100}, {x:500,y:100}, {x:600,y:100}, {x:700,y:100}]
 
 class TargetBox {
     constructor(x, y, w, h, purposeSelect, category){
@@ -108,12 +163,22 @@ class TargetBox {
         if (this.purposeSelect === 'categorySelect'){
             if (this.category === 'default') this.text = "defaultQuestions";
             else if (this.category === 'alternative') this.text = "alternativeQuestions";
+            else if (this.category === 'alternative2') this.text = "alternativeQuestions2";
+            else if (this.category === 'alternative3') this.text = "alternativeQuestions3";
+            else if (this.category === 'alternative4') this.text = "alternativeQuestions4";
         }
 
         //text for initBox
         if (this.purposeSelect === 'continuePrompt'){
             this.text = "CONTINUE";
         }
+
+        //text for last chance boxes
+        if (this.purposeSelect === 'lastchance'){
+            if (this.category === 'correctImage') this.text = 'correct image';
+            if (this.category === 'incorrectImage') this.text = 'incorrect image';
+        }
+
     }
     update(){
         //positioning for question boxes
@@ -125,10 +190,9 @@ class TargetBox {
 	
         //question box select
         if (collision(this) && this.correct) {
-            console.log('correct');
             correctAnswerSelected = true;
         } else if (collision(this) && this.correct === false){
-            alert('false');
+            alert('last chance phase triggered');
             //insert trigger for last chance phase
         } 
 
@@ -144,13 +208,39 @@ class TargetBox {
         else if (collision(this) && this.purposeSelect === 'categorySelect' && !questionArraySelected){
             if (this.category === 'default'){
                 questionArraySelected = defaultQuestions;
+                if (defaultQuestions.length === 1){
+                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
+                }
             } else if (this.category === 'alternative'){
                 questionArraySelected = alternativeQuestions;
+                if (alternativeQuestions.length === 1){
+                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
+                }
+            } else if (this.category === 'alternative2'){
+                questionArraySelected = alternativeQuestions2;
+                if (alternativeQuestions2.length === 1){
+                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
+                }
+            } else if (this.category === 'alternative3'){
+                questionArraySelected = alternativeQuestions3;
+                if (alternativeQuestions3.length === 1){
+                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
+                }
+            } else if (this.category === 'alternative4'){
+                questionArraySelected = alternativeQuestions4;
+                if (alternativeQuestions4.length === 1){
+                    categoryBoxArray.splice(categoryBoxArray.indexOf(this), 1);
+                }
             }
             if (questionArraySelected){
                 categoryPhase = false;
                 questionPhase = true;
             }
+        }
+
+        //last chance box select
+        else if (collision(this) && this.purposeSelect === 'lastchance'){
+            if ()
         }
 
 
@@ -164,11 +254,17 @@ var questionBox3 = new TargetBox(undefined, undefined, 50, 50, 'altAnswer2');
 var questionBox4 = new TargetBox(undefined, undefined, 50, 50, 'altAnswer3');
 let questionBoxArray = [questionBox1, questionBox2, questionBox3, questionBox4];
 //create category boxes
-var categoryBox1 = new TargetBox(500, 150, 75, 100, 'categorySelect', 'default');
-var categoryBox2 = new TargetBox(600, 150, 75, 100, 'categorySelect', 'alternative');
-let categoryBoxArray = [categoryBox1, categoryBox2];
+var categoryBox1 = new TargetBox(350, 100, 75, 100, 'categorySelect', 'default');
+var categoryBox2 = new TargetBox(450, 100, 75, 100, 'categorySelect', 'alternative');
+var categoryBox3 = new TargetBox(550, 100, 75, 100, 'categorySelect', 'alternative2');
+var categoryBox4 = new TargetBox(650, 100, 75, 100, 'categorySelect', 'alternative3');
+var categoryBox5 = new TargetBox(750, 100, 75, 100, 'categorySelect', 'alternative4');
+let categoryBoxArray = [categoryBox1, categoryBox2, categoryBox3, categoryBox4, categoryBox5];
 //create init boxes
 var initBox1 = new TargetBox(400, 400, 100, 50, 'continuePrompt');
+//create last chance boxes
+var lastBox1 = new TargetBox(750, 100, 75, 100, 'lastchance', 'correctImage');
+var lastBox1 = new TargetBox(750, 100, 75, 100, 'lastchance', 'incorrectImage');
 
 function initHandler(){
     if (initPhase){
@@ -191,9 +287,18 @@ function categoryHandler(){
     //if no category selected then display text prompting a choice
     if (categoryPhase){
         if (!questionArraySelected){
+            //draw background
+            ctx.fillStyle = 'pink';
+            ctx.fillRect(300, 25, 550, 200);
+            ctx.strokeStyle = 'black';
+            ctx.beginPath();
+            ctx.rect(300, 25, 550, 200);
+            ctx.stroke();
+            ctx.closePath();
             ctx.strokeStyle = 'black';
             ctx.textAlign = 'center';
-            ctx.strokeText('Choose a category', 600, 100);
+            ctx.strokeText('Choose a category', 600, 50);
+
             categoryBoxArray.forEach(element => {
                 element.draw();
                 element.update();  
@@ -203,32 +308,46 @@ function categoryHandler(){
 
 }
 
-
-
-
-
 function questionHandler(){
 
-    if (questionPhase && questionArraySelected){
-        ctx.strokeText("THIS IS WHERE THE QUESTIONS LIVE", 100, 50);
-        ctx.strokeText(questionArraySelected[0].question, 50, 75);
+    if (questionPhase && questionArraySelected && questionArraySelected.length !== 0){
+        //draw background
+        ctx.fillStyle = 'pink';
+        ctx.fillRect(500, 250, 350, 325);
+        ctx.strokeStyle = 'black';
+        ctx.beginPath();
+        ctx.rect(500, 250, 350, 325);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.strokeText("THIS IS WHERE THE QUESTIONS LIVE", 650, 350);
+        ctx.strokeText('QUESTION: ' + questionArraySelected[0].question, 650, 300);
+
         questionBoxArray.forEach(element => {
             element.draw();
             element.update();
         })
     }
 
-    if (correctAnswerSelected){
-        questionArraySelected.splice(0, 1);
-        correctAnswerSelected = false;
-        
-        if (questionArraySelected.length === 0){
-            alert("Hooray.");
-            //stopgap
-        }
-        questionArraySelected = undefined;
+    if (questionPhase && questionArraySelected && questionArraySelected.length === 0){
         questionPhase = false;
         categoryPhase = true;
+        //shouldn't be needed but leave in to prevent crash
+    }
+
+    if (correctAnswerSelected){
+        questionArraySelected.splice(0, 1);
+        score++;
+        rng = Math.floor(Math.random()*3);
+        correctAnswerSelected = false;
+        
+    /* if (questionArraySelected.length === 0){
+        alert("Hooray.");
+        //stopgap
+    } */
+
+    questionArraySelected = undefined;
+    questionPhase = false;
+    categoryPhase = true;
     }
 }
 
@@ -241,16 +360,28 @@ function boxHandler(){
 		questionBoxArray[i].position = questionBoxPositionArray[((rng+i)-4)];
     	    }        
     }
+}
 
-    //always active or phase dependant?
-/*     questionBoxArray.forEach(element => {
-        element.draw();
-        element.update();    
-    })
-    categoryBoxArray.forEach(element => {
-        element.draw();
-        element.update();  
-    }) */
+function lastChanceHandler(){
+    if (lastChancePhase){
+        ctx.fillStyle = 'rgb(0, 0, 0, 0.5';
+        ctx.fillRect(0, 0, canvas1.width, canvas1.height);
+    }
+}
+
+function scoreHandler(){
+    if (!initPhase && !lastChancePhase){
+        ctx.fillStyle = 'pink';
+        ctx.fillRect(50, 75, 150, 475);
+        ctx.strokeStyle = 'black';
+        ctx.beginPath();
+        ctx.rect(50, 75, 150, 475);
+        ctx.stroke();
+        ctx.closePath();
+        ctx.fillStyle = 'black';
+        ctx.strokeText('SCORE:  ' + score, 100, 100);
+    }
+
 }
 
 	
@@ -282,6 +413,8 @@ function animate(){
         initHandler();
         categoryHandler();
         questionHandler();
+        lastChanceHandler();
+        scoreHandler();
 	    boxHandler(); //always active
 
 
