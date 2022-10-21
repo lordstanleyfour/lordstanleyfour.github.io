@@ -32,7 +32,8 @@ var correctAnswerSelected = false;
 var initPhase = true;
 var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose;
 var score = 0;
-var scoreTarget = 10;
+var scoreTarget = 10; scoreBarIncrement = 475/scoreTarget;
+var savedTime, deadline, timeRemaining; 
 
 let defaultQuestions = [
     {
@@ -207,6 +208,7 @@ class TargetBox {
             lastChancePhase = true;
             questionArraySelected = undefined;
             score--;
+            savedTime = undefined;
         } 
 
         //init box select
@@ -240,6 +242,7 @@ class TargetBox {
                 rng = Math.floor(Math.random()*3);
                 categoryPhase = false;
                 questionPhase = true;
+                savedTime = undefined;
             }            
         }
 
@@ -328,6 +331,7 @@ function categoryHandler(){
                 element.draw();
                 element.update();  
             })
+            drawTimer();
         }
     }
 
@@ -359,6 +363,8 @@ function questionHandler(){
             element.draw();
             element.update();
         })
+        timer(11);
+        drawTimer();
     }
 
     if (questionPhase && questionArraySelected && questionArraySelected.length === 0){
@@ -394,7 +400,9 @@ function lastChanceHandler(){
             lastBox2.x = 50; lastBox2.y = 50; lastBox1.x = 450; lastBox1.y = 50;
         }
 
-        lastBox1.draw(); lastBox1.update(); lastBox2.draw(); lastBox2.update();        
+        lastBox1.draw(); lastBox1.update(); lastBox2.draw(); lastBox2.update();  
+        timer(11);
+        drawTimer();      
     }
 	//@@@@ push last chance boxes to lastChanceBoxArray and assign images from correct and incorrect pools
 	//@@@@for each -> draw and update
@@ -418,7 +426,7 @@ function endPhaseHandler(){
             ctx.textAlign = 'center';
             ctx.strokeText('You failed to win', 450, 200);
         }
-        //restartBox.draw(); restartBox.update;
+        restartBox.draw(); restartBox.update();
     }
 }
 
@@ -426,11 +434,18 @@ function scoreHandler(){
     if (!initPhase && !lastChancePhase && !endPhase){
         ctx.fillStyle = 'pink';
         ctx.fillRect(50, 75, 150, 475);
+
+        let barY = 550 - scoreBarIncrement*score;
+        let barH = scoreBarIncrement*score;
+        ctx.fillStyle = 'lightblue';
+        ctx.fillRect(50, barY, 150, barH);
+
         ctx.strokeStyle = 'black';
         ctx.beginPath();
         ctx.rect(50, 75, 150, 475);
         ctx.stroke();
         ctx.closePath();
+
         ctx.fillStyle = 'black';
         ctx.strokeText('SCORE:  ' + score, 100, 100);
     }
@@ -439,13 +454,20 @@ function scoreHandler(){
     }
 }
 
-let savedTime; 
 function timer(seconds){    
     if (savedTime === undefined) savedTime = Date.now();
-    let deadline = savedTime + (seconds*1000);
-    let timeRemaining = Math.floor((deadline - Date.now())/1000);
-    console.log(timeRemaining);
-    //if (timeRemaining === 0) console.log(time up);
+    deadline = savedTime + (seconds*1000);
+    timeRemaining = Math.floor((deadline - Date.now())/1000);
+    if (timeRemaining <= 0){
+        timeRemaining = 0;
+        lose = true; endPhase = true;
+    }
+}
+function drawTimer(){
+    ctx.fillStyle = 'lightblue';
+    ctx.fillRect(0, 0, 50, 50);
+    ctx.strokeStyle = 'black'
+    ctx.strokeText(timeRemaining, 25, 25);
 }
 	
 
@@ -474,8 +496,8 @@ function animate(){
         lastChanceHandler();
         endPhaseHandler();
         scoreHandler();
-	    timer(10);
-
+	    
+        //drawTimer();
         //reset mouse, must be at the end
         if (mouse.lastClickX !== undefined){
             mouse.lastClickX = undefined;
@@ -486,8 +508,6 @@ function animate(){
 startAnimating(fps);
 
 //shuffle question array logic in category handler function
-//make a timer for each question
-//figure out reset button
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
