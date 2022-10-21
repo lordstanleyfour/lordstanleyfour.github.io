@@ -445,7 +445,7 @@ function timer(seconds){
     let deadline = savedTime + (seconds*1000);
     let timeRemaining = Math.floor((deadline - Date.now())/1000);
     console.log(timeRemaining);
-    if (timeRemaining === 0) alert(time up);
+    //if (timeRemaining === 0) console.log(time up);
 }
 	
 
