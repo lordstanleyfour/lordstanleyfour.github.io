@@ -437,9 +437,16 @@ function scoreHandler(){
     if (score >= scoreTarget){
         questionPhase = false; categoryPhase = false; win = true; endPhase = true;
     }
-
 }
 
+let savedTime; 
+function timer(seconds){    
+    if (savedTime === undefined) savedTime = Date.now();
+    let deadline = savedTime + (seconds*1000);
+    let timeRemaining = Math.floor((deadline - Date.now())/1000);
+    console.log(timeRemaining);
+    if (timeRemaining === 0) alert(time up);
+}
 	
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -467,6 +474,7 @@ function animate(){
         lastChanceHandler();
         endPhaseHandler();
         scoreHandler();
+	    timer(10);
 
         //reset mouse, must be at the end
         if (mouse.lastClickX !== undefined){
