@@ -558,20 +558,26 @@ function endPhaseHandler(){
 
 function scoreHandler(){
     if (!initPhase && !lastChancePhase && !endPhase){
+        //background box
         ctx.fillStyle = 'pink';
         ctx.fillRect(50, 75, 150, 475);
 
-        let barY = 550 - scoreBarIncrement*score;
-        let barH = scoreBarIncrement*score;
-        ctx.fillStyle = 'lightblue';
-        ctx.fillRect(50, barY, 150, barH);
+        //dynamic bar
+        if (score > 0 ){
+            let barY = 550 - scoreBarIncrement*score;
+            let barH = scoreBarIncrement*score;
+            ctx.fillStyle = 'lightblue';
+            ctx.fillRect(50, barY, 150, barH);
+        }
 
+        //background box outline
         ctx.strokeStyle = 'black';
         ctx.beginPath();
         ctx.rect(50, 75, 150, 475);
         ctx.stroke();
         ctx.closePath();
 
+        //text
         ctx.fillStyle = 'black';
         ctx.strokeText('SCORE:  ' + score, 100, 100);
     }
@@ -633,9 +639,8 @@ function animate(){
 }
 startAnimating(fps);
 
-//FIX
-////score going into minus integers and blue bar going down the way as a result
-
+//FIXES REQUIRED
+////
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
