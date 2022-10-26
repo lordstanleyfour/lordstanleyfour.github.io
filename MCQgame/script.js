@@ -444,16 +444,17 @@ function categoryHandler(){
         + alternativeQuestions3.length + alternativeQuestions4.length) > 0 && categoryPhase){
         if (!questionArraySelected){
             //draw background
-            ctx.fillStyle = 'pink';
+            ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
+           /*  ctx.fillStyle = 'pink';
             ctx.fillRect(categoryXAnchor, categoryYAnchor, 550, 200);
             ctx.strokeStyle = 'black';
             ctx.beginPath();
             ctx.rect(categoryXAnchor, categoryYAnchor, 550, 200);
             ctx.stroke();
-            ctx.closePath();
+            ctx.closePath(); */
             ctx.strokeStyle = 'black';
             ctx.textAlign = 'center';
-            ctx.strokeText('Choose a category', categoryXAnchor + 275, categoryYAnchor + 25);
+            ctx.strokeText('Choose a category', categoryXAnchor + 275, categoryYAnchor + 35);
 
             categoryBoxArray.forEach(element => {
                 element.draw();
@@ -664,7 +665,10 @@ startAnimating(fps);
 //initialise the bad images on the html and then add to array
 //finalise category choices and make cards
 ////anatomy, physics, pathology, general knowledge, daily mail
-//make a background image (spritesheet)
+//make a background image (spritesheet?)
+//timer image at least (clock, turn countdown into a digital timer?)
+////animated bar style rundown timer, themed
+
 
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
