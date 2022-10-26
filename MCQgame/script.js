@@ -639,8 +639,9 @@ function animate(){
 }
 startAnimating(fps);
 
-//FIXES REQUIRED
-////
+//initialise the good images on the html and then add to array
+//wrap everything in an onload listener and create a loading screen
+//find abnormal images 
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
