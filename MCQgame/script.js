@@ -37,90 +37,104 @@ var savedTime, deadline, timeRemaining;
 
 let defaultQuestions = [
     {
-        question: "A",
-        correctAnswer: "1",
-        altAnswer1: "2",
-        altAnswer2: "3",
-        altAnswer3: "4"
+        questionLine1: "THIS IS QUESTION A",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 1",
+        altAnswer1: "This is answer 2",
+        altAnswer2: "This is answer 3",
+        altAnswer3: "This is answer 4"
     },
     {
-        question: "B",
-        correctAnswer: "5",
-        altAnswer1: "6",
-        altAnswer2: "7",
-        altAnswer3: "8"
+        questionLine1: "THIS IS QUESTION B",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 5",
+        altAnswer1: "This is answer 6",
+        altAnswer2: "This is answer 7",
+        altAnswer3: "This is answer 8"
     }
 ];
 
 let alternativeQuestions = [
     {
-        question: "AA",
-        correctAnswer: "11",
-        altAnswer1: "22",
-        altAnswer2: "33",
-        altAnswer3: "44"
+        questionLine1: "THIS IS QUESTION AA",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 11",
+        altAnswer1: "This is answer 22",
+        altAnswer2: "This is answer 33",
+        altAnswer3: "This is answer 44"
     },
     {
-        question: "BB",
-        correctAnswer: "55",
-        altAnswer1: "66",
-        altAnswer2: "77",
-        altAnswer3: "88"
+        questionLine1: "THIS IS QUESTION BB",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 55",
+        altAnswer1: "This is answer 66",
+        altAnswer2: "This is answer 77",
+        altAnswer3: "This is answer 88"
     }
 ];
 
 let alternativeQuestions2 = [
     {
-        question: "AAA",
-        correctAnswer: "111",
-        altAnswer1: "222",
-        altAnswer2: "333",
-        altAnswer3: "444"
+        questionLine1: "THIS IS QUESTION AAA",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 111",
+        altAnswer1: "This is answer 222",
+        altAnswer2: "This is answer 333",
+        altAnswer3: "This is answer 444"
     },
     {
-        question: "BBB",
-        correctAnswer: "555",
-        altAnswer1: "666",
-        altAnswer2: "777",
-        altAnswer3: "888"
+        questionLine1: "THIS IS QUESTION BBB",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 555",
+        altAnswer1: "This is answer 666",
+        altAnswer2: "This is answer 777",
+        altAnswer3: "This is answer 888"
     }
 ];
 
 let alternativeQuestions3 = [
     {
-        question: "AAAA",
-        correctAnswer: "1111",
-        altAnswer1: "2222",
-        altAnswer2: "3333",
-        altAnswer3: "4444"
+        questionLine1: "THIS IS QUESTION AAAA",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 1111",
+        altAnswer1: "This is answer 2222",
+        altAnswer2: "This is answer 3333",
+        altAnswer3: "This is answer 4444"
     },
     {
-        question: "BBBB",
-        correctAnswer: "5555",
-        altAnswer1: "6666",
-        altAnswer2: "7777",
-        altAnswer3: "8888"
+        questionLine1: "THIS IS QUESTION BBBB",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 5555",
+        altAnswer1: "This is answer 6666",
+        altAnswer2: "This is answer 7777",
+        altAnswer3: "This is answer 8888"
     }
 ];
 
 let alternativeQuestions4 = [
     {
-        question: "AAAAA",
-        correctAnswer: "11111",
-        altAnswer1: "22222",
-        altAnswer2: "33333",
-        altAnswer3: "44444"
+        questionLine1: "THIS IS QUESTION AAAAA",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 11111",
+        altAnswer1: "This is answer 22222",
+        altAnswer2: "This is answer 33333",
+        altAnswer3: "This is answer 44444"
     },
     {
-        question: "BBBBB",
-        correctAnswer: "55555",
-        altAnswer1: "66666",
-        altAnswer2: "77777",
-        altAnswer3: "88888"
+        questionLine1: "THIS IS QUESTION BBBBB",
+	questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswer: "This is answer 55555",
+        altAnswer1: "This is answer 66666",
+        altAnswer2: "This is answer 77777",
+        altAnswer3: "This is answer 88888"
     }
 ];
 
 let questionBoxPositionArray =[{x:550,y:400}, {x:650,y:400}, {x:550,y:500}, {x:650,y:500}];
+let lastChanceImageArrayGood = ['good1', 'good2', 'good3'];
+let lastChanceImageArrayBad = ['bad1', 'bad2', 'bad3'];
+var goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
+var badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
 
 class TargetBox {
     constructor(x, y, w, h, purposeSelect, category){
@@ -129,6 +143,7 @@ class TargetBox {
         this.w = w;
         this.h = h;
         this.text = undefined;
+	this.image = undefined;
         this.purposeSelect = purposeSelect;
         this.category = category;
         this.correct = undefined;
@@ -174,10 +189,18 @@ class TargetBox {
             this.text = "CONTINUE";
         }
 
-        //text for last chance boxes
+        //last chance boxes
         if (this.purposeSelect === 'lastChance'){
-            if (this.category === 'correctImage') this.text = 'correct image';
-            if (this.category === 'incorrectImage') this.text = 'incorrect image';
+            if (this.category === 'correctImage') {
+		    this.image = lastChanceImageArrayGood[goodImageRng];
+		    ctx.drawImage(document.getElementById(this.image), this.x, this.y, this.w, this.h);
+		    //this.text = 'correct image';
+	    }
+            if (this.category === 'incorrectImage') {
+		    this.image = lastChanceImageArrayBad[badImageRng];
+		    ctx.drawImage(document.getElementById(this.image), this.x, this.y, this.w, this.h);		    
+		    //this.text = 'incorrect image';
+	    }
         }
 
         //text for restart box
@@ -251,6 +274,8 @@ class TargetBox {
             if (this.category === 'correctImage') {
                 lastChancePhase = false;
                 rng = Math.floor(Math.random()*3);
+		goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
+		badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
                 categoryPhase = true;
             } else if (this.category === 'incorrectImage') {
                 lastChancePhase = false;
@@ -348,8 +373,10 @@ function questionHandler(){
         ctx.rect(500, 250, 350, 325);
         ctx.stroke();
         ctx.closePath();
-        ctx.strokeText("THIS IS WHERE THE QUESTIONS LIVE", 650, 350);
-        ctx.strokeText('QUESTION: ' + questionArraySelected[0].question, 650, 300);
+	ctx.textAlign = 'center';
+        ctx.strokeText("-----------------------------------------------------------", 650, 350);
+        ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, 650, 300);
+        if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, 650, 325);
 
         for (i = 0; i < questionBoxArray.length; i++){
             if ((rng + i) <= 3){
@@ -404,8 +431,6 @@ function lastChanceHandler(){
         timer(11);
         drawTimer();      
     }
-	//@@@@ push last chance boxes to lastChanceBoxArray and assign images from correct and incorrect pools
-	//@@@@for each -> draw and update
 }
 
 function endPhaseHandler(){
@@ -508,6 +533,13 @@ function animate(){
 startAnimating(fps);
 
 //shuffle question array logic in category handler function
+        /*for (let i = defaultQuestions.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = defaultQuestions[i];
+            defaultQuestions[i] = defaultQuestions[j];
+            defaultQuestions[j] = temp;
+        }
+    }*/
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
