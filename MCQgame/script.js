@@ -1,8 +1,12 @@
+window.addEventListener('load', function () {
+    const loading = document.getElementById('loading');
+    loading.style.display = 'none';
+//---------------------------------------------------------//
 const canvas1 = document.getElementById('canvas1');
 const ctx = canvas1.getContext('2d');
 canvas1.width = 900;
 canvas1.height = 600;
-const fps = 15;
+const fps = 30;
 
 const mouse = {
     lastClickX: undefined,
@@ -34,6 +38,7 @@ var initialShuffle = false;
 var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose;
 var categoryXAnchor = 300, categoryYAnchor = 25;
 var questionXAnchor = 325, questionYAnchor = 250;
+var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var score = 0;
 var scoreTarget = 10; scoreBarIncrement = 475/scoreTarget;
 var savedTime, deadline, timeRemaining; 
@@ -177,7 +182,7 @@ let questionBoxPositionArray = [{x:questionXAnchor + 50,y:questionYAnchor + 110}
                                 {x:questionXAnchor + 280,y:questionYAnchor + 110}, 
                                 {x:questionXAnchor + 50,y:questionYAnchor + 215}, 
                                 {x:questionXAnchor + 280,y:questionYAnchor + 215}];
-let lastChanceImageArrayGood = ['good1', 'good2', 'good3'];
+let lastChanceImageArrayGood = ['good1', 'good2', 'good3', 'good4', 'good5','good6','good7','good8','good9','good10','good11','good12','good13','good14','good15','good16','good17','good18','good19','good20','good21','good22','good23','good24','good25','good26','good27','good28','good29','good30','good31','good32','good33','good34','good35','good36','good37','good38','good39','good40','good41','good42','good43'];
 let lastChanceImageArrayBad = ['bad1', 'bad2', 'bad3'];
 var goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
 var badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
@@ -201,6 +206,7 @@ class TargetBox {
         ctx.fillStyle = 'green';
         ctx.fillRect(this.x, this.y, this.w, this.h);
         ctx.textAlign = 'center';
+        ctx.font = '12px Verdana';
         if (!this.text2) ctx.strokeText(this.text1, this.x + (this.w/2), this.y + (this.h/2));
         else {
             ctx.strokeText(this.text1, this.x + (this.w/2), this.y + (this.h/2) - 5);
@@ -233,12 +239,15 @@ class TargetBox {
         //text for category boxes
         if (this.purposeSelect === 'categorySelect'){
             if (!this.image){
-                if (this.category === 'default') this.text1 = "defaultQuestions";
+                if (this.category === 'default') {
+                    this.text1 = "defaultQuestions";
+                    this.image = document.getElementById('anatomy');
+                }
                 else if (this.category === 'alternative') this.text1 = "alternativeQuestions";
                 else if (this.category === 'alternative2') this.text1 = "alternativeQuestions2";
                 else if (this.category === 'alternative3') this.text1 = "alternativeQuestions3";
                 else if (this.category === 'alternative4') this.text1 = "alternativeQuestions4";
-            } else drawImage(this.image, this.x, this.y, this.w, this.h);
+            } else ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
         }
 
         //text for initBox
@@ -329,8 +338,8 @@ class TargetBox {
             if (this.category === 'correctImage') {
                 lastChancePhase = false;
                 rng = Math.floor(Math.random()*3);
-		goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
-		badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
+                goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
+                badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
                 categoryPhase = true;
             } else if (this.category === 'incorrectImage') {
                 lastChancePhase = false;
@@ -558,25 +567,16 @@ function endPhaseHandler(){
 
 function scoreHandler(){
     if (!initPhase && !lastChancePhase && !endPhase){
-        //background box
-        ctx.fillStyle = 'pink';
-        ctx.fillRect(50, 75, 150, 475);
 
         //dynamic bar
         if (score > 0 ){
             let barY = 550 - scoreBarIncrement*score;
             let barH = scoreBarIncrement*score;
-            ctx.fillStyle = 'lightblue';
+            ctx.fillStyle = 'purple';
             ctx.fillRect(50, barY, 150, barH);
         }
-
-        //background box outline
-        ctx.strokeStyle = 'black';
-        ctx.beginPath();
-        ctx.rect(50, 75, 150, 475);
-        ctx.stroke();
-        ctx.closePath();
-
+        //tank image
+        ctx.drawImage(document.getElementById('tank'), 50, 75);
         //text
         ctx.fillStyle = 'black';
         ctx.strokeText('SCORE:  ' + score, 100, 100);
@@ -595,6 +595,22 @@ function timer(seconds){
         lose = true; endPhase = true;
     }
 }
+
+function drawBackground(){  
+    if (categoryPhase || win) {
+        color = 'hsl(' + hue + ', 100%, 50%)';  
+        ctx.fillStyle = color;
+    } else if (lose) ctx.fillStyle = 'red';
+    else if (questionPhase) ctx.fillStyle = 'blue';
+    else if (lastChancePhase) ctx.fillStyle = 'black';
+    else if (initPhase) ctx.fillStyle = 'pink';
+    ctx.fillRect(0, 0, canvas1.width, canvas1.height);
+    ctx.drawImage(document.getElementById("backdrop"), 0, 0);
+    
+}
+
+
+
 function drawTimer(){
     ctx.fillStyle = 'lightblue';
     ctx.fillRect(0, 0, 50, 50);
@@ -621,7 +637,7 @@ function animate(){
     if (elapsed > fpsInterval) { //check to see if it's time to draw the next frame
         then = now - (elapsed % fpsInterval);
         ctx.clearRect(0, 0, canvas1.width, canvas1.height);
-        
+        drawBackground();
         initHandler();
         categoryHandler();
         questionHandler();
@@ -630,6 +646,10 @@ function animate(){
         scoreHandler();
 	    
         //drawTimer();
+        if (!win) hue += 2;
+        else hue += 15;
+        if (hue > 360) hue = 0;
+        console.log (color);
         //reset mouse, must be at the end
         if (mouse.lastClickX !== undefined){
             mouse.lastClickX = undefined;
@@ -638,10 +658,14 @@ function animate(){
     }
 }
 startAnimating(fps);
+});
 
-//initialise the good images on the html and then add to array
-//wrap everything in an onload listener and create a loading screen
-//find abnormal images 
+//find and prep abnormal images
+//initialise the bad images on the html and then add to array
+//finalise category choices and make cards
+////anatomy, physics, pathology, general knowledge, daily mail
+//make a background image (spritesheet)
+
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
