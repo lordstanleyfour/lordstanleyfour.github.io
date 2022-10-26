@@ -30,107 +30,153 @@ var rng = Math.floor(Math.random()*3);
 var questionArraySelected = undefined;
 var correctAnswerSelected = false;
 var initPhase = true;
+var initialShuffle = false;
 var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose;
+var categoryXAnchor = 300, categoryYAnchor = 25;
+var questionXAnchor = 325, questionYAnchor = 250;
 var score = 0;
 var scoreTarget = 10; scoreBarIncrement = 475/scoreTarget;
 var savedTime, deadline, timeRemaining; 
 
 let defaultQuestions = [
     {
-        questionLine1: "THIS IS QUESTION A",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 1",
-        altAnswer1: "This is answer 2",
-        altAnswer2: "This is answer 3",
-        altAnswer3: "This is answer 4"
+        questionLine1: "What is the average airspeed",
+	    questionLine2: "of an unladen swallow?",
+        correctAnswerline1: "African or European",
+        correctAnswerline2: "This is answer 1",
+        altAnswer1line1: "This is answer 2",
+        altAnswer1line2: "This is answer 2",
+        altAnswer2line1: "This is answer 3",
+        altAnswer2line2: "This is answer 3",
+        altAnswer3line1: "This is answer 4",
+        altAnswer3line2: "This is answer 4"
     },
     {
         questionLine1: "THIS IS QUESTION B",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 5",
-        altAnswer1: "This is answer 6",
-        altAnswer2: "This is answer 7",
-        altAnswer3: "This is answer 8"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 5",
+        correctAnswerline2: "This is answer 5",
+        altAnswer1line1: "This is answer 6",
+        altAnswer1line2: "This is answer 6",
+        altAnswer2line1: "This is answer 7",
+        altAnswer2line2: "This is answer 7",
+        altAnswer3line1: "This is answer 8",
+        altAnswer3line2: "This is answer 8"
     }
 ];
 
 let alternativeQuestions = [
     {
         questionLine1: "THIS IS QUESTION AA",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 11",
-        altAnswer1: "This is answer 22",
-        altAnswer2: "This is answer 33",
-        altAnswer3: "This is answer 44"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 11",
+        correctAnswerline2: "This is answer 11",
+        altAnswer1line1: "This is answer 22",
+        altAnswer1line2: "This is answer 22",
+        altAnswer2line1: "This is answer 33",
+        altAnswer2line2: "This is answer 33",
+        altAnswer3line1: "This is answer 44",
+        altAnswer3line2: "This is answer 44"
     },
     {
         questionLine1: "THIS IS QUESTION BB",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 55",
-        altAnswer1: "This is answer 66",
-        altAnswer2: "This is answer 77",
-        altAnswer3: "This is answer 88"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 55",
+        correctAnswerline2: "This is answer 55",
+        altAnswer1line1: "This is answer 66",
+        altAnswer1line2: "This is answer 66",
+        altAnswer2line1: "This is answer 77",
+        altAnswer2line2: "This is answer 77",
+        altAnswer3line1: "This is answer 88",
+        altAnswer3line2: "This is answer 88"
     }
 ];
 
 let alternativeQuestions2 = [
     {
         questionLine1: "THIS IS QUESTION AAA",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 111",
-        altAnswer1: "This is answer 222",
-        altAnswer2: "This is answer 333",
-        altAnswer3: "This is answer 444"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 111",
+        correctAnswerline2: "This is answer 111",
+        altAnswer1line1: "This is answer 222",
+        altAnswer1line2: "This is answer 222",
+        altAnswer2line1: "This is answer 333",
+        altAnswer2line2: "This is answer 333",
+        altAnswer3line1: "This is answer 444",
+        altAnswer3line2: "This is answer 444"
     },
     {
         questionLine1: "THIS IS QUESTION BBB",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 555",
-        altAnswer1: "This is answer 666",
-        altAnswer2: "This is answer 777",
-        altAnswer3: "This is answer 888"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 555",
+        correctAnswerline2: "This is answer 555",
+        altAnswer1line1: "This is answer 666",
+        altAnswer1line2: "This is answer 666",
+        altAnswer2line1: "This is answer 777",
+        altAnswer2line2: "This is answer 777",
+        altAnswer3line1: "This is answer 888",
+        altAnswer3line2: "This is answer 888"
     }
 ];
 
 let alternativeQuestions3 = [
     {
         questionLine1: "THIS IS QUESTION AAAA",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 1111",
-        altAnswer1: "This is answer 2222",
-        altAnswer2: "This is answer 3333",
-        altAnswer3: "This is answer 4444"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 1111",
+        correctAnswerline2: "This is answer 1111",
+        altAnswer1line1: "This is answer 2222",
+        altAnswer1line2: "This is answer 2222",
+        altAnswer2line1: "This is answer 3333",
+        altAnswer2line2: "This is answer 3333",
+        altAnswer3line1: "This is answer 4444",
+        altAnswer3line2: "This is answer 4444"
     },
     {
         questionLine1: "THIS IS QUESTION BBBB",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 5555",
-        altAnswer1: "This is answer 6666",
-        altAnswer2: "This is answer 7777",
-        altAnswer3: "This is answer 8888"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 5555",
+        correctAnswerline2: "This is answer 5555",
+        altAnswer1line1: "This is answer 6666",
+        altAnswer1line2: "This is answer 6666",
+        altAnswer2line1: "This is answer 7777",
+        altAnswer2line2: "This is answer 7777",
+        altAnswer3line1: "This is answer 8888",
+        altAnswer3line2: "This is answer 8888"
     }
 ];
 
 let alternativeQuestions4 = [
     {
         questionLine1: "THIS IS QUESTION AAAAA",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 11111",
-        altAnswer1: "This is answer 22222",
-        altAnswer2: "This is answer 33333",
-        altAnswer3: "This is answer 44444"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 11111",
+        correctAnswerline2: "This is answer 11111",
+        altAnswer1line1: "This is answer 22222",
+        altAnswer1line2: "This is answer 22222",
+        altAnswer2line1: "This is answer 33333",
+        altAnswer2line2: "This is answer 33333",
+        altAnswer3line1: "This is answer 44444",
+        altAnswer3line2: "This is answer 44444"
     },
     {
         questionLine1: "THIS IS QUESTION BBBBB",
-	questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswer: "This is answer 55555",
-        altAnswer1: "This is answer 66666",
-        altAnswer2: "This is answer 77777",
-        altAnswer3: "This is answer 88888"
+	    questionLine2: "AND YOUR MUM IS FAT",
+        correctAnswerline1: "This is answer 55555",
+        correctAnswerline2: "This is answer 55555",
+        altAnswer1line1: "This is answer 66666",
+        altAnswer1line2: "This is answer 66666",
+        altAnswer2line1: "This is answer 77777",
+        altAnswer2line2: "This is answer 77777",
+        altAnswer3line1: "This is answer 88888",
+        altAnswer3line2: "This is answer 88888"
     }
 ];
 
-let questionBoxPositionArray =[{x:550,y:400}, {x:650,y:400}, {x:550,y:500}, {x:650,y:500}];
+let questionBoxPositionArray = [{x:questionXAnchor + 50,y:questionYAnchor + 110}, 
+                                {x:questionXAnchor + 280,y:questionYAnchor + 110}, 
+                                {x:questionXAnchor + 50,y:questionYAnchor + 215}, 
+                                {x:questionXAnchor + 280,y:questionYAnchor + 215}];
 let lastChanceImageArrayGood = ['good1', 'good2', 'good3'];
 let lastChanceImageArrayBad = ['bad1', 'bad2', 'bad3'];
 var goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
@@ -142,8 +188,9 @@ class TargetBox {
         this.y = y;
         this.w = w;
         this.h = h;
-        this.text = undefined;
-	this.image = undefined;
+        this.text1 = undefined;
+        this.text2 = undefined;
+	    this.image = undefined;
         this.purposeSelect = purposeSelect;
         this.category = category;
         this.correct = undefined;
@@ -154,39 +201,49 @@ class TargetBox {
         ctx.fillStyle = 'green';
         ctx.fillRect(this.x, this.y, this.w, this.h);
         ctx.textAlign = 'center';
-        ctx.strokeText(this.text, this.x + (this.w/2), this.y + (this.h/2));
+        if (!this.text2) ctx.strokeText(this.text1, this.x + (this.w/2), this.y + (this.h/2));
+        else {
+            ctx.strokeText(this.text1, this.x + (this.w/2), this.y + (this.h/2) - 5);
+            ctx.strokeText(this.text2, this.x + (this.w/2), this.y + (this.h/2) + 10);
+        }
 
         //text for question boxes
         if (questionArraySelected){
             if (this.purposeSelect === 'correctAnswer') {
-                this.text = questionArraySelected[0].correctAnswer;
+                this.text1 = questionArraySelected[0].correctAnswerline1;
+                if (questionArraySelected[0].correctAnswerline2) this.text2 = questionArraySelected[0].correctAnswerline2;
                 this.correct = true;
             } else if (this.purposeSelect === 'altAnswer1') {
-                this.text = questionArraySelected[0].altAnswer1;
+                this.text1 = questionArraySelected[0].altAnswer1line1;
+                if (questionArraySelected[0].altAnswer1line2) this.text2 = questionArraySelected[0].altAnswer1line2;
                 this.correct = false;
             }
             else if (this.purposeSelect === 'altAnswer2') {
-                this.text = questionArraySelected[0].altAnswer2;
+                this.text1 = questionArraySelected[0].altAnswer2line1;
+                if (questionArraySelected[0].altAnswer2line2) this.text2 = questionArraySelected[0].altAnswer2line2;
                 this.correct = false;
             }
             else if (this.purposeSelect === 'altAnswer3') {
-                this.text = questionArraySelected[0].altAnswer3;
+                this.text1 = questionArraySelected[0].altAnswer3line1;
+                if (questionArraySelected[0].altAnswer3line2) this.text2 = questionArraySelected[0].altAnswer3line2;
                 this.correct = false;
             }
         }
 
         //text for category boxes
         if (this.purposeSelect === 'categorySelect'){
-            if (this.category === 'default') this.text = "defaultQuestions";
-            else if (this.category === 'alternative') this.text = "alternativeQuestions";
-            else if (this.category === 'alternative2') this.text = "alternativeQuestions2";
-            else if (this.category === 'alternative3') this.text = "alternativeQuestions3";
-            else if (this.category === 'alternative4') this.text = "alternativeQuestions4";
+            if (!this.image){
+                if (this.category === 'default') this.text1 = "defaultQuestions";
+                else if (this.category === 'alternative') this.text1 = "alternativeQuestions";
+                else if (this.category === 'alternative2') this.text1 = "alternativeQuestions2";
+                else if (this.category === 'alternative3') this.text1 = "alternativeQuestions3";
+                else if (this.category === 'alternative4') this.text1 = "alternativeQuestions4";
+            } else drawImage(this.image, this.x, this.y, this.w, this.h);
         }
 
         //text for initBox
         if (this.purposeSelect === 'continuePrompt'){
-            this.text = "CONTINUE";
+            this.text1 = "CONTINUE";
         }
 
         //last chance boxes
@@ -194,17 +251,15 @@ class TargetBox {
             if (this.category === 'correctImage') {
 		    this.image = lastChanceImageArrayGood[goodImageRng];
 		    ctx.drawImage(document.getElementById(this.image), this.x, this.y, this.w, this.h);
-		    //this.text = 'correct image';
 	    }
             if (this.category === 'incorrectImage') {
 		    this.image = lastChanceImageArrayBad[badImageRng];
 		    ctx.drawImage(document.getElementById(this.image), this.x, this.y, this.w, this.h);		    
-		    //this.text = 'incorrect image';
 	    }
         }
 
         //text for restart box
-        if (this.purposeSelect === 'restartPrompt') this.text = 'Click to restart';
+        if (this.purposeSelect === 'restartPrompt') this.text1 = 'Click to restart';
         
 
     }
@@ -289,26 +344,26 @@ class TargetBox {
             location.reload();
         }
 
-        if (this.category === 'default' && defaultQuestions.length < 1) this.text = 'DONE';
-        if (this.category === 'alternative' && alternativeQuestions.length < 1) this.text = 'DONE';
-        if (this.category === 'alternative2' && alternativeQuestions2.length < 1) this.text = 'DONE';
-        if (this.category === 'alternative3' && alternativeQuestions3.length < 1) this.text = 'DONE';
-        if (this.category === 'alternative4' && alternativeQuestions4.length < 1) this.text = 'DONE';
+        if (this.category === 'default' && defaultQuestions.length < 1) this.text1 = 'DONE';
+        if (this.category === 'alternative' && alternativeQuestions.length < 1) this.text1 = 'DONE';
+        if (this.category === 'alternative2' && alternativeQuestions2.length < 1) this.text1 = 'DONE';
+        if (this.category === 'alternative3' && alternativeQuestions3.length < 1) this.text1 = 'DONE';
+        if (this.category === 'alternative4' && alternativeQuestions4.length < 1) this.text1 = 'DONE';
     }
 }
 
 //create question boxes
-var questionBox1 = new TargetBox(undefined, undefined, 50, 50, 'correctAnswer');
-var questionBox2 = new TargetBox(undefined, undefined, 50, 50, 'altAnswer1');
-var questionBox3 = new TargetBox(undefined, undefined, 50, 50, 'altAnswer2');
-var questionBox4 = new TargetBox(undefined, undefined, 50, 50, 'altAnswer3');
+var questionBox1 = new TargetBox(undefined, undefined, 200, 100, 'correctAnswer');
+var questionBox2 = new TargetBox(undefined, undefined, 200, 100, 'altAnswer1');
+var questionBox3 = new TargetBox(undefined, undefined, 200, 100, 'altAnswer2');
+var questionBox4 = new TargetBox(undefined, undefined, 200, 100, 'altAnswer3');
 let questionBoxArray = [questionBox1, questionBox2, questionBox3, questionBox4];
-//create category boxes
-var categoryBox1 = new TargetBox(350, 100, 75, 100, 'categorySelect', 'default');
-var categoryBox2 = new TargetBox(450, 100, 75, 100, 'categorySelect', 'alternative');
-var categoryBox3 = new TargetBox(550, 100, 75, 100, 'categorySelect', 'alternative2');
-var categoryBox4 = new TargetBox(650, 100, 75, 100, 'categorySelect', 'alternative3');
-var categoryBox5 = new TargetBox(750, 100, 75, 100, 'categorySelect', 'alternative4');
+//create category boxes (300, 25)
+var categoryBox1 = new TargetBox(categoryXAnchor + 15, categoryYAnchor + 45, 100, 140, 'categorySelect', 'default');
+var categoryBox2 = new TargetBox(categoryXAnchor + 120, categoryYAnchor + 45, 100, 140, 'categorySelect', 'alternative');
+var categoryBox3 = new TargetBox(categoryXAnchor + 225, categoryYAnchor + 45, 100, 140, 'categorySelect', 'alternative2');
+var categoryBox4 = new TargetBox(categoryXAnchor + 330, categoryYAnchor + 45, 100, 140, 'categorySelect', 'alternative3');
+var categoryBox5 = new TargetBox(categoryXAnchor + 435, categoryYAnchor + 45, 100, 140, 'categorySelect', 'alternative4');
 let categoryBoxArray = [categoryBox1, categoryBox2, categoryBox3, categoryBox4, categoryBox5];
 //create init boxes
 var initBox1 = new TargetBox(400, 400, 100, 50, 'continuePrompt');
@@ -332,34 +387,78 @@ function initHandler(){
     //draw and update a continue prompt box
     initBox1.draw();
     initBox1.update();
+
+    //shuffle question arrays
+        if (!initialShuffle) {
+            //shuffle question array logic in category handler function
+            for (let i = defaultQuestions.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = defaultQuestions[i];
+                defaultQuestions[i] = defaultQuestions[j];
+                defaultQuestions[j] = temp;
+            }
+            for (let i = alternativeQuestions.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = alternativeQuestions[i];
+                alternativeQuestions[i] = alternativeQuestions[j];
+                alternativeQuestions[j] = temp;
+            }
+            for (let i = alternativeQuestions2.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = alternativeQuestions2[i];
+                alternativeQuestions2[i] = alternativeQuestions2[j];
+                alternativeQuestions2[j] = temp;
+            }
+            for (let i = alternativeQuestions3.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = alternativeQuestions3[i];
+                alternativeQuestions3[i] = alternativeQuestions3[j];
+                alternativeQuestions3[j] = temp;
+            }
+            for (let i = alternativeQuestions4.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = alternativeQuestions4[i];
+                alternativeQuestions4[i] = alternativeQuestions4[j];
+                alternativeQuestions4[j] = temp;
+            }
+            initialShuffle = true;
+        }
     }
 
 }
 
 function categoryHandler(){
     //if no category selected then display text prompting a choice
-    if (categoryPhase){
+    //add function to send to calculate win/lose based on target score trigger endphase
+    ////if the question arrays are empty
+    if ((defaultQuestions.length + alternativeQuestions.length + alternativeQuestions2.length 
+        + alternativeQuestions3.length + alternativeQuestions4.length) > 0 && categoryPhase){
         if (!questionArraySelected){
             //draw background
             ctx.fillStyle = 'pink';
-            ctx.fillRect(300, 25, 550, 200);
+            ctx.fillRect(categoryXAnchor, categoryYAnchor, 550, 200);
             ctx.strokeStyle = 'black';
             ctx.beginPath();
-            ctx.rect(300, 25, 550, 200);
+            ctx.rect(categoryXAnchor, categoryYAnchor, 550, 200);
             ctx.stroke();
             ctx.closePath();
             ctx.strokeStyle = 'black';
             ctx.textAlign = 'center';
-            ctx.strokeText('Choose a category', 600, 50);
+            ctx.strokeText('Choose a category', categoryXAnchor + 275, categoryYAnchor + 25);
 
             categoryBoxArray.forEach(element => {
                 element.draw();
                 element.update();  
             })
             drawTimer();
-        }
+        } 
+    } else if ((defaultQuestions.length + alternativeQuestions.length + alternativeQuestions2.length 
+        + alternativeQuestions3.length + alternativeQuestions4.length) <= 0 && categoryPhase){
+        categoryPhase = false;
+        endPhase = true;
+        if (score >= scoreTarget) win = true;
+        else lose = true;
     }
-
 }
 
 function questionHandler(){
@@ -367,16 +466,16 @@ function questionHandler(){
     if (questionPhase && questionArraySelected && questionArraySelected.length !== 0){
         //draw background
         ctx.fillStyle = 'pink';
-        ctx.fillRect(500, 250, 350, 325);
+        ctx.fillRect(questionXAnchor, questionYAnchor, 525, 325);
         ctx.strokeStyle = 'black';
         ctx.beginPath();
-        ctx.rect(500, 250, 350, 325);
+        ctx.rect(questionXAnchor, questionYAnchor, 525, 325);
         ctx.stroke();
         ctx.closePath();
-	ctx.textAlign = 'center';
-        ctx.strokeText("-----------------------------------------------------------", 650, 350);
-        ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, 650, 300);
-        if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, 650, 325);
+	    ctx.textAlign = 'center';
+        ctx.strokeText("-----------------------------------------------------------", 600, 350);
+        ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, 600, 300);
+        if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, 600, 320);
 
         for (i = 0; i < questionBoxArray.length; i++){
             if ((rng + i) <= 3){
@@ -420,6 +519,7 @@ function lastChanceHandler(){
         ctx.strokeText('LAST CHANCE! Pick the image with the abnormality...', canvas1.width/2, 25);
 
         //temporary values and calls (w=300, h=500)
+
         //randomise lastBox positions
         if (rng % 2 == 0){
             lastBox1.x = 50; lastBox1.y = 50; lastBox2.x = 450; lastBox2.y = 50;
@@ -450,6 +550,7 @@ function endPhaseHandler(){
             ctx.strokeStyle = 'black';
             ctx.textAlign = 'center';
             ctx.strokeText('You failed to win', 450, 200);
+            ctx.strokeText('SCORE: ' + score + ' / ' + scoreTarget, 450, 250);
         }
         restartBox.draw(); restartBox.update();
     }
@@ -532,14 +633,9 @@ function animate(){
 }
 startAnimating(fps);
 
-//shuffle question array logic in category handler function
-        /*for (let i = defaultQuestions.length - 1; i > 0; i--) {
-            var j = Math.floor(Math.random() * (i + 1));
-            var temp = defaultQuestions[i];
-            defaultQuestions[i] = defaultQuestions[j];
-            defaultQuestions[j] = temp;
-        }
-    }*/
+//FIX
+////score going into minus integers and blue bar going down the way as a result
+
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
