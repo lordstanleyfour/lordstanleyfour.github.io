@@ -37,7 +37,8 @@ var initPhase = true;
 var initialShuffle = false;
 var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose;
 var categoryXAnchor = 300, categoryYAnchor = 25;
-var questionXAnchor = 325, questionYAnchor = 250;
+var questionXAnchor = 315, questionYAnchor = 240;
+var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var score = 0;
 var scoreTarget = 10; scoreBarIncrement = 475/scoreTarget;
@@ -240,13 +241,25 @@ class TargetBox {
         if (this.purposeSelect === 'categorySelect'){
             if (!this.image){
                 if (this.category === 'default') {
-                    this.text1 = "defaultQuestions";
+                    //this.text1 = "defaultQuestions";
                     this.image = document.getElementById('anatomy');
                 }
-                else if (this.category === 'alternative') this.text1 = "alternativeQuestions";
-                else if (this.category === 'alternative2') this.text1 = "alternativeQuestions2";
-                else if (this.category === 'alternative3') this.text1 = "alternativeQuestions3";
-                else if (this.category === 'alternative4') this.text1 = "alternativeQuestions4";
+                else if (this.category === 'alternative') {
+                    //this.text1 = "alternativeQuestions";
+                    this.image = document.getElementById('physics');
+                }
+                else if (this.category === 'alternative2') {
+                    //this.text1 = "alternativeQuestions2";
+                    this.image = document.getElementById('pathology');
+                }
+                else if (this.category === 'alternative3') {
+                    //this.text1 = "alternativeQuestions3";
+                    this.image = document.getElementById('radspertise');
+                }
+                else if (this.category === 'alternative4') {
+                    //this.text1 = "alternativeQuestions4";
+                    this.image = document.getElementById('dailymail');
+                }
             } else ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
         }
 
@@ -389,6 +402,7 @@ function initHandler(){
     ctx.fillStyle = 'pink';
     ctx.fillRect(50, 50, 800, 500);
     //text for instructions
+    ctx.font = '12px Verdana';
     ctx.strokeStyle = 'black';
     ctx.textAlign = 'center';
     ctx.strokeText('This is where the instructions live', 450, 200);
@@ -436,6 +450,27 @@ function initHandler(){
 
 }
 
+function mobileCat(){
+    if (categoryPhase){
+        if (!mobileCatX) {
+            mobileCatXLeft = false; mobileCatXRight = false;
+            mobileCatX = 275;
+            mobileCatXRight = true;
+        }
+        if (mobileCatXRight) mobileCatX++;
+        if (mobileCatX > 300){
+            mobileCatXRight = false;
+            mobileCatXLeft = true;
+        }
+        if (mobileCatXLeft) mobileCatX--;
+        if (mobileCatX < 250){
+            mobileCatXLeft = false;
+            mobileCatXRight = true;            
+        }
+    }
+    if (questionPhase || lastChancePhase) mobileCatX = undefined;
+}
+
 function categoryHandler(){
     //if no category selected then display text prompting a choice
     //add function to send to calculate win/lose based on target score trigger endphase
@@ -453,8 +488,9 @@ function categoryHandler(){
             ctx.stroke();
             ctx.closePath(); */
             ctx.strokeStyle = 'black';
+            ctx.font = '12px Verdana';
             ctx.textAlign = 'center';
-            ctx.strokeText('Choose a category', categoryXAnchor + 275, categoryYAnchor + 35);
+            ctx.strokeText('Choose a category', categoryXAnchor + mobileCatX, categoryYAnchor + 35);
 
             categoryBoxArray.forEach(element => {
                 element.draw();
@@ -472,7 +508,6 @@ function categoryHandler(){
 }
 
 function questionHandler(){
-
     if (questionPhase && questionArraySelected && questionArraySelected.length !== 0){
         //draw background
         ctx.fillStyle = 'pink';
@@ -482,6 +517,7 @@ function questionHandler(){
         ctx.rect(questionXAnchor, questionYAnchor, 525, 325);
         ctx.stroke();
         ctx.closePath();
+        ctx.font = '12px Verdana';
 	    ctx.textAlign = 'center';
         ctx.strokeText("-----------------------------------------------------------", 600, 350);
         ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, 600, 300);
@@ -525,6 +561,7 @@ function lastChanceHandler(){
         //darken background
         ctx.fillStyle = 'rgb(0, 0, 0, 0.5';
         ctx.fillRect(0, 0, canvas1.width, canvas1.height);
+        ctx.font = '12px Verdana';
         ctx.strokeStyle = 'black';
         ctx.strokeText('LAST CHANCE! Pick the image with the abnormality...', canvas1.width/2, 25);
 
@@ -550,6 +587,7 @@ function endPhaseHandler(){
             ctx.fillStyle = 'orange';
             ctx.fillRect(50, 50, 800, 500);
             //text
+            ctx.font = '12px Verdana';
             ctx.strokeStyle = 'black';
             ctx.textAlign = 'center';
             ctx.strokeText('You won', 450, 200);
@@ -557,6 +595,7 @@ function endPhaseHandler(){
             ctx.fillStyle = 'orange';
             ctx.fillRect(50, 50, 800, 500);
             //text
+            ctx.font = '12px Verdana';
             ctx.strokeStyle = 'black';
             ctx.textAlign = 'center';
             ctx.strokeText('You failed to win', 450, 200);
@@ -580,6 +619,7 @@ function scoreHandler(){
         ctx.drawImage(document.getElementById('tank'), 50, 75);
         //text
         ctx.fillStyle = 'black';
+        ctx.font = '12px Verdana';
         ctx.strokeText('SCORE:  ' + score, 100, 100);
     }
     if (score >= scoreTarget){
@@ -610,13 +650,23 @@ function drawBackground(){
     
 }
 
-
-
 function drawTimer(){
-    ctx.fillStyle = 'lightblue';
-    ctx.fillRect(0, 0, 50, 50);
-    ctx.strokeStyle = 'black'
-    ctx.strokeText(timeRemaining, 25, 25);
+    if (!lastChancePhase) ctx.drawImage(document.getElementById('watch'), 200, 0);
+    else ctx.drawImage(document.getElementById('watch'), 350, 0);
+    
+    if (timeRemaining) {
+        ctx.beginPath();
+        ctx.fillStyle = 'lightblue';
+        if (!lastChancePhase) ctx.arc(250, 60, 30, 0, 2*Math.PI);
+        else ctx.arc(400, 60, 30, 0, 2*Math.PI);        
+        ctx.fill();
+        ctx.closePath();
+        ctx.fillStyle = 'black';
+        ctx.font = '25px Verdana';
+        if (!lastChancePhase) ctx.fillText(timeRemaining, 250, 68);
+        else ctx.fillText(timeRemaining, 400, 68);
+        
+    }
 }
 	
 
@@ -641,6 +691,7 @@ function animate(){
         drawBackground();
         initHandler();
         categoryHandler();
+        mobileCat();
         questionHandler();
         lastChanceHandler();
         endPhaseHandler();
@@ -650,7 +701,7 @@ function animate(){
         if (!win) hue += 2;
         else hue += 15;
         if (hue > 360) hue = 0;
-        console.log (color);
+
         //reset mouse, must be at the end
         if (mouse.lastClickX !== undefined){
             mouse.lastClickX = undefined;
@@ -663,13 +714,17 @@ startAnimating(fps);
 
 //find and prep abnormal images
 //initialise the bad images on the html and then add to array
-//finalise category choices and make cards
-////anatomy, physics, pathology, general knowledge, daily mail
+//half transparent black square over category cards once array empty
+//background image for question screen
 //make a background image (spritesheet?)
 //timer image at least (clock, turn countdown into a digital timer?)
 ////animated bar style rundown timer, themed
+//tie time remaining into scoring
+//figure out role of scoring;
+//fill the top part with something on question screen
 
-
+//FIX
+////when time on question expires lose screen shown then last chance screen shown with another lose screen
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
