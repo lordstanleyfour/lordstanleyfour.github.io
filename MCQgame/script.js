@@ -301,7 +301,7 @@ class TargetBox {
         if (collision(this) && this.correct) {
             correctAnswerSelected = true;
             rng = Math.floor(Math.random()*3);
-        } else if (collision(this) && this.correct === false){
+        } else if (collision(this) && this.correct === false && timeRemaining > 0){
             //reset mouse so that it doesn't interfere with last chance
             if (mouse.lastClickX !== undefined){
                 mouse.lastClickX = undefined;
@@ -528,18 +528,21 @@ function questionHandler(){
         ctx.beginPath();
         ctx.rect(questionXAnchor, questionYAnchor, 525, 325);
         ctx.stroke();
-        ctx.closePath(); */
-/*         ctx.fillStyle = 'rgb(220, 220, 220, 0.8)';
+        ctx.closePath();
+        ctx.fillStyle = 'rgb(220, 220, 220, 0.8)';
         ctx.strokeSyle = 'black';        
         ctx.fillRect(questionXAnchor + 65, questionYAnchor + 30, 400, 75);
-        ctx.rect(questionXAnchor + 65, questionYAnchor + 30, 400, 75); */
-        //ctx.stroke();
+        ctx.rect(questionXAnchor + 65, questionYAnchor + 30, 400, 75);
+        ctx.stroke(); */
+
+        //text
         ctx.font = '17px Verdana';
 	    ctx.textAlign = 'center';
-        ctx.strokeText("-----------------------------------------------------------", questionXAnchor + 265, questionYAnchor -60);
         ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, questionXAnchor + 265, questionYAnchor -130);
         if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, questionXAnchor + 265, questionYAnchor -100);
+        ctx.strokeText("-----------------------------------------------------------", questionXAnchor + 265, questionYAnchor -60);
 
+        //arrange and draw question boxes
         for (i = 0; i < questionBoxArray.length; i++){
             if ((rng + i) <= 3){
                 questionBoxArray[i].position = questionBoxPositionArray[rng + i];
@@ -547,12 +550,12 @@ function questionHandler(){
             questionBoxArray[i].position = questionBoxPositionArray[((rng+i)-4)];
             }        
         }
-
         questionBoxArray.forEach(element => {
             element.draw();
             element.update();
         })
-        timer(11);
+
+        timer(10);
         drawTimer();
     }
 
@@ -592,7 +595,7 @@ function lastChanceHandler(){
         }
 
         lastBox1.draw(); lastBox1.update(); lastBox2.draw(); lastBox2.update();  
-        timer(11);
+        timer(10);
         drawTimer();      
     }
 }
@@ -647,10 +650,10 @@ function scoreHandler(){
 function timer(seconds){    
     if (savedTime === undefined) savedTime = Date.now();
     deadline = savedTime + (seconds*1000);
-    timeRemaining = Math.floor((deadline - Date.now())/1000);
+    timeRemaining = Math.ceil((deadline - Date.now())/1000);
     if (timeRemaining <= 0){
         timeRemaining = 0;
-        lose = true; endPhase = true;
+        lose = true; endPhase = true; lastChancePhase = false;
     }
 }
 
@@ -671,21 +674,106 @@ function drawTimer(){
     if (!lastChancePhase) ctx.drawImage(document.getElementById('watch'), 200, 0);
     else ctx.drawImage(document.getElementById('watch'), 350, 0);
     
-    if (timeRemaining) {
+    let timerPieX, timerPieY;
+
+    ctx.fillStyle = 'lightblue';
+    ctx.strokeStyle = 'lightblue';
+    if (!lastChancePhase) {
+        timerPieX = 250; timerPieY = 60;
+    }
+    else {
+        timerPieX = 400; timerPieY = 60;   
+    }    
+
+    if (timeRemaining === 10){
         ctx.beginPath();
-        ctx.fillStyle = 'lightblue';
-        if (!lastChancePhase) ctx.arc(250, 60, 30, 0, 2*Math.PI);
-        else ctx.arc(400, 60, 30, 0, 2*Math.PI);        
+        ctx.arc(timerPieX, timerPieY, 30, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+    else if (timeRemaining === 9){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 1.8 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
         ctx.fill();
         ctx.closePath();
+    }   
+    else if (timeRemaining === 8){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 1.6 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();
+        
+    }
+    else if (timeRemaining === 7){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 1.4 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();
+    }
+    else if (timeRemaining === 6){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 1.2 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();
+        }
+    else if (timeRemaining === 5){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 1.0 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();
+    }
+    else if (timeRemaining === 4){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 0.8 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();  
+    }
+    else if (timeRemaining === 3){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 0.6 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();  
+    }
+    else if (timeRemaining === 2){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 0.4 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();  
+    }
+    else if (timeRemaining === 1){
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, 0, 0.2 * Math.PI);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();  
+    }
+    
+    if (timeRemaining) {
         ctx.fillStyle = 'black';
         ctx.font = '25px Verdana';
         if (!lastChancePhase) ctx.fillText(timeRemaining, 250, 68);
-        else ctx.fillText(timeRemaining, 400, 68);
-        
+        else ctx.fillText(timeRemaining, 400, 68);        
     }
+
 }
-	
+
+
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -736,9 +824,7 @@ startAnimating(fps);
 ////animated bar style rundown timer, themed
 //tie time remaining into scoring
 //figure out role of scoring;
-
-//FIX
-////when time on question expires lose screen shown then last chance screen shown with another lose screen
+//when time on question expires lose screen shown then last chance screen shown with another lose screen
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
