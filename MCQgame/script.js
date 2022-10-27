@@ -36,8 +36,8 @@ var correctAnswerSelected = false;
 var initPhase = true;
 var initialShuffle = false;
 var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose;
-var categoryXAnchor = 300, categoryYAnchor = 25;
-var questionXAnchor = 310, questionYAnchor = 180;
+var categoryXAnchor = 300, categoryYAnchor = 15;
+var questionXAnchor = 310, questionYAnchor = 225;
 var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var score = 0;
@@ -179,10 +179,10 @@ let alternativeQuestions4 = [
     }
 ];
 
-let questionBoxPositionArray = [{x:questionXAnchor + 50,y:questionYAnchor + 110}, 
-                                {x:questionXAnchor + 280,y:questionYAnchor + 110}, 
-                                {x:questionXAnchor + 50,y:questionYAnchor + 215}, 
-                                {x:questionXAnchor + 280,y:questionYAnchor + 215}];
+let questionBoxPositionArray = [{x:questionXAnchor + 40,y:questionYAnchor + 40}, 
+                                {x:questionXAnchor + 270,y:questionYAnchor + 40}, 
+                                {x:questionXAnchor + 40,y:questionYAnchor + 185}, 
+                                {x:questionXAnchor + 270,y:questionYAnchor + 185}];
 let lastChanceImageArrayGood = ['good1', 'good2', 'good3', 'good4', 'good5','good6','good7','good8','good9','good10','good11','good12','good13','good14','good15','good16','good17','good18','good19','good20','good21','good22','good23','good24','good25','good26','good27','good28','good29','good30','good31','good32','good33','good34','good35','good36','good37','good38','good39','good40','good41','good42','good43'];
 let lastChanceImageArrayBad = ['bad1', 'bad2', 'bad3'];
 var goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
@@ -243,6 +243,10 @@ class TargetBox {
                 if (this.category === 'default') {
                     //this.text1 = "defaultQuestions";
                     this.image = document.getElementById('anatomy');
+                    if (defaultQuestions.length < 1){
+                        
+                        //draw a semiopaque black rect over the provided image
+                    }
                 }
                 else if (this.category === 'alternative') {
                     //this.text1 = "alternativeQuestions";
@@ -366,11 +370,11 @@ class TargetBox {
             location.reload();
         }
 
-        if (this.category === 'default' && defaultQuestions.length < 1) this.text1 = 'DONE';
-        if (this.category === 'alternative' && alternativeQuestions.length < 1) this.text1 = 'DONE';
-        if (this.category === 'alternative2' && alternativeQuestions2.length < 1) this.text1 = 'DONE';
-        if (this.category === 'alternative3' && alternativeQuestions3.length < 1) this.text1 = 'DONE';
-        if (this.category === 'alternative4' && alternativeQuestions4.length < 1) this.text1 = 'DONE';
+        if (this.category === 'default' && defaultQuestions.length < 1) categoryBlackout(this.x, this.y, this.w, this.h);
+        if (this.category === 'alternative' && alternativeQuestions.length < 1) categoryBlackout(this.x, this.y, this.w, this.h);
+        if (this.category === 'alternative2' && alternativeQuestions2.length < 1) categoryBlackout(this.x, this.y, this.w, this.h);
+        if (this.category === 'alternative3' && alternativeQuestions3.length < 1) categoryBlackout(this.x, this.y, this.w, this.h);
+        if (this.category === 'alternative4' && alternativeQuestions4.length < 1) categoryBlackout(this.x, this.y, this.w, this.h);
     }
 }
 
@@ -480,6 +484,7 @@ function categoryHandler(){
         if (!questionArraySelected){
             //draw background
             ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
+            ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
            /*  ctx.fillStyle = 'pink';
             ctx.fillRect(categoryXAnchor, categoryYAnchor, 550, 200);
             ctx.strokeStyle = 'black';
@@ -507,10 +512,16 @@ function categoryHandler(){
     }
 }
 
+function categoryBlackout(x, y, w, h){
+    ctx.fillStyle = 'rgb(0, 0, 0, 0.9)';
+    ctx.fillRect(x, y, w, h);
+}
+
 function questionHandler(){
     if (questionPhase && questionArraySelected && questionArraySelected.length !== 0){
         //draw background
         ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
+        ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
         /* ctx.fillStyle = 'pink';
         ctx.fillRect(questionXAnchor, questionYAnchor, 525, 325);
         ctx.strokeStyle = 'black';
@@ -518,16 +529,16 @@ function questionHandler(){
         ctx.rect(questionXAnchor, questionYAnchor, 525, 325);
         ctx.stroke();
         ctx.closePath(); */
-        ctx.fillStyle = 'rgb(220, 220, 220, 0.8)';
+/*         ctx.fillStyle = 'rgb(220, 220, 220, 0.8)';
         ctx.strokeSyle = 'black';        
         ctx.fillRect(questionXAnchor + 65, questionYAnchor + 30, 400, 75);
-        ctx.rect(questionXAnchor + 65, questionYAnchor + 30, 400, 75);
-        ctx.stroke();
-        ctx.font = '12px Verdana';
+        ctx.rect(questionXAnchor + 65, questionYAnchor + 30, 400, 75); */
+        //ctx.stroke();
+        ctx.font = '17px Verdana';
 	    ctx.textAlign = 'center';
-        ctx.strokeText("-----------------------------------------------------------", questionXAnchor + 285, questionYAnchor + 100);
-        ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, questionXAnchor + 285, questionYAnchor + 60);
-        if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, questionXAnchor + 285, questionYAnchor + 80);
+        ctx.strokeText("-----------------------------------------------------------", questionXAnchor + 265, questionYAnchor -60);
+        ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, questionXAnchor + 265, questionYAnchor -130);
+        if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, questionXAnchor + 265, questionYAnchor -100);
 
         for (i = 0; i < questionBoxArray.length; i++){
             if ((rng + i) <= 3){
@@ -720,14 +731,11 @@ startAnimating(fps);
 
 //find and prep abnormal images
 //initialise the bad images on the html and then add to array
-//half transparent black square over category cards once array empty
-//background image for question screen (bucky, cassette in holder, tube head screen) - done, temp fix
 //make a background image (spritesheet?)
 //timer image at least (clock, turn countdown into a digital timer?)
 ////animated bar style rundown timer, themed
 //tie time remaining into scoring
 //figure out role of scoring;
-//fill the top part with something on question screen?
 
 //FIX
 ////when time on question expires lose screen shown then last chance screen shown with another lose screen
