@@ -37,7 +37,7 @@ var initPhase = true;
 var initialShuffle = false;
 var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose;
 var categoryXAnchor = 300, categoryYAnchor = 25;
-var questionXAnchor = 315, questionYAnchor = 240;
+var questionXAnchor = 310, questionYAnchor = 180;
 var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var score = 0;
@@ -510,18 +510,24 @@ function categoryHandler(){
 function questionHandler(){
     if (questionPhase && questionArraySelected && questionArraySelected.length !== 0){
         //draw background
-        ctx.fillStyle = 'pink';
+        ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
+        /* ctx.fillStyle = 'pink';
         ctx.fillRect(questionXAnchor, questionYAnchor, 525, 325);
         ctx.strokeStyle = 'black';
         ctx.beginPath();
         ctx.rect(questionXAnchor, questionYAnchor, 525, 325);
         ctx.stroke();
-        ctx.closePath();
+        ctx.closePath(); */
+        ctx.fillStyle = 'rgb(220, 220, 220, 0.8)';
+        ctx.strokeSyle = 'black';        
+        ctx.fillRect(questionXAnchor + 65, questionYAnchor + 30, 400, 75);
+        ctx.rect(questionXAnchor + 65, questionYAnchor + 30, 400, 75);
+        ctx.stroke();
         ctx.font = '12px Verdana';
 	    ctx.textAlign = 'center';
-        ctx.strokeText("-----------------------------------------------------------", 600, 350);
-        ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, 600, 300);
-        if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, 600, 320);
+        ctx.strokeText("-----------------------------------------------------------", questionXAnchor + 285, questionYAnchor + 100);
+        ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, questionXAnchor + 285, questionYAnchor + 60);
+        if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, questionXAnchor + 285, questionYAnchor + 80);
 
         for (i = 0; i < questionBoxArray.length; i++){
             if ((rng + i) <= 3){
@@ -715,13 +721,13 @@ startAnimating(fps);
 //find and prep abnormal images
 //initialise the bad images on the html and then add to array
 //half transparent black square over category cards once array empty
-//background image for question screen
+//background image for question screen (bucky, cassette in holder, tube head screen) - done, temp fix
 //make a background image (spritesheet?)
 //timer image at least (clock, turn countdown into a digital timer?)
 ////animated bar style rundown timer, themed
 //tie time remaining into scoring
 //figure out role of scoring;
-//fill the top part with something on question screen
+//fill the top part with something on question screen?
 
 //FIX
 ////when time on question expires lose screen shown then last chance screen shown with another lose screen
