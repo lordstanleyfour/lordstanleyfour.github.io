@@ -125,7 +125,7 @@ var lunateOutline = new Outline(controlBarSize, 0, 600, 600, 'lunateoutline', 'L
 var pisiformOutline = new Outline(controlBarSize, 0, 600, 600, 'pisiformoutline', 'Pisiform');
 var hamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hamateoutline', 'Hamate');
 var capitateOutline = new Outline(controlBarSize, 0, 600, 600, 'capitateoutline', 'Capitate');
-var trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapeziumoutline', 'Trapezium');
+//var trapeziumOutline = new Outline(controlBarSize + 32, 0 + 5, 600, 600, 'trapeziumoutline', 'Trapezium');
 var radiusOutline = new Outline(controlBarSize, 0, 600, 600, 'radiusoutline');
 var ulnaOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnaoutline');
 var ulnarStyloidOutline = new Outline(controlBarSize, 0, 600, 600, 'ulnarstyloidoutline', 'Ulnar Styloid');
@@ -134,7 +134,7 @@ var hookOfHamateOutline = new Outline(controlBarSize, 0, 600, 600, 'hookofhamate
 var dorsalSTOutline = new Outline(controlBarSize, 0, 600, 600, 'dorsalSToutline', 'Dorsal ST');
 var volarSTOutline = new Outline(controlBarSize, 0, 600, 600, 'volarSToutline', 'Volar ST');
 
-outlineArray.push(scaphoidOutline, lunateOutline, pisiformOutline, hamateOutline, capitateOutline, trapeziumOutline, ulnarStyloidOutline, pronatorQuadratusOutline, hookOfHamateOutline, dorsalSTOutline, volarSTOutline, radiusOutline, ulnaOutline);
+outlineArray.push(scaphoidOutline, lunateOutline, pisiformOutline, hamateOutline, capitateOutline, /*trapeziumOutline,*/ ulnarStyloidOutline, pronatorQuadratusOutline, hookOfHamateOutline, dorsalSTOutline, volarSTOutline, radiusOutline, ulnaOutline);
 
 class Button {
     constructor(x, y, width, height, text, name) {
@@ -203,14 +203,14 @@ const pisiformButton = new Button(10, 255, 150, 40, 'PISIFORM', 'Pisiform');
 const hamateButton = new Button(10, 305, 150, 40, 'HAMATE', 'Hamate');
 const capitateButton = new Button(10, 355, 150, 40, 'CAPITATE', 'Capitate');
 const PQFatPadButton = new Button(10, 155, 150, 40, 'PQ FAT PAD', 'Pronator Quadratus Fat Pad');
-const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM', 'Trapezium');
+//const trapeziumButton = new Button(10, 455, 150, 40, 'TRAPEZIUM', 'Trapezium');
 const hookOfHamateButton = new Button(10, 155, 150, 40, 'HOOK OF HAMATE', 'Hook of Hamate');
 const dorsalSTButton = new Button(10, 155, 150, 40, 'DORSAL ST', 'Dorsal ST');
 const volarSTButton = new Button(10, 155, 150, 40, 'VOLAR ST', 'Volar ST');
 
 function resetButtonArray(){
     buttonArray = [];
-    buttonArray.push(scaphoidButton, lunateButton, pisiformButton, hamateButton, capitateButton, ulnarStyloidButton, trapeziumButton, PQFatPadButton, hookOfHamateButton, dorsalSTButton, volarSTButton);
+    buttonArray.push(scaphoidButton, lunateButton, pisiformButton, hamateButton, capitateButton, ulnarStyloidButton, /*trapeziumButton, */PQFatPadButton, hookOfHamateButton, dorsalSTButton, volarSTButton);
     for (let i = 0; i < buttonArray.length; i++){
         buttonArray[i].y = (105 + (45*i));
     }
@@ -289,7 +289,7 @@ function checker(){
         ctx1.fillText('G: ' + maskData.data[mouse1.positionGreen], 300, 200);
         ctx1.fillText('B: ' + maskData.data[mouse1.positionBlue], 300, 250); */
         if (maskData.data[mouse1.positionRed] === 255 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Ulnar Styloid';
-        else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Trapezium';
+        /*else if (maskData.data[mouse1.positionRed] === 125 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 0) return 'Trapezium';*/
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 255 && maskData.data[mouse1.positionBlue] === 0) return 'Lunate';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 125 && maskData.data[mouse1.positionBlue] === 0) return 'Hamate';
         else if (maskData.data[mouse1.positionRed] === 0 && maskData.data[mouse1.positionGreen] === 0 && maskData.data[mouse1.positionBlue] === 255) return 'Capitate';
@@ -341,9 +341,9 @@ UI = function (){
             case 'Pronator Quadratus Fat Pad':
                 pronatorQuadratusOutline.draw();
                 break;
-            case 'Trapezium':
+            /*case 'Trapezium':
                 trapeziumOutline.draw();
-                break;
+                break;*/
             case 'Radius':
                 radiusOutline.draw();
                 break;
@@ -545,7 +545,7 @@ function buttonHandler(mouse1) {
     else if (mouse1.x && currentMode === 'LEARNING' && collision(hamateButton, mouse1)) hamateOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(capitateButton, mouse1)) capitateOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(PQFatPadButton, mouse1)) pronatorQuadratusOutline.draw();
-    else if (mouse1.x && currentMode === 'LEARNING' && collision(trapeziumButton, mouse1)) trapeziumOutline.draw();
+    /*else if (mouse1.x && currentMode === 'LEARNING' && collision(trapeziumButton, mouse1)) trapeziumOutline.draw();*/
     else if (mouse1.x && currentMode === 'LEARNING' && collision(hookOfHamateButton, mouse1)) hookOfHamateOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(dorsalSTButton, mouse1)) dorsalSTOutline.draw();
     else if (mouse1.x && currentMode === 'LEARNING' && collision(volarSTButton, mouse1)) volarSTOutline.draw();
