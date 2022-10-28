@@ -184,7 +184,7 @@ let questionBoxPositionArray = [{x:questionXAnchor + 40,y:questionYAnchor + 40},
                                 {x:questionXAnchor + 40,y:questionYAnchor + 185}, 
                                 {x:questionXAnchor + 270,y:questionYAnchor + 185}];
 let lastChanceImageArrayGood = ['good1', 'good2', 'good3', 'good4', 'good5','good6','good7','good8','good9','good10','good11','good12','good13','good14','good15','good16','good17','good18','good19','good20','good21','good22','good23','good24','good25','good26','good27','good28','good29','good30','good31','good32','good33','good34','good35','good36','good37','good38','good39','good40','good41','good42','good43'];
-let lastChanceImageArrayBad = ['bad1', 'bad2', 'bad3'];
+let lastChanceImageArrayBad = ['bad1', 'bad2', 'bad3', 'bad4', 'bad5','bad6','bad7','bad8','bad9','bad10','bad11','bad12','bad13','bad14','bad15','bad16','bad17','bad18','bad19','bad20','bad21','bad22','bad23','bad24','bad25','bad26','bad27','bad28','bad29','bad30','bad31','bad32','bad33','bad34','bad35'];
 var goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
 var badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
 
@@ -205,6 +205,7 @@ class TargetBox {
     draw(){
 	    //@@@@@ insert if statements to provide image or specific draw instructions based on purposeSelect
         ctx.fillStyle = 'green';
+        ctx.strokeStyle = 'black';
         ctx.fillRect(this.x, this.y, this.w, this.h);
         ctx.textAlign = 'center';
         ctx.font = '12px Verdana';
@@ -352,13 +353,14 @@ class TargetBox {
 
         //last chance box select
         else if (collision(this) && this.purposeSelect === 'lastChance'){
-            if (this.category === 'correctImage') {
+            //the incorrect and correct are reversed here so that the player has to select the abnormal image to continue (factoring error)
+            if (this.category === 'incorrectImage') {
                 lastChancePhase = false;
                 rng = Math.floor(Math.random()*3);
                 goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
                 badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
                 categoryPhase = true;
-            } else if (this.category === 'incorrectImage') {
+            } else if (this.category === 'correctImage') {
                 lastChancePhase = false;
                 endPhase = true; 
                 lose = true;
@@ -538,6 +540,7 @@ function questionHandler(){
         //text
         ctx.font = '17px Verdana';
 	    ctx.textAlign = 'center';
+        ctx.strokeStyle = 'black';
         ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, questionXAnchor + 265, questionYAnchor -130);
         if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, questionXAnchor + 265, questionYAnchor -100);
         ctx.strokeText("-----------------------------------------------------------", questionXAnchor + 265, questionYAnchor -60);
@@ -639,6 +642,7 @@ function scoreHandler(){
         ctx.drawImage(document.getElementById('tank'), 50, 75);
         //text
         ctx.fillStyle = 'black';
+        ctx.strokeStyle = 'black';
         ctx.font = '12px Verdana';
         ctx.strokeText('SCORE:  ' + score, 100, 100);
     }
@@ -817,14 +821,12 @@ function animate(){
 startAnimating(fps);
 });
 
-//find and prep abnormal images
-//initialise the bad images on the html and then add to array
 //make a background image (spritesheet?)
-//timer image at least (clock, turn countdown into a digital timer?)
 ////animated bar style rundown timer, themed
 //tie time remaining into scoring
 //figure out role of scoring;
-//when time on question expires lose screen shown then last chance screen shown with another lose screen
+
+//refactor the timer pie numbers so that it starts from the 12 o'clock position
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
