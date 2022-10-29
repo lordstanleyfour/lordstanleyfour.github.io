@@ -4,6 +4,7 @@ window.addEventListener('load', function () {
 //---------------------------------------------------------//
 const canvas1 = document.getElementById('canvas1');
 const ctx = canvas1.getContext('2d');
+canvas1.style.display = 'initial'; //display canvas only when load complete
 canvas1.width = 900;
 canvas1.height = 600;
 const fps = 30;
@@ -35,7 +36,7 @@ var questionArraySelected = undefined;
 var correctAnswerSelected = false;
 var initPhase = true;
 var initialShuffle = false;
-var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose;
+var categoryPhase, questionPhase, lastChancePhase, endPhase, win, lose, testMode;
 var categoryXAnchor = 300, categoryYAnchor = 15;
 var questionXAnchor = 310, questionYAnchor = 225;
 var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
@@ -44,139 +45,67 @@ var score = 0;
 var scoreTarget = 10; scoreBarIncrement = 475/scoreTarget;
 var savedTime, deadline, timeRemaining; 
 
+//question template
+/* {
+    questionLine1: " ",
+    questionLine2: " ",
+    correctAnswerline1: " ",
+    correctAnswerline2: " ",
+    altAnswer1line1: " ",
+    altAnswer1line2: " ",
+    altAnswer2line1: " ",
+    altAnswer2line2: " ",
+    altAnswer3line1: " ",
+    altAnswer3line2: " "
+}, */
+//ANATOMY & PHYSIOLOGY
 let defaultQuestions = [
-    {
-        questionLine1: "What is the average airspeed",
-	    questionLine2: "of an unladen swallow?",
-        correctAnswerline1: "African or European",
-        correctAnswerline2: "This is answer 1",
-        altAnswer1line1: "This is answer 2",
-        altAnswer1line2: "This is answer 2",
-        altAnswer2line1: "This is answer 3",
-        altAnswer2line2: "This is answer 3",
-        altAnswer3line1: "This is answer 4",
-        altAnswer3line2: "This is answer 4"
-    },
-    {
-        questionLine1: "THIS IS QUESTION B",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 5",
-        correctAnswerline2: "This is answer 5",
-        altAnswer1line1: "This is answer 6",
-        altAnswer1line2: "This is answer 6",
-        altAnswer2line1: "This is answer 7",
-        altAnswer2line2: "This is answer 7",
-        altAnswer3line1: "This is answer 8",
-        altAnswer3line2: "This is answer 8"
-    }
+    {questionLine1: "Which palpable bony landmark is situated ", questionLine2: "on the anterosuperior aspect of the pelvis?", correctAnswerline1: "ASIS", correctAnswerline2: " ", altAnswer1line1: "PSIS", altAnswer1line2: " ", altAnswer2line1: "AIIS", altAnswer2line2: " ", altAnswer3line1: "GT",altAnswer3line2: " "},
+    {questionLine1: " What is the palpable lump on the posterior ",questionLine2: "aspect of the occiput called?",correctAnswerline1: "External Occipital Protuberance",correctAnswerline2: " ",altAnswer1line1: "Zygoma",altAnswer1line2: " ",altAnswer2line1: "Naison",altAnswer2line2: " ",altAnswer3line1: "Philtrum",altAnswer3line2: " "},
+    {questionLine1: "Which animal is associated with the appearance",questionLine2: " of the zygomata on the OM10 facial bones projection?",correctAnswerline1: "Dolan’s Elephants",correctAnswerline2: " ",altAnswer1line1: "Davidson’s Cats",altAnswer1line2: " ",altAnswer2line1: "McKay’s Pheasants",altAnswer2line2: " ",altAnswer3line1: "Shannon’s Chickens",altAnswer3line2: " "},
+    {questionLine1: "On an oblique lumbar spine, which animal is associated ",questionLine2: "with the appearance of the posterior and lateral elements?",correctAnswerline1: "Scotty Dogs",correctAnswerline2: " ",altAnswer1line1: " Japanese Chins",altAnswer1line2: " ",altAnswer2line1: "French Poodles",altAnswer2line2: " ",altAnswer3line1: "German Shepherds",altAnswer3line2: " "}
 ];
 
+//PHYSICS
 let alternativeQuestions = [
-    {
-        questionLine1: "THIS IS QUESTION AA",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 11",
-        correctAnswerline2: "This is answer 11",
-        altAnswer1line1: "This is answer 22",
-        altAnswer1line2: "This is answer 22",
-        altAnswer2line1: "This is answer 33",
-        altAnswer2line2: "This is answer 33",
-        altAnswer3line1: "This is answer 44",
-        altAnswer3line2: "This is answer 44"
-    },
-    {
-        questionLine1: "THIS IS QUESTION BB",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 55",
-        correctAnswerline2: "This is answer 55",
-        altAnswer1line1: "This is answer 66",
-        altAnswer1line2: "This is answer 66",
-        altAnswer2line1: "This is answer 77",
-        altAnswer2line2: "This is answer 77",
-        altAnswer3line1: "This is answer 88",
-        altAnswer3line2: "This is answer 88"
-    }
+    {questionLine1: "An incident electron is deflected around the target nucleus, ",questionLine2: "generating an X-ray photon. This is known as...",correctAnswerline1: "Brehmsstrahlung radiation",correctAnswerline2: " ",altAnswer1line1: "Characteristic radiation",altAnswer1line2: " ",altAnswer2line1: "Hawking radiation",altAnswer2line2: " ",altAnswer3line1: "Gamma radiation",altAnswer3line2: " "},
+    {questionLine1: "A grid is used to...",questionLine2: " ",correctAnswerline1: "Reduce scattered radiation ",correctAnswerline2: "to improve image quality",altAnswer1line1: "Reduce the chances of ",altAnswer1line2: "motion artefact",altAnswer2line1: "Allow for a reduced SID",altAnswer2line2: " ",altAnswer3line1: "Determine the correct mAs ",altAnswer3line2: "required for an examination"},
+    {questionLine1: "The acronym “DRL” refers to:",questionLine2: " ",correctAnswerline1: "Diagnostic Reference Level",correctAnswerline2: " ",altAnswer1line1: "Dose Reducting Layer",altAnswer1line2: " ",altAnswer2line1: "Diagnostic Reporting Load",altAnswer2line2: " ",altAnswer3line1: "Devious Rotating Lemur",altAnswer3line2: " "},
+    {questionLine1: "What is the purpose of output testing?",questionLine2: " ",correctAnswerline1: " Ensure consistent X-ray delivery ",correctAnswerline2: "over multiple exposure settings",altAnswer1line1: "Ensure that the AECs ",altAnswer1line2: "are functioning correctly",altAnswer2line1: "Measure radiographer speed ",altAnswer2line2: "and accuracy",altAnswer3line1: "Ensure the DAP meter ",altAnswer3line2: "is functioning correctly"},
+    {questionLine1: "You have doubled your SID; to maintain image density, ",questionLine2: "the mAs should be increased by a factor of:",correctAnswerline1: "4",correctAnswerline2: " ",altAnswer1line1: "2",altAnswer1line2: " ",altAnswer2line1: "8",altAnswer2line2: " ",altAnswer3line1: "No change",altAnswer3line2: " "}
+
 ];
 
+//PATHOLOGY
 let alternativeQuestions2 = [
-    {
-        questionLine1: "THIS IS QUESTION AAA",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 111",
-        correctAnswerline2: "This is answer 111",
-        altAnswer1line1: "This is answer 222",
-        altAnswer1line2: "This is answer 222",
-        altAnswer2line1: "This is answer 333",
-        altAnswer2line2: "This is answer 333",
-        altAnswer3line1: "This is answer 444",
-        altAnswer3line2: "This is answer 444"
-    },
-    {
-        questionLine1: "THIS IS QUESTION BBB",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 555",
-        correctAnswerline2: "This is answer 555",
-        altAnswer1line1: "This is answer 666",
-        altAnswer1line2: "This is answer 666",
-        altAnswer2line1: "This is answer 777",
-        altAnswer2line2: "This is answer 777",
-        altAnswer3line1: "This is answer 888",
-        altAnswer3line2: "This is answer 888"
-    }
+    {questionLine1: "Which is a common radiographic feature ",questionLine2: "of Osteoarthritis?",correctAnswerline1: "Osteophytes",correctAnswerline2: " ",altAnswer1line1: "Poorly-defined lucent ",altAnswer1line2: "lesions",altAnswer2line1: "Disorganised trabeculae",altAnswer2line2: " ",altAnswer3line1: "Osteopenia",altAnswer3line2: " "},
+    {questionLine1: "Which pathology refers to an infection ",questionLine2: "of bone/bone marrow?",correctAnswerline1: "Osteomyelitis",correctAnswerline2: " ",altAnswer1line1: "Osteoarthritis",altAnswer1line2: " ",altAnswer2line1: "Osteopenia",altAnswer2line2: " ",altAnswer3line1: "Osteochondroma",altAnswer3line2: " "},
+    {questionLine1: "Which fluids constitute a liphaemarthrosis?",questionLine2: " ",correctAnswerline1: "Fat and blood",correctAnswerline2: " ",altAnswer1line1: "Fat and pus",altAnswer1line2: " ",altAnswer2line1: "Blood and mucus",altAnswer2line2: " ",altAnswer3line1: "Sweat and tears",altAnswer3line2: " "},
+    {questionLine1: "Housemaids knee is the colloquial",questionLine2: " term for a: ",correctAnswerline1: "Joint effusion",correctAnswerline2: "",altAnswer1line1: "Osteoarthritis",altAnswer1line2: "",altAnswer2line1: "Rheumatoid arthritis",altAnswer2line2: "",altAnswer3line1: "Osteomalacia",altAnswer3line2: ""},
+    {questionLine1: "A mallet deformity is most commonly the result ",questionLine2: "of which mechanism of injury?",correctAnswerline1: "Forced flexion",correctAnswerline2: " ",altAnswer1line1: "Forced extension",altAnswer1line2: " ",altAnswer2line1: "Forced rotation",altAnswer2line2: " ",altAnswer3line1: "Forced compression",altAnswer3line2: " "},
+    {questionLine1: "A fracture not appreciable on imaging ",questionLine2: "is referred to as...",correctAnswerline1: "Occult",correctAnswerline2: " ",altAnswer1line1: "Cheeky",altAnswer1line2: "",altAnswer2line1: "Hidden",altAnswer2line2: " ",altAnswer3line1: "Secret",altAnswer3line2: " "}
+    
 ];
 
+//RADSPERTISE
 let alternativeQuestions3 = [
-    {
-        questionLine1: "THIS IS QUESTION AAAA",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 1111",
-        correctAnswerline2: "This is answer 1111",
-        altAnswer1line1: "This is answer 2222",
-        altAnswer1line2: "This is answer 2222",
-        altAnswer2line1: "This is answer 3333",
-        altAnswer2line2: "This is answer 3333",
-        altAnswer3line1: "This is answer 4444",
-        altAnswer3line2: "This is answer 4444"
-    },
-    {
-        questionLine1: "THIS IS QUESTION BBBB",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 5555",
-        correctAnswerline2: "This is answer 5555",
-        altAnswer1line1: "This is answer 6666",
-        altAnswer1line2: "This is answer 6666",
-        altAnswer2line1: "This is answer 7777",
-        altAnswer2line2: "This is answer 7777",
-        altAnswer3line1: "This is answer 8888",
-        altAnswer3line2: "This is answer 8888"
-    }
+    {questionLine1: "Under IR(ME)R, which duty holder is responsible for ",questionLine2: "providing adequate clinical information to justify a referral?",correctAnswerline1: "Referrer",correctAnswerline2: " ",altAnswer1line1: "Operator",altAnswer1line2: " ",altAnswer2line1: "Practitioner",altAnswer2line2: " ",altAnswer3line1: "Employer",altAnswer3line2: " "},
+    {questionLine1: "Wilhelm Roentgen discovered X-rays in which year?",questionLine2: " ",correctAnswerline1: "1895",correctAnswerline2: " ",altAnswer1line1: "1985",altAnswer1line2: " ",altAnswer2line1: "1958",altAnswer2line2: " ",altAnswer3line1: "1858",altAnswer3line2: " "},
+    {questionLine1: "When does an operating theatre ",questionLine2: "become a controlled area?",correctAnswerline1: "As soon as there is power ",correctAnswerline2: "to the imaging unit",altAnswer1line1: "As soon as the Radiographer",altAnswer1line2: "says that it is",altAnswer2line1: "As soon as the controlled ",altAnswer2line2: "area signs are displayed",altAnswer3line1: "As soon as the first ",altAnswer3line2: "image is taken"},
+    {questionLine1: "You are about to doff your gloves, mask, ",questionLine2: "eye protection and apron; which comes off first? ",correctAnswerline1: "Gloves",correctAnswerline2: " ",altAnswer1line1: "Mask",altAnswer1line2: " ",altAnswer2line1: "Eye protection",altAnswer2line2: " ",altAnswer3line1: "Apron",altAnswer3line2: " "},
+    {questionLine1: "A controlled area is defined by ",questionLine2: "which piece of legislation?",correctAnswerline1: "IRR",correctAnswerline2: " ",altAnswer1line1: "IR(ME)R",altAnswer1line2: " ",altAnswer2line1: "Health and Safety at Work Act",altAnswer2line2: " ",altAnswer3line1: "Article 52 of the Lisbon Treaty",altAnswer3line2: " "},
+    {questionLine1: "Pregnancy status is usually checked for patients ",questionLine2: "between the age of:",correctAnswerline1: "12 - 55",correctAnswerline2: " ",altAnswer1line1: "16 - 45",altAnswer1line2: " ",altAnswer2line1: "14 - 60",altAnswer2line2: " ",altAnswer3line1: "21 - 50",altAnswer3line2: " "},
+    {questionLine1: "Which of these is NOT an HCPC standard of proficiency ",questionLine2: "for Radiographers?",correctAnswerline1: "Maintain a clean police record",correctAnswerline2: " ",altAnswer1line1: "Be able to maintain fitness ",altAnswer1line2: "to practise",altAnswer2line1: "Be able to work appropriately ",altAnswer2line2: "with others",altAnswer3line1: "Be aware of the impact of culture",altAnswer3line2: "equality and diversity on practice"},
+    {questionLine1: "Anode targets are often made from which material?",questionLine2: " ",correctAnswerline1: "Tungsten",correctAnswerline2: " ",altAnswer1line1: "Gold",altAnswer1line2: " ",altAnswer2line1: "Steel",altAnswer2line2: " ",altAnswer3line1: "Cheese ",altAnswer3line2: " "}
+
 ];
 
+//DAILY MAIL
 let alternativeQuestions4 = [
-    {
-        questionLine1: "THIS IS QUESTION AAAAA",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 11111",
-        correctAnswerline2: "This is answer 11111",
-        altAnswer1line1: "This is answer 22222",
-        altAnswer1line2: "This is answer 22222",
-        altAnswer2line1: "This is answer 33333",
-        altAnswer2line2: "This is answer 33333",
-        altAnswer3line1: "This is answer 44444",
-        altAnswer3line2: "This is answer 44444"
-    },
-    {
-        questionLine1: "THIS IS QUESTION BBBBB",
-	    questionLine2: "AND YOUR MUM IS FAT",
-        correctAnswerline1: "This is answer 55555",
-        correctAnswerline2: "This is answer 55555",
-        altAnswer1line1: "This is answer 66666",
-        altAnswer1line2: "This is answer 66666",
-        altAnswer2line1: "This is answer 77777",
-        altAnswer2line2: "This is answer 77777",
-        altAnswer3line1: "This is answer 88888",
-        altAnswer3line2: "This is answer 88888"
-    }
+    {questionLine1: "Who did John Major allegedly have ",questionLine2: "an extramarital affair with?",correctAnswerline1: "Edwina Curry",correctAnswerline2: " ",altAnswer1line1: "Margaret Thatcher",altAnswer1line2: " ",altAnswer2line1: "Prince Andrew",altAnswer2line2: " ",altAnswer3line1: "Camilla Parker-Bowles",altAnswer3line2: " "},
+    {questionLine1: "Scamorza is a type of: ",questionLine2: " ",correctAnswerline1: "Cheese",correctAnswerline2: " ",altAnswer1line1: "Immigrant",altAnswer1line2: " ",altAnswer2line1: "Meat",altAnswer2line2: " ",altAnswer3line1: "Vegetable",altAnswer3line2: " "},
+    {questionLine1: "What was the first music video played on MTV?",questionLine2: " ",correctAnswerline1: "Video Killed the Radio Star",correctAnswerline2: " ",altAnswer1line1: "Bohemian Rhapsody",altAnswer1line2: " ",altAnswer2line1: "Thriller",altAnswer2line2: " ",altAnswer3line1: "Baby Shark",altAnswer3line2: " "}
+    
 ];
 
 let questionBoxPositionArray = [{x:questionXAnchor + 40,y:questionYAnchor + 40}, 
@@ -212,7 +141,7 @@ class TargetBox {
         if (!this.text2) ctx.strokeText(this.text1, this.x + (this.w/2), this.y + (this.h/2));
         else {
             ctx.strokeText(this.text1, this.x + (this.w/2), this.y + (this.h/2) - 5);
-            ctx.strokeText(this.text2, this.x + (this.w/2), this.y + (this.h/2) + 10);
+            ctx.strokeText(this.text2, this.x + (this.w/2), this.y + (this.h/2) + 15);
         }
 
         //text for question boxes
@@ -343,12 +272,17 @@ class TargetBox {
                 rng = Math.floor(Math.random()*3);
                 questionArraySelected = alternativeQuestions4;
             }
-            if (questionArraySelected){
+            if (questionArraySelected && !testMode){
                 rng = Math.floor(Math.random()*3);
                 categoryPhase = false;
                 questionPhase = true;
                 savedTime = undefined;
-            }            
+            }
+            else if (questionArraySelected && testMode){
+                categoryPhase = false;
+                questionPhase = true;
+                savedTime = undefined;
+            }
         }
 
         //last chance box select
@@ -377,6 +311,14 @@ class TargetBox {
         if (this.category === 'alternative2' && alternativeQuestions2.length < 1) categoryBlackout(this.x, this.y, this.w, this.h);
         if (this.category === 'alternative3' && alternativeQuestions3.length < 1) categoryBlackout(this.x, this.y, this.w, this.h);
         if (this.category === 'alternative4' && alternativeQuestions4.length < 1) categoryBlackout(this.x, this.y, this.w, this.h);
+
+        //debug mode select
+        if (collision(this) && this.purposeSelect === 'test'){
+            initPhase = false; categoryPhase = false; questionPhase = false; lastChancePhase = false; endPhase = false; win = false; lose = false;
+            testMode = true; categoryPhase = true;
+
+
+        }
     }
 }
 
@@ -401,6 +343,8 @@ var lastBox2 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'inco
 let lastChanceBoxArray = [];
 //create restart button
 var restartBox = new TargetBox(395, 400, 110, 50, 'restartPrompt');
+//
+var testModeBox = new TargetBox(0, 0, 50, 50, 'test');
 
 function initHandler(){
     if (initPhase){
@@ -520,28 +464,16 @@ function categoryBlackout(x, y, w, h){
 }
 
 function questionHandler(){
-    if (questionPhase && questionArraySelected && questionArraySelected.length !== 0){
+    if (questionPhase && questionArraySelected && questionArraySelected.length !== 0 && !testMode){
         //draw background
         ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
         ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
-        /* ctx.fillStyle = 'pink';
-        ctx.fillRect(questionXAnchor, questionYAnchor, 525, 325);
-        ctx.strokeStyle = 'black';
-        ctx.beginPath();
-        ctx.rect(questionXAnchor, questionYAnchor, 525, 325);
-        ctx.stroke();
-        ctx.closePath();
-        ctx.fillStyle = 'rgb(220, 220, 220, 0.8)';
-        ctx.strokeSyle = 'black';        
-        ctx.fillRect(questionXAnchor + 65, questionYAnchor + 30, 400, 75);
-        ctx.rect(questionXAnchor + 65, questionYAnchor + 30, 400, 75);
-        ctx.stroke(); */
 
         //text
         ctx.font = '17px Verdana';
 	    ctx.textAlign = 'center';
         ctx.strokeStyle = 'black';
-        ctx.strokeText('QUESTION: ' + questionArraySelected[0].questionLine1, questionXAnchor + 265, questionYAnchor -130);
+        ctx.strokeText(questionArraySelected[0].questionLine1, questionXAnchor + 265, questionYAnchor -130);
         if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, questionXAnchor + 265, questionYAnchor -100);
         ctx.strokeText("-----------------------------------------------------------", questionXAnchor + 265, questionYAnchor -60);
 
@@ -561,6 +493,31 @@ function questionHandler(){
         timer(10);
         drawTimer();
     }
+    //debug mode
+    else if (questionPhase && questionArraySelected && questionArraySelected.length !== 0 && testMode){
+        //draw background
+        ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
+        ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
+
+        //text
+        ctx.font = '17px Verdana';
+	    ctx.textAlign = 'center';
+        ctx.strokeStyle = 'black';
+        ctx.strokeText(questionArraySelected[0].questionLine1, questionXAnchor + 265, questionYAnchor -130);
+        if (questionArraySelected[0].questionLine2) ctx.strokeText(questionArraySelected[0].questionLine2, questionXAnchor + 265, questionYAnchor -100);
+        ctx.strokeText("-----------------------------------------------------------", questionXAnchor + 265, questionYAnchor -60);
+
+        //arrange and draw question boxes
+        for (i = 0; i < questionBoxArray.length; i++){
+            questionBoxArray[i].position = questionBoxPositionArray[i];                 
+        }
+
+        questionBoxArray.forEach(element => {
+            element.draw();
+            element.update();
+        })
+
+    }
 
     if (questionPhase && questionArraySelected && questionArraySelected.length === 0){
         questionPhase = false;
@@ -568,7 +525,7 @@ function questionHandler(){
         //shouldn't be needed but leave in to prevent crash
     }
 
-    if (correctAnswerSelected){
+    if (correctAnswerSelected && !testMode){
         questionArraySelected.splice(0, 1);
         score++;
         rng = Math.floor(Math.random()*3);
@@ -577,6 +534,14 @@ function questionHandler(){
         questionPhase = false;
         categoryPhase = true;
     }
+    else if (correctAnswerSelected && testMode){
+        questionArraySelected.splice(0, 1);
+        correctAnswerSelected = false;
+        questionArraySelected = undefined;
+        questionPhase = false;
+        categoryPhase = true;
+        //do something for debugging here
+    }
 }
 
 function lastChanceHandler(){
@@ -584,10 +549,7 @@ function lastChanceHandler(){
         //darken background
         ctx.fillStyle = 'rgb(0, 0, 0, 0.5';
         ctx.fillRect(0, 0, canvas1.width, canvas1.height);
-        ctx.font = '12px Verdana';
-        ctx.strokeStyle = 'black';
-        ctx.strokeText('LAST CHANCE! Pick the image with the abnormality...', canvas1.width/2, 25);
-
+        
         //temporary values and calls (w=300, h=500)
 
         //randomise lastBox positions
@@ -599,7 +561,12 @@ function lastChanceHandler(){
 
         lastBox1.draw(); lastBox1.update(); lastBox2.draw(); lastBox2.update();  
         timer(10);
-        drawTimer();      
+        drawTimer();   
+
+        ctx.font = '18px Verdana';
+        ctx.strokeStyle = 'white';
+        ctx.strokeText('LAST CHANCE! Pick the image with the abnormality...', canvas1.width/2, /* canvas1.height - */ 30);
+   
     }
 }
 
@@ -777,7 +744,10 @@ function drawTimer(){
 
 }
 
-
+function debug (){
+    testModeBox.draw();
+    testModeBox.update();
+}
 
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
@@ -805,6 +775,8 @@ function animate(){
         lastChanceHandler();
         endPhaseHandler();
         scoreHandler();
+
+        debug();
 	    
         //drawTimer();
         if (!win) hue += 2;
@@ -820,6 +792,8 @@ function animate(){
 }
 startAnimating(fps);
 });
+
+//make debug function to correctly answer question to skip through questions for testing
 
 //make a background image (spritesheet?)
 ////animated bar style rundown timer, themed
