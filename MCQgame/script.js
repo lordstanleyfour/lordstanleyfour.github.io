@@ -338,7 +338,7 @@ var categoryBox4 = new TargetBox(categoryXAnchor + 330, categoryYAnchor + 45, 10
 var categoryBox5 = new TargetBox(categoryXAnchor + 435, categoryYAnchor + 45, 100, 140, 'categorySelect', 'alternative4');
 let categoryBoxArray = [categoryBox1, categoryBox2, categoryBox3, categoryBox4, categoryBox5];
 //create init boxes
-var initBox1 = new TargetBox(400, 420, 100, 50, 'continuePrompt');
+var initBox1 = new TargetBox(400, 460, 100, 50, 'continuePrompt');
 //create last chance boxes
 var lastBox1 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'correctImage');
 var lastBox2 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'incorrectImage');
@@ -356,17 +356,18 @@ function initHandler(){
     //text for instructions
     ctx.textAlign = 'center';    
     ctx.font = '50px Verdana'; ctx.strokeStyle = 'black'; ctx.fillStyle = 'red'
-    ctx.fillText('ARE YOU READY TO QUIZ!!!!!', 450, 100); ctx.strokeText('ARE YOU READY TO QUIZ!!!!!', 450, 100);
+    ctx.fillText('ARE YOU READY TO QUIZ!!!!!', 450, 125); ctx.strokeText('ARE YOU READY TO QUIZ!!!!!', 450, 125);
     ctx.font = '25px Verdana'; ctx.fillStyle = 'black';
-    ctx.fillText('I hope so, because that\'s what\'s about to happen to you.', 450, 150);
+    ctx.fillText('I hope so, because that\'s what\'s about to happen to you.', 450, 165);
     ctx.font =  '16px Verdana';
-    ctx.fillText('You will select questions to answer, within a time limit, from 5 categories.', 450, 200);
-    ctx.fillText('If you mess up, you will be shown two X-ray images -', 450, 250);
-    ctx.fillText('Choose the ABNORMAL image to save your arse and keep going.', 450, 300);
-    ctx.fillText('The target score is ' + scoreTarget + '!  Don\'t let me down now.', 450, 350)
+    ctx.fillText('You will select questions to answer, within a time limit, from 5 categories.', 450, 230);
+    ctx.fillText('If you mess up, you will be shown two X-ray images -', 450, 300);
+    ctx.fillText('Choose the ABNORMAL image to save your arse and keep going.', 450, 320);
+    ctx.fillText('The target score is ' + scoreTarget + '!  Don\'t let me down now.', 450, 390)
     ctx.fillStyle = 'red'; 
-    ctx.fillText('Press button to continue', 450, 400);ctx.strokeText('Press button to continue', 450, 400);
-    
+    ctx.fillText('Press button to continue', 450, 450);ctx.strokeText('Press button to continue', 450, 450);
+    ctx.drawImage(document.getElementById('pointer'), 280, 470, 100, 100);
+
     //draw and update a continue prompt box
     initBox1.draw();
     initBox1.update();
@@ -460,6 +461,7 @@ function categoryHandler(){
                 element.update();  
             })
             drawTimer();
+            ctx.drawImage(document.getElementById('pointer'), 200, 100, 100, 100);
         } 
     } else if ((defaultQuestions.length + alternativeQuestions.length + alternativeQuestions2.length 
         + alternativeQuestions3.length + alternativeQuestions4.length) <= 0 && categoryPhase){
@@ -504,6 +506,8 @@ function questionHandler(){
 
         timer(10);
         drawTimer();
+
+        ctx.drawImage(document.getElementById('pointer'), 200, 350, 100, 100);
     }
     //debug mode
     else if (questionPhase && questionArraySelected && questionArraySelected.length !== 0 && testMode){
@@ -561,14 +565,15 @@ function lastChanceHandler(){
         //darken background
         ctx.fillStyle = 'rgb(0, 0, 0, 0.5';
         ctx.fillRect(0, 0, canvas1.width, canvas1.height);
+        let anchorX = 100; let anchorY = 50;
         
         //temporary values and calls (w=300, h=500)
 
         //randomise lastBox positions
         if (rng % 2 == 0){
-            lastBox1.x = 50; lastBox1.y = 50; lastBox2.x = 450; lastBox2.y = 50;
+            lastBox1.x = anchorX; lastBox1.y = anchorY; lastBox2.x = anchorX + 400; lastBox2.y = anchorY;
         } else {
-            lastBox2.x = 50; lastBox2.y = 50; lastBox1.x = 450; lastBox1.y = 50;
+            lastBox2.x = anchorX; lastBox2.y = anchorY; lastBox1.x = anchorX + 400; lastBox1.y = anchorY;
         }
 
         lastBox1.draw(); lastBox1.update(); lastBox2.draw(); lastBox2.update();  
@@ -578,7 +583,7 @@ function lastChanceHandler(){
         ctx.font = '18px Verdana';
         ctx.strokeStyle = 'white';
         ctx.strokeText('LAST CHANCE! Pick the image with the abnormality...', canvas1.width/2, /* canvas1.height - */ 30);
-   
+        ctx.drawImage(document.getElementById("lastchancepointer"), 400, 100);
     }
 }
 
@@ -655,7 +660,7 @@ function drawBackground(){
 
 function drawTimer(){
     if (!lastChancePhase) ctx.drawImage(document.getElementById('watch'), 200, 0);
-    else ctx.drawImage(document.getElementById('watch'), 350, 0);
+    else ctx.drawImage(document.getElementById('watch'), 400, 0);
     
     let timerPieX, timerPieY;
     let correctedStartAngle = 270*Math.PI/180;
@@ -669,7 +674,7 @@ function drawTimer(){
         timerPieX = 250; timerPieY = 60;
     }
     else {
-        timerPieX = 400; timerPieY = 60;   
+        timerPieX = 450; timerPieY = 60;   
     }
     
     //draw the pie
@@ -691,7 +696,7 @@ function drawTimer(){
         ctx.fillStyle = 'black';
         ctx.font = '25px Verdana';
         if (!lastChancePhase) ctx.fillText(timeRemaining, 250, 68);
-        else ctx.fillText(timeRemaining, 400, 68);        
+        else ctx.fillText(timeRemaining, 450, 68);        
     }
 
 }
