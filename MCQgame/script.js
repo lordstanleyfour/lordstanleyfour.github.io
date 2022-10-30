@@ -767,7 +767,7 @@ startAnimating(fps);
 
 //factor number of questions asked into final score
 //find images for lose screen and tart it up
-
+//draw a line between the panel and the tank
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
