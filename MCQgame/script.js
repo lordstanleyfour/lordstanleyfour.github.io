@@ -42,7 +42,7 @@ var questionXAnchor = 310, questionYAnchor = 225;
 var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var score = 0;
-var scoreTarget = 10; scoreBarIncrement = 475/scoreTarget;
+var scoreTarget = 100; scoreBarIncrement = 475/scoreTarget;
 var savedTime, deadline, timeRemaining; 
 
 //question template
@@ -105,7 +105,7 @@ let alternativeQuestions4 = [
     {questionLine1: "Who did John Major allegedly have ",questionLine2: "an extramarital affair with?",correctAnswerline1: "Edwina Curry",correctAnswerline2: " ",altAnswer1line1: "Margaret Thatcher",altAnswer1line2: " ",altAnswer2line1: "Prince Andrew",altAnswer2line2: " ",altAnswer3line1: "Camilla Parker-Bowles",altAnswer3line2: " "},
     {questionLine1: "Scamorza is a type of: ",questionLine2: " ",correctAnswerline1: "Cheese",correctAnswerline2: " ",altAnswer1line1: "Immigrant",altAnswer1line2: " ",altAnswer2line1: "Meat",altAnswer2line2: " ",altAnswer3line1: "Vegetable",altAnswer3line2: " "},
     {questionLine1: "What was the first music video played on MTV?",questionLine2: " ",correctAnswerline1: "Video Killed the Radio Star",correctAnswerline2: " ",altAnswer1line1: "Bohemian Rhapsody",altAnswer1line2: " ",altAnswer2line1: "Thriller",altAnswer2line2: " ",altAnswer3line1: "Baby Shark",altAnswer3line2: " "}
-    
+
 ];
 
 let questionBoxPositionArray = [{x:questionXAnchor + 40,y:questionYAnchor + 40}, 
@@ -217,6 +217,8 @@ class TargetBox {
         //text for restart box
         if (this.purposeSelect === 'restartPrompt') this.text1 = 'Click to restart';
         
+        //text for debug box
+        if (this.purposeSelect === 'test') this.text1 = 'debug';
 
     }
     update(){
@@ -241,9 +243,8 @@ class TargetBox {
             questionPhase = false;
             lastChancePhase = true;
             questionArraySelected = undefined;
-            score--;
             savedTime = undefined;
-        } 
+        }
 
         //init box select
         else if (collision (this) && this.purposeSelect === 'continuePrompt'){
@@ -294,6 +295,7 @@ class TargetBox {
                 goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
                 badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
                 categoryPhase = true;
+                score -= (10-timeRemaining);
             } else if (this.category === 'correctImage') {
                 lastChancePhase = false;
                 endPhase = true; 
@@ -336,7 +338,7 @@ var categoryBox4 = new TargetBox(categoryXAnchor + 330, categoryYAnchor + 45, 10
 var categoryBox5 = new TargetBox(categoryXAnchor + 435, categoryYAnchor + 45, 100, 140, 'categorySelect', 'alternative4');
 let categoryBoxArray = [categoryBox1, categoryBox2, categoryBox3, categoryBox4, categoryBox5];
 //create init boxes
-var initBox1 = new TargetBox(400, 400, 100, 50, 'continuePrompt');
+var initBox1 = new TargetBox(400, 420, 100, 50, 'continuePrompt');
 //create last chance boxes
 var lastBox1 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'correctImage');
 var lastBox2 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'incorrectImage');
@@ -352,14 +354,23 @@ function initHandler(){
     ctx.fillStyle = 'pink';
     ctx.fillRect(50, 50, 800, 500);
     //text for instructions
-    ctx.font = '12px Verdana';
-    ctx.strokeStyle = 'black';
-    ctx.textAlign = 'center';
-    ctx.strokeText('This is where the instructions live', 450, 200);
-    ctx.strokeText('Press button to continue', 450, 300);
+    ctx.textAlign = 'center';    
+    ctx.font = '50px Verdana'; ctx.strokeStyle = 'black'; ctx.fillStyle = 'red'
+    ctx.fillText('ARE YOU READY TO QUIZ!!!!!', 450, 100); ctx.strokeText('ARE YOU READY TO QUIZ!!!!!', 450, 100);
+    ctx.font = '25px Verdana'; ctx.fillStyle = 'black';
+    ctx.fillText('I hope so, because that\'s what\'s about to happen to you.', 450, 150);
+    ctx.font =  '16px Verdana';
+    ctx.fillText('You will select questions to answer, within a time limit, from 5 categories.', 450, 200);
+    ctx.fillText('If you mess up, you will be shown two X-ray images -', 450, 250);
+    ctx.fillText('Choose the ABNORMAL image to save your arse and keep going.', 450, 300);
+    ctx.fillText('The target score is ' + scoreTarget + '!  Don\'t let me down now.', 450, 350)
+    ctx.fillStyle = 'red'; 
+    ctx.fillText('Press button to continue', 450, 400);ctx.strokeText('Press button to continue', 450, 400);
+    
     //draw and update a continue prompt box
     initBox1.draw();
     initBox1.update();
+
 
     //shuffle question arrays
         if (!initialShuffle) {
@@ -401,6 +412,7 @@ function initHandler(){
 }
 
 function mobileCat(){
+    //for moving select category text
     if (categoryPhase){
         if (!mobileCatX) {
             mobileCatXLeft = false; mobileCatXRight = false;
@@ -527,7 +539,7 @@ function questionHandler(){
 
     if (correctAnswerSelected && !testMode){
         questionArraySelected.splice(0, 1);
-        score++;
+        score += timeRemaining;
         rng = Math.floor(Math.random()*3);
         correctAnswerSelected = false;
         questionArraySelected = undefined;
@@ -608,10 +620,10 @@ function scoreHandler(){
         //tank image
         ctx.drawImage(document.getElementById('tank'), 50, 75);
         //text
-        ctx.fillStyle = 'black';
+        ctx.fillStyle = 'red';
         ctx.strokeStyle = 'black';
-        ctx.font = '12px Verdana';
-        ctx.strokeText('SCORE:  ' + score, 100, 100);
+        ctx.font = '20px Verdana';
+        ctx.strokeText('SCORE:  ' + score, 125, 70); ctx.fillText('SCORE:  ' + score, 125, 70);
     }
     if (score >= scoreTarget){
         questionPhase = false; categoryPhase = false; win = true; endPhase = true;
@@ -646,95 +658,35 @@ function drawTimer(){
     else ctx.drawImage(document.getElementById('watch'), 350, 0);
     
     let timerPieX, timerPieY;
+    let correctedStartAngle = 270*Math.PI/180;
+    let correctedEndAngle = ((timeRemaining * 36) - 90)*Math.PI/180;
 
     ctx.fillStyle = 'lightblue';
     ctx.strokeStyle = 'lightblue';
+
+    //move watch to correct position
     if (!lastChancePhase) {
         timerPieX = 250; timerPieY = 60;
     }
     else {
         timerPieX = 400; timerPieY = 60;   
-    }    
-
-    if (timeRemaining === 10){
-        ctx.beginPath();
-        ctx.arc(timerPieX, timerPieY, 30, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-    else if (timeRemaining === 9){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 1.8 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();
-    }   
-    else if (timeRemaining === 8){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 1.6 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();
-        
-    }
-    else if (timeRemaining === 7){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 1.4 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();
-    }
-    else if (timeRemaining === 6){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 1.2 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();
-        }
-    else if (timeRemaining === 5){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 1.0 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();
-    }
-    else if (timeRemaining === 4){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 0.8 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();  
-    }
-    else if (timeRemaining === 3){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 0.6 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();  
-    }
-    else if (timeRemaining === 2){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 0.4 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();  
-    }
-    else if (timeRemaining === 1){
-        ctx.beginPath();        
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.arc(timerPieX, timerPieY, 30, 0, 0.2 * Math.PI);
-        ctx.lineTo(timerPieX, timerPieY);
-        ctx.fill();
-        ctx.closePath();  
     }
     
+    //draw the pie
+    if (timeRemaining === 10){
+        ctx.beginPath();
+        ctx.arc(timerPieX, timerPieY, 30, 0, Math.PI*2);
+        ctx.fill();
+    } else {
+        ctx.beginPath();        
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.arc(timerPieX, timerPieY, 30, correctedStartAngle, correctedEndAngle);
+        ctx.lineTo(timerPieX, timerPieY);
+        ctx.fill();
+        ctx.closePath();    
+    }
+    
+    //draw the number
     if (timeRemaining) {
         ctx.fillStyle = 'black';
         ctx.font = '25px Verdana';
@@ -796,9 +748,9 @@ startAnimating(fps);
 //make debug function to correctly answer question to skip through questions for testing
 
 //make a background image (spritesheet?)
-////animated bar style rundown timer, themed
-//tie time remaining into scoring
-//figure out role of scoring;
+//put mosher into win screen
+//factor number of questions asked into final score
+//find images for lose screen 
 
 //refactor the timer pie numbers so that it starts from the 12 o'clock position
 
