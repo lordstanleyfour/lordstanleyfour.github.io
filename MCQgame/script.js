@@ -43,7 +43,7 @@ var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var frameX = 0;
 var score = 0;
-var scoreTarget = 100; scoreBarIncrement = 475/scoreTarget;
+var scoreTarget = 100; scoreBarIncrement = 475/scoreTarget; var barH = 0; var barY = 550;
 var savedTime, deadline, timeRemaining; 
 
 //question template
@@ -174,10 +174,6 @@ class TargetBox {
                 if (this.category === 'default') {
                     //this.text1 = "defaultQuestions";
                     this.image = document.getElementById('anatomy');
-                    if (defaultQuestions.length < 1){
-                        
-                        //draw a semiopaque black rect over the provided image
-                    }
                 }
                 else if (this.category === 'alternative') {
                     //this.text1 = "alternativeQuestions";
@@ -373,7 +369,6 @@ function initHandler(){
     initBox1.draw();
     initBox1.update();
 
-
     //shuffle question arrays
         if (!initialShuffle) {
             //shuffle question array logic in category handler function
@@ -410,7 +405,6 @@ function initHandler(){
             initialShuffle = true;
         }
     }
-
 }
 
 function mobileCat(){
@@ -436,8 +430,6 @@ function mobileCat(){
 }
 
 function categoryHandler(){
-    //if no category selected then display text prompting a choice
-    //add function to send to calculate win/lose based on target score trigger endphase
     ////if the question arrays are empty
     if ((defaultQuestions.length + alternativeQuestions.length + alternativeQuestions2.length 
         + alternativeQuestions3.length + alternativeQuestions4.length) > 0 && categoryPhase){
@@ -445,13 +437,6 @@ function categoryHandler(){
             //draw background
             ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
             ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
-           /*  ctx.fillStyle = 'pink';
-            ctx.fillRect(categoryXAnchor, categoryYAnchor, 550, 200);
-            ctx.strokeStyle = 'black';
-            ctx.beginPath();
-            ctx.rect(categoryXAnchor, categoryYAnchor, 550, 200);
-            ctx.stroke();
-            ctx.closePath(); */
             ctx.strokeStyle = 'black';
             ctx.font = '12px Verdana';
             ctx.textAlign = 'center';
@@ -481,8 +466,8 @@ function categoryBlackout(x, y, w, h){
 function questionHandler(){
     if (questionPhase && questionArraySelected && questionArraySelected.length !== 0 && !testMode){
         //draw background
-        ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
         ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
+        ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
 
         //text
         ctx.font = '17px Verdana';
@@ -508,13 +493,13 @@ function questionHandler(){
         timer(10);
         drawTimer();
 
-        ctx.drawImage(document.getElementById('pointer'), 200, 350, 100, 100);
+        ctx.drawImage(document.getElementById('pointer'), 190, 340, 100, 100);
     }
     //debug mode
     else if (questionPhase && questionArraySelected && questionArraySelected.length !== 0 && testMode){
         //draw background
-        ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
         ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
+        ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
 
         //text
         ctx.font = '17px Verdana';
@@ -567,8 +552,6 @@ function lastChanceHandler(){
         ctx.fillStyle = 'rgb(0, 0, 0, 0.5';
         ctx.fillRect(0, 0, canvas1.width, canvas1.height);
         let anchorX = 100; let anchorY = 50;
-        
-        //temporary values and calls (w=300, h=500)
 
         //randomise lastBox positions
         if (rng % 2 == 0){
@@ -628,19 +611,32 @@ function scoreHandler(){
 
         //dynamic bar
         if (score > 0 ){
-            let barY = 550 - scoreBarIncrement*score;
-            let barH = scoreBarIncrement*score;
+            let barYTarget = 550 - scoreBarIncrement*score;
+            let barHincrement;
+            barHincrement = scoreBarIncrement*10/fps;
+
+            if (barY > barYTarget){
+                ctx.fillStyle = 'purple';
+                ctx.fillRect(112, 100, 30, 450);
+                barH += barHincrement;
+                barY -= barHincrement;
+            }
+
             ctx.fillStyle = 'purple';
             ctx.fillRect(50, barY, 150, barH);
         }
+
         //tank image
         ctx.drawImage(document.getElementById('tank'), 50, 75);
+        ctx.drawImage(document.getElementById('pipes'), 0, 0);
+
         //text
         ctx.fillStyle = 'red';
         ctx.strokeStyle = 'black';
         ctx.font = '20px Verdana';
         ctx.strokeText('SCORE:  ' + score, 125, 70); ctx.fillText('SCORE:  ' + score, 125, 70);
     }
+
     if (score >= scoreTarget){
         questionPhase = false; categoryPhase = false; win = true; endPhase = true;
     }
@@ -767,7 +763,10 @@ startAnimating(fps);
 
 //factor number of questions asked into final score
 //find images for lose screen and tart it up
-//draw a line between the panel and the tank
+////find and spritesheet wanker gifs.  Add to an array.  In loseHandler rng = between 0 and arraylength, pick a spritesheet and run.  
+////need conditional variables for each gif, numberofframes, fps(need a framecounter and gearing logic), x and y position
+//Use different init boxes to set different difficulty levels i.e. score target, scoring generosity and time allowed.  Label as student, band 5/6/7/8?
+
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
