@@ -41,6 +41,7 @@ var categoryXAnchor = 300, categoryYAnchor = 15;
 var questionXAnchor = 310, questionYAnchor = 225;
 var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
+var frameX = 0;
 var score = 0;
 var scoreTarget = 100; scoreBarIncrement = 475/scoreTarget;
 var savedTime, deadline, timeRemaining; 
@@ -594,10 +595,20 @@ function endPhaseHandler(){
             ctx.fillStyle = 'orange';
             ctx.fillRect(50, 50, 800, 500);
             //text
-            ctx.font = '12px Verdana';
-            ctx.strokeStyle = 'black';
+            ctx.font = '100px Verdana'; ctx.strokeStyle = 'black'; ctx.fillStyle = 'red';
             ctx.textAlign = 'center';
-            ctx.strokeText('You won', 450, 200);
+            ctx.fillText('You won', 450, 200); ctx.strokeText('You won', 450, 200);
+
+            //mosher
+            console.log('bum');
+            let sw = 200;
+            ctx.drawImage(document.getElementById('mosher'), frameX*sw, 0, sw, 200, 100, 300, 200, 200);
+            ctx.drawImage(document.getElementById('mosher'), frameX*sw, 0, sw, 200, 600, 300, 200, 200);
+            frameX++;
+            if (frameX > 4) frameX = 0;
+            //winpointer
+            ctx.drawImage(document.getElementById('winpointer'), 300, 230);            
+
         } else if (lose) {
             ctx.fillStyle = 'orange';
             ctx.fillRect(50, 50, 800, 500);
@@ -753,11 +764,10 @@ startAnimating(fps);
 //make debug function to correctly answer question to skip through questions for testing
 
 //make a background image (spritesheet?)
-//put mosher into win screen
-//factor number of questions asked into final score
-//find images for lose screen 
 
-//refactor the timer pie numbers so that it starts from the 12 o'clock position
+//factor number of questions asked into final score
+//find images for lose screen and tart it up
+
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
