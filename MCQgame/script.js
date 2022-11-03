@@ -795,14 +795,6 @@ startAnimating(fps);
 //questions do not reshuffle on wrong answer; leave a low difficulties but programme to reshuffle at high difficulties
 //trigger last chance on time expiry
 
-//html progress bar
-/* Another idea is to put little pieces of script like
-<script>percentage += 10; updateProgressBar();</script>
-through your page. That script will be executed the second browser l
-oads (or parses) it so you will be able to estimate the progress. */
-
-//make debug function to correctly answer question to skip through questions for testing
-
 //make a background image (spritesheet?)
 
 //display Qs answered correctly and incorrectly, saves made
@@ -812,6 +804,7 @@ oads (or parses) it so you will be able to estimate the progress. */
 ////need conditional variables for each gif, numberofframes, fps(need a framecounter and gearing logic), x and y position
 //Use different init boxes to set different difficulty levels i.e. score target, scoring generosity and time allowed.  Label as student, band 5/6/7/8?
 
+//delete debug
 
 //flow -> select category prompt -> category selected -> question boxes displayed -> reselect category on correct
 
