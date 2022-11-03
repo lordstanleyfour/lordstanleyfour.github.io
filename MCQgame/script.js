@@ -457,7 +457,7 @@ function categoryHandler(){
                 element.update();  
             })
             drawTimer();
-            ctx.drawImage(document.getElementById('pointer'), 200, 100, 100, 100);
+
         } 
     } else if ((defaultQuestions.length + alternativeQuestions.length + alternativeQuestions2.length 
         + alternativeQuestions3.length + alternativeQuestions4.length) <= 0 && categoryPhase){
@@ -478,6 +478,7 @@ function questionHandler(){
         //draw background
         ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
         ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
+
 
         //text
         ctx.font = '17px Verdana';
@@ -500,10 +501,9 @@ function questionHandler(){
             element.update();
         })
 
-        timer(10);
+        timer(15);
         drawTimer();
 
-        ctx.drawImage(document.getElementById('pointer'), 190, 340, 100, 100);
     }
     //debug mode
     else if (questionPhase && questionArraySelected && questionArraySelected.length !== 0 && testMode){
@@ -528,6 +528,7 @@ function questionHandler(){
             element.draw();
             element.update();
         })
+
 
     }
 
@@ -640,6 +641,10 @@ function scoreHandler(){
         ctx.drawImage(document.getElementById('tank'), 50, 75);
         ctx.drawImage(document.getElementById('pipes'), 0, 0);
 
+	//draw pointer
+	if (categoryPhase) pointer(180, 100);
+	if (questionPhase) pointer(180, 350);
+
         //text
         ctx.fillStyle = 'red';
         ctx.strokeStyle = 'black';
@@ -717,6 +722,14 @@ function drawTimer(){
     }
 
 }
+	
+function pointer(x, y){
+
+    ctx.drawImage(document.getElementById('pointerSprite'), 150*frameX, 0, 150, 150, x, y, 150, 150);
+    frameX++;
+    if (frameX > 9) frameX = 0;
+
+}
 
 function debug (){
     testModeBox.draw();
@@ -766,6 +779,9 @@ function animate(){
 }
 startAnimating(fps);
 });
+
+//questions do not reshuffle on wrong answer; leave a low difficulties but programme to reshuffle at high difficulties
+//fix pie not incrementing properly on times more than 10 secs
 
 //make debug function to correctly answer question to skip through questions for testing
 
