@@ -43,7 +43,7 @@ var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var frameX = 0;
 var score = 0;
-var scoreTarget = 100; scoreBarIncrement = 475/scoreTarget; var barH = 0; var barY = 550;
+var scoreTarget = 200; scoreBarIncrement = 475/scoreTarget; var barH = 0; var barY = 550;
 var savedTime, deadline, timeRemaining; 
 
 //question template
@@ -501,7 +501,7 @@ function questionHandler(){
             element.update();
         })
 
-        timer(15);
+        timer(20);
         drawTimer();
 
     }
@@ -572,7 +572,7 @@ function lastChanceHandler(){
         }
 
         lastBox1.draw(); lastBox1.update(); lastBox2.draw(); lastBox2.update();  
-        timer(10);
+        timer(15);
         drawTimer();   
 
         ctx.font = '18px Verdana';
@@ -793,12 +793,19 @@ startAnimating(fps);
 });
 
 //questions do not reshuffle on wrong answer; leave a low difficulties but programme to reshuffle at high difficulties
-//fix pie not incrementing properly on times more than 10 secs
+//trigger last chance on time expiry
+
+//html progress bar
+/* Another idea is to put little pieces of script like
+<script>percentage += 10; updateProgressBar();</script>
+through your page. That script will be executed the second browser l
+oads (or parses) it so you will be able to estimate the progress. */
 
 //make debug function to correctly answer question to skip through questions for testing
 
 //make a background image (spritesheet?)
 
+//display Qs answered correctly and incorrectly, saves made
 //factor number of questions asked into final score
 //find images for lose screen and tart it up
 ////find and spritesheet wanker gifs.  Add to an array.  In loseHandler rng = between 0 and arraylength, pick a spritesheet and run.  
