@@ -646,7 +646,9 @@ function scoreHandler(){
 	if (questionPhase) pointer(180, 350);
 
         //text
-        ctx.fillStyle = 'red';
+	if (score >= 0) ctx.fillStyle = 'green';
+	else ctx.fillStyle = 'red';
+        
         ctx.strokeStyle = 'black';
         ctx.font = '20px Verdana';
         ctx.strokeText('SCORE:  ' + score, 125, 70); ctx.fillText('SCORE:  ' + score, 125, 70);
@@ -700,11 +702,21 @@ function drawTimer(){
     }
     
     //draw the pie
-    if (timeRemaining === 10){
+    if (timeRemaining > 10){
+        ctx.fillStyle = 'lightblue';
+        ctx.strokeStyle = 'lightblue';
+        ctx.beginPath();
+        ctx.arc(timerPieX, timerPieY, 30, 0, Math.PI*2);
+        ctx.fill();
+    } else if (timeRemaining === 10){
+        ctx.fillStyle = 'orangered';
+        ctx.strokeStyle = 'orangered';
         ctx.beginPath();
         ctx.arc(timerPieX, timerPieY, 30, 0, Math.PI*2);
         ctx.fill();
     } else {
+        ctx.fillStyle = 'orangered';
+        ctx.strokeStyle = 'orangered';
         ctx.beginPath();        
         ctx.lineTo(timerPieX, timerPieY);
         ctx.arc(timerPieX, timerPieY, 30, correctedStartAngle, correctedEndAngle);
