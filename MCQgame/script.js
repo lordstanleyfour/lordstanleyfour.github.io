@@ -41,7 +41,7 @@ var categoryXAnchor = 300, categoryYAnchor = 15;
 var questionXAnchor = 310, questionYAnchor = 225;
 var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
-var frameX = 0;
+var frameX = 0; var frameXAlt = 0;
 var score = 0;
 var scoreTarget = 200; scoreBarIncrement = 475/scoreTarget; var barH = 0; var barY = 550;
 var questionsAnswered = 0; var questionsFailed = 0; var savesMade = 0;
@@ -117,9 +117,9 @@ let alternativeQuestions2 = [
     {questionLine1: "Which is a common radiographic feature ",questionLine2: "of Osteoarthritis?",correctAnswerline1: "Osteophytes",correctAnswerline2: " ",altAnswer1line1: "Poorly-defined lucent ",altAnswer1line2: "lesions",altAnswer2line1: "Disorganised trabeculae",altAnswer2line2: " ",altAnswer3line1: "Osteopenia",altAnswer3line2: " "},
     {questionLine1: "Which pathology refers to an infection ",questionLine2: "of bone/bone marrow?",correctAnswerline1: "Osteomyelitis",correctAnswerline2: " ",altAnswer1line1: "Osteoarthritis",altAnswer1line2: " ",altAnswer2line1: "Osteopenia",altAnswer2line2: " ",altAnswer3line1: "Osteochondroma",altAnswer3line2: " "},
     {questionLine1: "Which fluids constitute a liphaemarthrosis?",questionLine2: " ",correctAnswerline1: "Fat and blood",correctAnswerline2: " ",altAnswer1line1: "Fat and pus",altAnswer1line2: " ",altAnswer2line1: "Blood and mucus",altAnswer2line2: " ",altAnswer3line1: "Sweat and tears",altAnswer3line2: " "},
-    {questionLine1: "Housemaids knee is the colloquial",questionLine2: " term for a: ",correctAnswerline1: "Joint effusion",correctAnswerline2: "",altAnswer1line1: "Osteoarthritis",altAnswer1line2: "",altAnswer2line1: "Rheumatoid arthritis",altAnswer2line2: "",altAnswer3line1: "Osteomalacia",altAnswer3line2: ""},
+    {questionLine1: "Housemaids knee is the colloquial",questionLine2: " term for a: ",correctAnswerline1: "Joint effusion",correctAnswerline2: " ",altAnswer1line1: "Osteoarthritis",altAnswer1line2: " ",altAnswer2line1: "Rheumatoid arthritis",altAnswer2line2: " ",altAnswer3line1: "Osteomalacia",altAnswer3line2: " "},
     {questionLine1: "A mallet deformity is most commonly the result ",questionLine2: "of which mechanism of injury?",correctAnswerline1: "Forced flexion",correctAnswerline2: " ",altAnswer1line1: "Forced extension",altAnswer1line2: " ",altAnswer2line1: "Forced rotation",altAnswer2line2: " ",altAnswer3line1: "Forced compression",altAnswer3line2: " "},
-    {questionLine1: "A fracture not appreciable on imaging ",questionLine2: "is referred to as...",correctAnswerline1: "Occult",correctAnswerline2: " ",altAnswer1line1: "Cheeky",altAnswer1line2: "",altAnswer2line1: "Hidden",altAnswer2line2: " ",altAnswer3line1: "Secret",altAnswer3line2: " "},
+    {questionLine1: "A fracture not appreciable on imaging ",questionLine2: "is referred to as...",correctAnswerline1: "Occult",correctAnswerline2: " ",altAnswer1line1: "Cheeky",altAnswer1line2: " ",altAnswer2line1: "Hidden",altAnswer2line2: " ",altAnswer3line1: "Secret",altAnswer3line2: " "},
     {questionLine1: "Which of these is NOT a type",questionLine2: "of greenstick fracture?",correctAnswerline1: "A Salter Harris",correctAnswerline2: "type 2 fracture",altAnswer1line1: "A torus fracture",altAnswer1line2: " ",altAnswer2line1: "A buckle fracture",altAnswer2line2: " ",altAnswer3line1: "An incomplete fracture",altAnswer3line2: " "},
     {questionLine1: " What is Idiopathic giant bullous emphysema",questionLine2: "also known as?",correctAnswerline1: "Vanishing lung syndrome",correctAnswerline2: " ",altAnswer1line1: "Partial pneumothorax",altAnswer1line2: "",altAnswer2line1: "COPD",altAnswer2line2: "",altAnswer3line1: "Balloon-Sculptors lung",altAnswer3line2: " "},
     {questionLine1: "\"Osteopenia\" refers to:",questionLine2: " ",correctAnswerline1: "Reduced bone density",correctAnswerline2: "on radiographs",altAnswer1line1: "Abnormal bone mineralisation",altAnswer1line2: "",altAnswer2line1: "An obscure The Who album",altAnswer2line2: "",altAnswer3line1: "Abnormal bone architecture",altAnswer3line2: ""},
@@ -154,107 +154,17 @@ let alternativeQuestions3 = [
     {questionLine1: "A controlled area is defined by ",questionLine2: "which piece of legislation?",correctAnswerline1: "IRR",correctAnswerline2: " ",altAnswer1line1: "IR(ME)R",altAnswer1line2: " ",altAnswer2line1: "Health and Safety at Work Act",altAnswer2line2: " ",altAnswer3line1: "Article 52 of the Lisbon Treaty",altAnswer3line2: " "},
     {questionLine1: "Pregnancy status is usually checked for patients ",questionLine2: "between the age of:",correctAnswerline1: "12 - 55",correctAnswerline2: " ",altAnswer1line1: "16 - 45",altAnswer1line2: " ",altAnswer2line1: "14 - 60",altAnswer2line2: " ",altAnswer3line1: "21 - 50",altAnswer3line2: " "},
     {questionLine1: "Which of these is NOT an HCPC standard of proficiency ",questionLine2: "for Radiographers?",correctAnswerline1: "Maintain a clean police record",correctAnswerline2: " ",altAnswer1line1: "Be able to maintain fitness ",altAnswer1line2: "to practise",altAnswer2line1: "Be able to work appropriately ",altAnswer2line2: "with others",altAnswer3line1: "Be aware of the impact of culture",altAnswer3line2: "equality and diversity on practice"},
-    {questionLine1: "Anode targets are often made from which material?",questionLine2: " ",correctAnswerline1: "Tungsten",correctAnswerline2: " ",altAnswer1line1: "Gold",altAnswer1line2: " ",altAnswer2line1: "Steel",altAnswer2line2: " ",altAnswer3line1: "Cheese ",altAnswer3line2: " "},
-    {
-        questionLine1: "During a portable examination, ",
-        questionLine2: "which of these may stay in the room during an exposure?",
-        correctAnswerline1: "The patient",
-        correctAnswerline2: " ",
-        altAnswer1line1: "A relative",
-        altAnswer1line2: " ",
-        altAnswer2line1: "A lawyer",
-        altAnswer2line2: " ",
-        altAnswer3line1: "Domestic staff",
-        altAnswer3line2: " "
-    },{
-        questionLine1: "Which of the following is NOT acceptable ",
-        questionLine2: "for a 3-point ID check?",
-        correctAnswerline1: "Phone number",
-        correctAnswerline2: " ",
-        altAnswer1line1: "Address",
-        altAnswer1line2: " ",
-        altAnswer2line1: "CHI number",
-        altAnswer2line2: " ",
-        altAnswer3line1: "DOB",
-        altAnswer3line2: " "
-    },{
-        questionLine1: "Generally, when should the brakes be applied during a hoist?",
-        questionLine2: " ",
-        correctAnswerline1: "Hoisting from ",
-        correctAnswerline2: "the floor",
-        altAnswer1line1: "Hoisting from ",
-        altAnswer1line2: "the toilet",
-        altAnswer2line1: "Hoisting from ",
-        altAnswer2line2: "a wheelchair",
-        altAnswer3line1: "Hoisting on to ",
-        altAnswer3line2: "a trolley"
-    },{
-        questionLine1: "How does one befriend a radiographer?",
-        questionLine2: " ",
-        correctAnswerline1: "With cake",
-        correctAnswerline2: " ",
-        altAnswer1line1: "Without cake",
-        altAnswer1line2: " ",
-        altAnswer2line1: "Without cake",
-        altAnswer2line2: " ",
-        altAnswer3line1: "Without cake",
-        altAnswer3line2: " "
-    },{
-        questionLine1: "When finding an unconscious patient,",
-        questionLine2: "what is your first priority",
-        correctAnswerline1: "Assess for",
-        correctAnswerline2: "personal danger",
-        altAnswer1line1: "Check the",
-        altAnswer1line2: "patient’s breathing",
-        altAnswer2line1: "Call for help",
-        altAnswer2line2: " ",
-        altAnswer3line1: "To begin CPR",
-        altAnswer3line2: " "
-    },{
-        questionLine1: "A shoulder view with 45° caudal angulation",
-        questionLine2: "and 45° of patient rotation is called:",
-        correctAnswerline1: " A Garth view",
-        correctAnswerline2: " ",
-        altAnswer1line1: "A Wayne view",
-        altAnswer1line2: " ",
-        altAnswer2line1: "A Zanca view",
-        altAnswer2line2: " ",
-        altAnswer3line1: "A Serendipity view",
-        altAnswer3line2: " "
-    },{
-        questionLine1: "A scaphoid view with 30° of cranial ",
-        questionLine2: "angulation is called:",
-        correctAnswerline1: "Banana view",
-        correctAnswerline2: " ",
-        altAnswer1line1: "Kumquat view",
-        altAnswer1line2: " ",
-        altAnswer2line1: "Tangerine view",
-        altAnswer2line2: " ",
-        altAnswer3line1: "Courgette view",
-        altAnswer3line2: " "
-    },{
-        questionLine1: "For a renal ultrasound, patients should have:",
-        questionLine2: " ",
-        correctAnswerline1: "A full bladder",
-        correctAnswerline2: " ",
-        altAnswer1line1: "An empty anus",
-        altAnswer1line2: " ",
-        altAnswer2line1: "A full mouth",
-        altAnswer2line2: " ",
-        altAnswer3line1: "An empty bladder",
-        altAnswer3line2: " "
-    },{
-        questionLine1: "Which of the following carries the lowest dose burden",
-        questionLine2: " ",
-        correctAnswerline1: "MRI EAMs",
-        correctAnswerline2: " ",
-        altAnswer1line1: "Finger X-ray",
-        altAnswer1line2: " ",
-        altAnswer2line1: "Bone scan",
-        altAnswer2line2: " ",
-        altAnswer3line1: "DEXA scan",
-        altAnswer3line2: " "
-    },
+    {questionLine1: "Anode targets are often made from which material?",questionLine2: " ",correctAnswerline1: "Tungsten",correctAnswerline2: " ",altAnswer1line1: "Gold",altAnswer1line2: " ",altAnswer2line1: "Steel",altAnswer2line2: " ",altAnswer3line1: "Cheese",altAnswer3line2: " "},
+    {questionLine1: "During a portable examination, ",questionLine2: "which of these may stay in the room during an exposure?",correctAnswerline1: "The patient",correctAnswerline2: " ",altAnswer1line1: "A relative",altAnswer1line2: " ",altAnswer2line1: "A lawyer",altAnswer2line2: " ",altAnswer3line1: "Domestic staff",altAnswer3line2: " "},
+    {questionLine1: "Which of the following is NOT acceptable ",questionLine2: "for a 3-point ID check?",correctAnswerline1: "Phone number",correctAnswerline2: " ",altAnswer1line1: "Address",altAnswer1line2: " ",altAnswer2line1: "CHI number",altAnswer2line2: " ",altAnswer3line1: "DOB",altAnswer3line2: " "},
+    {questionLine1: "Generally, when should the brakes be ",questionLine2: "applied during a hoist?",correctAnswerline1: "Hoisting from ",correctAnswerline2: "the floor",altAnswer1line1: "Hoisting from ",altAnswer1line2: "the toilet",altAnswer2line1: "Hoisting from ",altAnswer2line2: "a wheelchair",altAnswer3line1: "Hoisting on to ",altAnswer3line2: "a trolley"},
+    {questionLine1: "How does one befriend a radiographer?",questionLine2: " ",correctAnswerline1: "With cake",correctAnswerline2: " ",altAnswer1line1: "Without cake",altAnswer1line2: " ",altAnswer2line1: "Without cake",altAnswer2line2: " ",altAnswer3line1: "Without cake",altAnswer3line2: " "},
+    {questionLine1: "When finding an unconscious patient,",questionLine2: "what is your first priority",correctAnswerline1: "Assess for",correctAnswerline2: "personal danger",altAnswer1line1: "Check the",altAnswer1line2: "patient’s breathing",altAnswer2line1: "Call for help",altAnswer2line2: " ",altAnswer3line1: "To begin CPR",altAnswer3line2: " "},
+    {questionLine1: "A shoulder view with 45° caudal angulation",questionLine2: "and 45° of patient rotation is called:",correctAnswerline1: " A Garth view",correctAnswerline2: " ",altAnswer1line1: "A Wayne view",altAnswer1line2: " ",altAnswer2line1: "A Zanca view",altAnswer2line2: " ",altAnswer3line1: "A Serendipity view",altAnswer3line2: " "},
+    {questionLine1: "A scaphoid view with 30° of cranial ",questionLine2: "angulation is called:",correctAnswerline1: "Banana view",correctAnswerline2: " ",altAnswer1line1: "Kumquat view",altAnswer1line2: " ",altAnswer2line1: "Tangerine view",altAnswer2line2: " ",altAnswer3line1: "Courgette view",altAnswer3line2: " "},
+    {questionLine1: "For a renal ultrasound, patients should have:",questionLine2: " ",correctAnswerline1: "A full bladder",correctAnswerline2: " ",altAnswer1line1: "An empty anus",altAnswer1line2: " ",altAnswer2line1: "A full mouth",altAnswer2line2: " ",altAnswer3line1: "An empty bladder",altAnswer3line2: " "},
+    {questionLine1: "Which of the following carries the lowest dose burden",questionLine2: " ",correctAnswerline1: "MRI EAMs",correctAnswerline2: " ",altAnswer1line1: "Finger X-ray",altAnswer1line2: " ",altAnswer2line1: "Bone scan",altAnswer2line2: " ",altAnswer3line1: "DEXA scan",altAnswer3line2: " "},
+
 ];
 
 //DAILY MAIL
@@ -266,29 +176,9 @@ let alternativeQuestions4 = [
     {questionLine1: "Theoretically, what is the highest",questionLine2: "scoring Scrabble word?",correctAnswerline1: "Oxyphenbutazone",correctAnswerline2: " ",altAnswer1line1: "Quartzy",altAnswer1line2: " ",altAnswer2line1: "Asphyxiate",altAnswer2line2: " ",altAnswer3line1: "Moisten",altAnswer3line2: " "},
     {questionLine1: "Gwyneth Paltrow was married to which",questionLine2: "crap singer until 2016?",correctAnswerline1: "Chris Martin",correctAnswerline2: " ",altAnswer1line1: "David Blunt",altAnswer1line2: " ",altAnswer2line1: "Justin Beiber",altAnswer2line2: " ",altAnswer3line1: "Jared Leto",altAnswer3line2: " "},
     {questionLine1: "A \"castrato\" is a type of what?",questionLine2: " ",correctAnswerline1: "Singer",correctAnswerline2: " ",altAnswer1line1: "Occupational Therapist",altAnswer1line2: " ",altAnswer2line1: "Undergarment",altAnswer2line2: " ",altAnswer3line1: "Sausage",altAnswer3line2: " "},
-    {
-        questionLine1: "Which country used old x-ray films",
-        questionLine2: "to press records onto?",
-        correctAnswerline1: "Russia (USSR)",
-        correctAnswerline2: " ",
-        altAnswer1line1: "Vanuatu",
-        altAnswer1line2: " ",
-        altAnswer2line1: "Wales",
-        altAnswer2line2: " ",
-        altAnswer3line1: "France",
-        altAnswer3line2: " "
-    },{
-        questionLine1: "Who was the most prolific medical serial killer?",
-        questionLine2: " ",
-        correctAnswerline1: "Harold Shipman",
-        correctAnswerline2: " ",
-        altAnswer1line1: "Miyuki Ishikawa",
-        altAnswer1line2: " ",
-        altAnswer2line1: "Mehmet Oz",
-        altAnswer2line2: " ",
-        altAnswer3line1: "Niels Högel",
-        altAnswer3line2: " "
-    },
+    {questionLine1: "Which country used old x-ray films",questionLine2: "to press records onto?",correctAnswerline1: "Russia (USSR)",correctAnswerline2: " ",altAnswer1line1: "Vanuatu",altAnswer1line2: " ",altAnswer2line1: "Wales",altAnswer2line2: " ",altAnswer3line1: "France",altAnswer3line2: " "},
+    {questionLine1: "Who was the most prolific medical serial killer?",questionLine2: " ",correctAnswerline1: "Harold Shipman",correctAnswerline2: " ",altAnswer1line1: "Miyuki Ishikawa",altAnswer1line2: " ",altAnswer2line1: "Mehmet Oz",altAnswer2line2: " ",altAnswer3line1: "Niels Högel",altAnswer3line2: " "},
+
 ];
 
 let questionBoxPositionArray = [{x:questionXAnchor + 40,y:questionYAnchor + 40}, 
@@ -526,7 +416,7 @@ var lastBox1 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'corr
 var lastBox2 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'incorrectImage');
 let lastChanceBoxArray = [];
 //create restart button
-var restartBox = new TargetBox(395, 400, 110, 50, 'restartPrompt');
+var restartBox = new TargetBox(340, 400, 220, 50, 'restartPrompt');
 //
 var testModeBox = new TargetBox(0, 0, 50, 50, 'test');
 
@@ -548,7 +438,13 @@ function initHandler(){
     ctx.fillText('The target score is ' + scoreTarget + '!  Don\'t let me down now.', 450, 390)
     ctx.fillStyle = 'red'; 
     ctx.fillText('Press button to continue', 450, 450);ctx.strokeText('Press button to continue', 450, 450);
+    //image
     ctx.drawImage(document.getElementById('pointer'), 280, 470, 100, 100);
+    //highlight box
+    ctx.strokeStyle = 'DeepPink';
+    ctx.lineWidth = 10; 
+    ctx.strokeRect(150, 265, 600, 75);
+    ctx.lineWidth = 1;
 
     //draw and update a continue prompt box
     initBox1.draw();
@@ -780,24 +676,32 @@ function endPhaseHandler(){
             ctx.fillText('You won', 450, 200); ctx.strokeText('You won', 450, 200);
 
             //mosher
-            console.log('bum');
             let sw = 200;
-            ctx.drawImage(document.getElementById('mosher'), frameX*sw, 0, sw, 200, 100, 300, 200, 200);
-            ctx.drawImage(document.getElementById('mosher'), frameX*sw, 0, sw, 200, 600, 300, 200, 200);
-            frameX++;
+            ctx.drawImage(document.getElementById('mosher'), Math.floor(frameX)*sw, 0, sw, 200, 100, 300, 200, 200);
+            ctx.drawImage(document.getElementById('mosher'), Math.floor(frameX)*sw, 0, sw, 200, 600, 300, 200, 200);
+            frameX+= 0.75;
             if (frameX > 4) frameX = 0;
             //winpointer
-            ctx.drawImage(document.getElementById('winpointer'), 300, 230);            
+            sw = 268;
+            ctx.drawImage(document.getElementById('winPointerSprite'), Math.floor(frameXAlt)*sw, 0, sw, 150, 315, 250, sw, 150);
+            frameXAlt+=0.75;
+            if (frameXAlt > 9) frameXAlt = 0;
+            //ctx.drawImage(document.getElementById('winpointer'), 300, 230);            
 
         } else if (lose) {
-            ctx.fillStyle = 'orange';
+            ctx.fillStyle = 'VioletRed';
             ctx.fillRect(50, 50, 800, 500);
             //text
-            ctx.font = '12px Verdana';
-            ctx.strokeStyle = 'black';
+            ctx.font = '20px Verdana';
+            ctx.fillStyle = 'black';
             ctx.textAlign = 'center';
-            ctx.strokeText('You failed to win', 450, 200);
-            ctx.strokeText('SCORE: ' + score + ' / ' + scoreTarget, 450, 250);
+            ctx.fillText('You were prevented from winning', 450, 150);
+            ctx.fillText('by your unfortunate lack of victory.', 450, 180);
+            ctx.fillText('SCORE: ' + score + ' / ' + scoreTarget, 450, 220);
+            ctx.fillText('----------------------------------------', 450, 250);
+            ctx.fillText('STATS:', 450, 300);
+            ctx.fillText('Questions: ' + questionsAnswered + ' / ' + (questionsAnswered + questionsFailed), 450, 330);
+            ctx.fillText('Saves made: ' + savesMade, 450, 360);
         }
         restartBox.draw(); restartBox.update();
     }
@@ -924,8 +828,8 @@ function drawTimer(){
 	
 function pointer(x, y){
 
-    ctx.drawImage(document.getElementById('pointerSprite'), 150*frameX, 0, 150, 150, x, y, 150, 150);
-    frameX++;
+    ctx.drawImage(document.getElementById('pointerSprite'), 150*Math.floor(frameX), 0, 150, 150, x, y, 150, 150);
+    frameX+=0.85;
     if (frameX > 9) frameX = 0;
 
 }
@@ -974,6 +878,7 @@ function animate(){
             mouse.lastClickX = undefined;
             mouse.lastClickY = undefined;
         }
+
     }
 }
 startAnimating(fps);
