@@ -44,6 +44,7 @@ var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var frameX = 0;
 var score = 0;
 var scoreTarget = 200; scoreBarIncrement = 475/scoreTarget; var barH = 0; var barY = 550;
+var questionsAnswered = 0; var questionsFailed = 0; var savesMade = 0;
 var savedTime, deadline, timeRemaining; 
 
 //question template
@@ -64,8 +65,30 @@ let defaultQuestions = [
     {questionLine1: "Which palpable bony landmark is situated ", questionLine2: "on the anterosuperior aspect of the pelvis?", correctAnswerline1: "ASIS", correctAnswerline2: " ", altAnswer1line1: "PSIS", altAnswer1line2: " ", altAnswer2line1: "AIIS", altAnswer2line2: " ", altAnswer3line1: "GT",altAnswer3line2: " "},
     {questionLine1: "What is the palpable lump on the posterior ",questionLine2: "aspect of the occiput called?",correctAnswerline1: "External Occipital Protuberance",correctAnswerline2: " ",altAnswer1line1: "Zygoma",altAnswer1line2: " ",altAnswer2line1: "Naison",altAnswer2line2: " ",altAnswer3line1: "Philtrum",altAnswer3line2: " "},
     {questionLine1: "Which animal is associated with the appearance",questionLine2: " of the zygomata on the OM10 facial bones projection?",correctAnswerline1: "Dolan’s Elephants",correctAnswerline2: " ",altAnswer1line1: "Davidson’s Cats",altAnswer1line2: " ",altAnswer2line1: "McKay’s Pheasants",altAnswer2line2: " ",altAnswer3line1: "Shannon’s Chickens",altAnswer3line2: " "},
-    {questionLine1: "On an oblique lumbar spine, which animal is associated ",questionLine2: "with the appearance of the posterior and lateral elements?",correctAnswerline1: "Scotty Dogs",correctAnswerline2: " ",altAnswer1line1: " Japanese Chins",altAnswer1line2: " ",altAnswer2line1: "French Poodles",altAnswer2line2: " ",altAnswer3line1: "German Shepherds",altAnswer3line2: " "},
-    {questionLine1: "What is the OM base line?",questionLine2: " ",correctAnswerline1: "The line from the inferior orbit",correctAnswerline2: "to the external auditory meatus",altAnswer1line1: "The line from the TMJ",altAnswer1line2: "to the tip of the mandible",altAnswer2line1: "The lowest notes",altAnswer2line2: "played in a tune",altAnswer3line1: "The line from the biting edge of",altAnswer3line2: "the teeth to the occiput"}
+    {questionLine1: "On an oblique lumbar spine, which animal is associated ",questionLine2: "with the appearance of the posterior and lateral elements?",correctAnswerline1: "Scotty Dogs",correctAnswerline2: " ",altAnswer1line1: "Japanese Chins",altAnswer1line2: " ",altAnswer2line1: "French Poodles",altAnswer2line2: " ",altAnswer3line1: "German Shepherds",altAnswer3line2: " "},
+    {questionLine1: "What is the OM base line?",questionLine2: " ",correctAnswerline1: "The line from the inferior orbit",correctAnswerline2: "to the external auditory meatus",altAnswer1line1: "The line from the TMJ",altAnswer1line2: "to the tip of the mandible",altAnswer2line1: "The lowest notes",altAnswer2line2: "played in a tune",altAnswer3line1: "The line from the biting edge of",altAnswer3line2: "the teeth to the occiput"},
+    {questionLine1: "Name the sclerotic line at the",questionLine2: "superolateral aspect of the acetabulum",correctAnswerline1: "Sourcil",correctAnswerline2: " ",altAnswer1line1: "Poils du nez",altAnswer1line2: " ",altAnswer2line1: "Poils pubien",altAnswer2line2: " ",altAnswer3line1: "Barbiche",altAnswer3line2: " "},
+    {questionLine1: "The palpable lump on the ",questionLine2: "antero-proximal tibia is called:",correctAnswerline1: "Tibial tuberosity",correctAnswerline2: " ",altAnswer1line1: "Soleal line",altAnswer1line2: " ",altAnswer2line1: "Linea aspera",altAnswer2line2: " ",altAnswer3line1: "Intercondylar eminence",altAnswer3line2: " "},
+    {questionLine1: "The “sitting bones” refer to:",questionLine2: " ",correctAnswerline1: "Ischial tuberosities",correctAnswerline2: " ",altAnswer1line1: "Symphysis pubis",altAnswer1line2: " ",altAnswer2line1: "Lesser trochanters",altAnswer2line2: " ",altAnswer3line1: "Iliac crests",altAnswer3line2: " "},
+    {questionLine1: "Which of these is NOT part ",questionLine2: "of the rotator cuff?",correctAnswerline1: "Teres major",correctAnswerline2: " ",altAnswer1line1: "Supraspinatus",altAnswer1line2: " ",altAnswer2line1: "Subscapularis",altAnswer2line2: " ",altAnswer3line1: "Infraspinatus",altAnswer3line2: " "},
+    {questionLine1: "The anatomical plane dividing the body into",questionLine2: "LEFT and RIGHT is the:",correctAnswerline1: "Sagittal plane",correctAnswerline2: " ",altAnswer1line1: "Coronal plane",altAnswer1line2: " ",altAnswer2line1: "Heavenly plane",altAnswer2line2: " ",altAnswer3line1: "Axial plane",altAnswer3line2: " "},
+    {questionLine1: "The anatomical plane dividing the body into",questionLine2: "SUPERIOR and INFERIOR is the:",correctAnswerline1: "Axial plane",correctAnswerline2: " ",altAnswer1line1: "Coronal plane",altAnswer1line2: " ",altAnswer2line1: "Earthly plane",altAnswer2line2: " ",altAnswer3line1: "Sagittal plane",altAnswer3line2: " "},
+    {questionLine1: "The anatomical plane dividing the body into",questionLine2: "ANTERIOR and POSTERIOR is the:",correctAnswerline1: "Coronal plane",correctAnswerline2: " ",altAnswer1line1: "Axial plane",altAnswer1line2: " ",altAnswer2line1: "Sagittal plane",altAnswer2line2: " ",altAnswer3line1: "Fighter plane",altAnswer3line2: " "},
+    {questionLine1: "Which does NOT form part of the cranium?",questionLine2: " ",correctAnswerline1: "Zygoma",correctAnswerline2: " ",altAnswer1line1: "Ethmoid",altAnswer1line2: " ",altAnswer2line1: "Occiput",altAnswer2line2: " ",altAnswer3line1: "Sphenoid",altAnswer3line2: " "},
+    {questionLine1: "On CXR, the bifurcation of the trachea ",questionLine2: "into the bronchi is called:",correctAnswerline1: "Carina",correctAnswerline2: " ",altAnswer1line1: "Parenchyma",altAnswer1line2: " ",altAnswer2line1: "Bronchiole",altAnswer2line2: " ",altAnswer3line1: "Slitgash",altAnswer3line2: " "},
+    {questionLine1: "A sesamoid bone ossifies within a:",questionLine2: " ",correctAnswerline1: "Tendon",correctAnswerline2: " ",altAnswer1line1: "Petri dish",altAnswer1line2: " ",altAnswer2line1: "Muscle",altAnswer2line2: " ",altAnswer3line1: "Ligament",altAnswer3line2: " "},
+    {questionLine1: "Which of these refers to the “shaft” of a long bone?",questionLine2: " ",correctAnswerline1: "Diaphysis",correctAnswerline2: " ",altAnswer1line1: "Metaphysis",altAnswer1line2: "",altAnswer2line1: "Epiphysis",altAnswer2line2: "",altAnswer3line1: "Physis",altAnswer3line2: ""},
+    {questionLine1: "Which of these refers to the end of a long bone?",questionLine2: " ",correctAnswerline1: "Epiphysis",correctAnswerline2: " ",altAnswer1line1: "Metaphysis",altAnswer1line2: " ",altAnswer2line1: "Physis",altAnswer2line2: " ",altAnswer3line1: "Diaphysis",altAnswer3line2: " "},
+    {questionLine1: "The cartilaginous growth plate of a ",questionLine2: "paediatric bone is called the: ",correctAnswerline1: "Physis",correctAnswerline2: " ",altAnswer1line1: "Metaphysis",altAnswer1line2: " ",altAnswer2line1: "Diaphysis",altAnswer2line2: " ",altAnswer3line1: "Epiphysis",altAnswer3line2: " "},
+    {questionLine1: "Which sesamoid is found posterior to ",questionLine2: "the femoral condyles?",correctAnswerline1: "Fabella",correctAnswerline2: " ",altAnswer1line1: "Os cyamella",altAnswer1line2: " ",altAnswer2line1: "Os trigonum",altAnswer2line2: " ",altAnswer3line1: "Os calcis",altAnswer3line2: " "},
+    {questionLine1: "Which sesamoid is found posterior to",questionLine2: "the talus?",correctAnswerline1: "Os trigonum",correctAnswerline2: " ",altAnswer1line1: "Fabella",altAnswer1line2: " ",altAnswer2line1: "Os peroneum",altAnswer2line2: " ",altAnswer3line1: "Os supratalare",altAnswer3line2: " "},
+    {questionLine1: "Which sesamoid is generally found inferolaterally ",questionLine2: "to the cuboid?",correctAnswerline1: "Os peroneum",correctAnswerline2: " ",altAnswer1line1: "Cyamella",altAnswer1line2: " ",altAnswer2line1: "Os subtibiale",altAnswer2line2: " ",altAnswer3line1: "Os trigonum",altAnswer3line2: " "},
+    {questionLine1: "Which of the following is NOT found in the foot?",questionLine2: " ",correctAnswerline1: "STT complex",correctAnswerline2: " ",altAnswer1line1: "Lisfranc joint",altAnswer1line2: " ",altAnswer2line1: "Chopart joint",altAnswer2line2: " ",altAnswer3line1: "Subtalar joint",altAnswer3line2: " "},
+    {questionLine1: "Which of the following is NOT a stage ",questionLine2: "of fracture healing?",correctAnswerline1: "Exudative",correctAnswerline2: " ",altAnswer1line1: "Inflammatory",altAnswer1line2: " ",altAnswer2line1: "Remodelling",altAnswer2line2: " ",altAnswer3line1: "Reparitive",altAnswer3line2: " "},
+    {questionLine1: "The point where a ligament/tendon attaches",questionLine2: "to bone is called an:",correctAnswerline1: "Enthesis",correctAnswerline2: " ",altAnswer1line1: "Epiphysis",altAnswer1line2: " ",altAnswer2line1: "Psoriasis",altAnswer2line2: " ",altAnswer3line1: "Octopus",altAnswer3line2: " "},
+    {questionLine1: "The anatomical region seperating the ",questionLine2: "humeral metaphysis and diaphysis is:",correctAnswerline1: "The surgical neck",correctAnswerline2: " ",altAnswer1line1: "The brass neck",altAnswer1line2: " ",altAnswer2line1: "The anatomical neck",altAnswer2line2: " ",altAnswer3line1: "The humeral neck",altAnswer3line2: " "},
+    {questionLine1: "Which is the final elbow ossification ",questionLine2: "centre to appear",correctAnswerline1: "Lateral epicodyle",correctAnswerline2: " ",altAnswer1line1: "Medial epicondyle",altAnswer1line2: " ",altAnswer2line1: "Trochlea",altAnswer2line2: " ",altAnswer3line1: "Coranoid process",altAnswer3line2: " "},
+
 ];
 
 //PHYSICS
@@ -80,7 +103,13 @@ let alternativeQuestions = [
     {questionLine1: "The primary beam naturally has lower",questionLine2: "photon density on which side?",correctAnswerline1: "Anode side",correctAnswerline2: " ",altAnswer1line1: "Cathode side",altAnswer1line2: " ",altAnswer2line1: "Inside",altAnswer2line2: " ",altAnswer3line1: "Backside",altAnswer3line2: " "},
     {questionLine1: "Automatic Exposure Controls are ",questionLine2: "composed of multiple what?",correctAnswerline1: "Ionisation chambers",correctAnswerline2: " ",altAnswer1line1: "Geiger counters",altAnswer1line2: " ",altAnswer2line1: "Ammeters",altAnswer2line2: " ",altAnswer3line1: "Light beam diaphragms",altAnswer3line2: " "},
     {questionLine1: "When using an AEC, what is the purpose ",questionLine2: "of setting a back-up mAs?",correctAnswerline1: "To set an upper limit ",correctAnswerline2: "for the exposure",altAnswer1line1: "To set a ",altAnswer1line2: "manual exposure",altAnswer2line1: "To keep the ",altAnswer2line2: "boss happy",altAnswer3line1: "To set a ",altAnswer3line2: "minimum exposure"},
-    
+    {questionLine1: "What is the SI unit of",questionLine2: "equivalent dose?",correctAnswerline1: "Sievert",correctAnswerline2: " ",altAnswer1line1: "REM",altAnswer1line2: " ",altAnswer2line1: "Rad",altAnswer2line2: " ",altAnswer3line1: "Gray",altAnswer3line2: " "},
+    {questionLine1: "What is the SI unit of ",questionLine2: "absorbed dose?",correctAnswerline1: "Gray",correctAnswerline2: " ",altAnswer1line1: "REM",altAnswer1line2: " ",altAnswer2line1: "Rad",altAnswer2line2: " ",altAnswer3line1: "Sievert",altAnswer3line2: " "},
+    {questionLine1: "What is the SI unit of ",questionLine2: "radioactivity?",correctAnswerline1: "Becquerel",correctAnswerline2: " ",altAnswer1line1: "Curie",altAnswer1line2: " ",altAnswer2line1: "Coulomb",altAnswer2line2: " ",altAnswer3line1: "REM",altAnswer3line2: " "},
+    {questionLine1: "Altering AEC density does what?",questionLine2: " ",correctAnswerline1: "Alters cut-off",correctAnswerline2: "exposure",altAnswer1line1: "Alters beam",altAnswer1line2: "hardness",altAnswer2line1: "Changes filtration",altAnswer2line2: " ",altAnswer3line1: "Nothing interesting",altAnswer3line2: " "},
+    {questionLine1: "What is the purpose of the “air gap” technique?",questionLine2: " ",correctAnswerline1: "Reduce scatter",correctAnswerline2: "without a grid",altAnswer1line1: "Infection control",altAnswer1line2: " ",altAnswer2line1: "Soft tissue visualisation",altAnswer2line2: " ",altAnswer3line1: "Reduce impact of",altAnswer3line2: "patient smell"},
+    {questionLine1: "What is the purpose of inherent filtration?",questionLine2: " ",correctAnswerline1: "Exclude LOWEST ",correctAnswerline2: "energy photons",altAnswer1line1: "Exclude HIGHEST ",altAnswer1line2: "energy photons",altAnswer2line1: "Exclude characteristic",altAnswer2line2: "radiation",altAnswer3line1: "Energy saving",altAnswer3line2: " "},
+
 ];
 
 //PATHOLOGY
@@ -94,6 +123,26 @@ let alternativeQuestions2 = [
     {questionLine1: "Which of these is NOT a type",questionLine2: "of greenstick fracture?",correctAnswerline1: "A Salter Harris",correctAnswerline2: "type 2 fracture",altAnswer1line1: "A torus fracture",altAnswer1line2: " ",altAnswer2line1: "A buckle fracture",altAnswer2line2: " ",altAnswer3line1: "An incomplete fracture",altAnswer3line2: " "},
     {questionLine1: " What is Idiopathic giant bullous emphysema",questionLine2: "also known as?",correctAnswerline1: "Vanishing lung syndrome",correctAnswerline2: " ",altAnswer1line1: "Partial pneumothorax",altAnswer1line2: "",altAnswer2line1: "COPD",altAnswer2line2: "",altAnswer3line1: "Balloon-Sculptors lung",altAnswer3line2: " "},
     {questionLine1: "\"Osteopenia\" refers to:",questionLine2: " ",correctAnswerline1: "Reduced bone density",correctAnswerline2: "on radiographs",altAnswer1line1: "Abnormal bone mineralisation",altAnswer1line2: "",altAnswer2line1: "An obscure The Who album",altAnswer2line2: "",altAnswer3line1: "Abnormal bone architecture",altAnswer3line2: ""},
+    {questionLine1: "“Golfers elbow” refers to:",questionLine2: " ",correctAnswerline1: "Medial epicondylitis",correctAnswerline2: " ",altAnswer1line1: "A joint effusion",altAnswer1line2: " ",altAnswer2line1: "Lateral epicondylitis",altAnswer2line2: " ",altAnswer3line1: "Olecranon bursitis",altAnswer3line2: " "},
+    {questionLine1: "“Tennis Elbow” refers to:",questionLine2: " ",correctAnswerline1: "Lateral epicondylitis",        correctAnswerline2: " ",altAnswer1line1: "Medial epicondylitis",altAnswer1line2: " ",altAnswer2line1: "A joint effusion",altAnswer2line2: " ",altAnswer3line1: "Olecranon bursitis",altAnswer3line2: " "},
+    {questionLine1: "A normal cardiothoracic ratio is:",questionLine2: " ",correctAnswerline1: "Less than 0.5",correctAnswerline2: " ",altAnswer1line1: "Less than 0.75",altAnswer1line2: " ",altAnswer2line1: "Greater than 0.5",altAnswer2line2: " ",altAnswer3line1: "Greater than 1",altAnswer3line2: " "},
+    {questionLine1: "Calcification within the menisci of the ",questionLine2: "knee is known as:",correctAnswerline1: "Chondrocalcinosis",correctAnswerline2: " ",altAnswer1line1: "Gout",altAnswer1line2: " ",altAnswer2line1: "Tumeral calcinosis",altAnswer2line2: " ",altAnswer3line1: "Osteosclerosis",altAnswer3line2: " "},
+    {questionLine1: "Which of these periosteal reactions ",questionLine2: "LEAST suggests aggressive pathology",correctAnswerline1: "Solid",correctAnswerline2: " ",altAnswer1line1: "Spiculated",altAnswer1line2: " ",altAnswer2line1: "Sunburst",altAnswer2line2: " ",altAnswer3line1: "Codman triangle",altAnswer3line2: " "},
+    {questionLine1: "A metacarpal fracture following a punch-injury ",questionLine2: "is commonly called a: ",correctAnswerline1: "Boxer’s fracture",correctAnswerline2: " ",altAnswer1line1: "Twat’s fracture",altAnswer1line2: " ",altAnswer2line1: "Dolan's fracture",altAnswer2line2: " ",altAnswer3line1: "Clay-shoveler's fracture",altAnswer3line2: " "},
+    {questionLine1: "A fracture through a bone lesion",questionLine2: "is called a:",correctAnswerline1: "Pathological fracture",correctAnswerline2: " ",altAnswer1line1: "Fragility fracture",altAnswer1line2: " ",altAnswer2line1: "Blowout fracture",altAnswer2line2: " ",altAnswer3line1: "Greenstick fracture",altAnswer3line2: " "},
+    {questionLine1: "Which classification system is used for ",questionLine2: "the assessment of ACJ injuries?",correctAnswerline1: "Rockwood",correctAnswerline2: " ",altAnswer1line1: "Salter-Harris",altAnswer1line2: " ",altAnswer2line1: "Schatzger",altAnswer2line2: " ",altAnswer3line1: "Weber",altAnswer3line2: " "},
+    {questionLine1: "Which classification system is used for ",questionLine2: "the assessment of ankle fractures?",correctAnswerline1: "Weber",correctAnswerline2: " ",altAnswer1line1: "Schatzger",altAnswer1line2: " ",altAnswer2line1: "Rockwood",altAnswer2line2: " ",altAnswer3line1: "Salter-Harris",altAnswer3line2: " "},
+    {questionLine1: "A glenoid rim fracture following dislocation is called a:",questionLine2: " ",correctAnswerline1: "Bony Bankart lesion",correctAnswerline2: " ",altAnswer1line1: "A Hill-Sachs deformity",altAnswer1line2: " ",altAnswer2line1: "A Pellegrini-Stieda lesion",altAnswer2line2: " ",altAnswer3line1: "A Hapless divot",altAnswer3line2: " "},
+    {questionLine1: "A “mallet deformity” of a finger refers to:",questionLine2: " ",correctAnswerline1: "Inability to ",correctAnswerline2: "extend the joint",altAnswer1line1: "Inability to ",altAnswer1line2: "flex the joint",altAnswer2line1: "Radial deviation ",altAnswer2line2: "of the joint",altAnswer3line1: "Dislocation ",altAnswer3line2: "of the joint"},
+    {questionLine1: "Which of these hip fractures is NOT intracapsular?",questionLine2: " ",correctAnswerline1: "Intertochanteric",correctAnswerline2: " ",altAnswer1line1: "Subcapital",altAnswer1line2: " ",altAnswer2line1: "Transcervical",altAnswer2line2: " ",altAnswer3line1: "Basicervical",altAnswer3line2: " "},
+    {questionLine1: "Which classification system is used ",questionLine2: "to classify subcapital hip fractures?",correctAnswerline1: "Garden",correctAnswerline2: " ",altAnswer1line1: "Rockwood",altAnswer1line2: " ",altAnswer2line1: "Salter-Harris",altAnswer2line2: " ",altAnswer3line1: "Schatzger",altAnswer3line2: " "},
+    {questionLine1: "Which of the following is NOT ",questionLine2: "a complication of hip arthroplasty?",correctAnswerline1: "Osteopoikilosis",correctAnswerline2: " ",altAnswer1line1: "Peri-prosthetic loosening",altAnswer1line2: " ",altAnswer2line1: "Reactive lesion",altAnswer2line2: " ",altAnswer3line1: "Heterotopic ossification",altAnswer3line2: " "},
+    {questionLine1: "Which is NOT a sign of stress fracture? ",questionLine2: " ",correctAnswerline1: "Subchondral cysts",correctAnswerline2: " ",altAnswer1line1: "Non-aggressive ",altAnswer1line2: "periosteal reaction",altAnswer2line1: "A sclerotic band",altAnswer2line2: " ",altAnswer3line1: "Loss of ",altAnswer3line2: "cortical density"},
+    {questionLine1: "A “Maisonneuve” fracture involves:",questionLine2: " ",correctAnswerline1: "The proximal fibula",correctAnswerline2: " ",altAnswer1line1: "The proximal tibia",altAnswer1line2: " ",altAnswer2line1: "The distal humerus",altAnswer2line2: " ",altAnswer3line1: "The hallux",altAnswer3line2: " "},
+    {questionLine1: "A “bunion” is the common name for:",questionLine2: " ",correctAnswerline1: "Hallux valgus",correctAnswerline2: " ",altAnswer1line1: "Hallux rigidus",altAnswer1line2: " ",altAnswer2line1: "Metatarsus ",altAnswer2line2: "primus varus",altAnswer3line1: "Metatarsus ",altAnswer3line2: "quintus varus"},
+    {questionLine1: "Which of the following does NOT specifically ",questionLine2: "refer to a spinal misalignment?",correctAnswerline1: "Pectus excavatum",correctAnswerline2: " ",altAnswer1line1: "Levoscoliosis",altAnswer1line2: " ",altAnswer2line1: "Spondylolisthesis",altAnswer2line2: " ",altAnswer3line1: "Hyperlordosis",altAnswer3line2: " "},
+    {questionLine1: "Which of the following is NOT ",questionLine2: "a feature of spondylosis?",correctAnswerline1: "Schmorl’s nodes",correctAnswerline2: " ",altAnswer1line1: "Reduced disc space height",altAnswer1line2: " ",altAnswer2line1: "Facet joint arthrosis",altAnswer2line2: " ",altAnswer3line1: "Osteophytosis",altAnswer3line2: " "},
+    {questionLine1: "“Pannus” refers to:",questionLine2: " ",correctAnswerline1: "Synovial proliferation",correctAnswerline2: " ",altAnswer1line1: "A Roman ",altAnswer1line2: "cooking implement",altAnswer2line1: "Urate crystal ",altAnswer2line2: "collection",altAnswer3line1: "Cartilaginous ",altAnswer3line2: "calcification"},
 ];
 
 //RADSPERTISE
@@ -106,6 +155,106 @@ let alternativeQuestions3 = [
     {questionLine1: "Pregnancy status is usually checked for patients ",questionLine2: "between the age of:",correctAnswerline1: "12 - 55",correctAnswerline2: " ",altAnswer1line1: "16 - 45",altAnswer1line2: " ",altAnswer2line1: "14 - 60",altAnswer2line2: " ",altAnswer3line1: "21 - 50",altAnswer3line2: " "},
     {questionLine1: "Which of these is NOT an HCPC standard of proficiency ",questionLine2: "for Radiographers?",correctAnswerline1: "Maintain a clean police record",correctAnswerline2: " ",altAnswer1line1: "Be able to maintain fitness ",altAnswer1line2: "to practise",altAnswer2line1: "Be able to work appropriately ",altAnswer2line2: "with others",altAnswer3line1: "Be aware of the impact of culture",altAnswer3line2: "equality and diversity on practice"},
     {questionLine1: "Anode targets are often made from which material?",questionLine2: " ",correctAnswerline1: "Tungsten",correctAnswerline2: " ",altAnswer1line1: "Gold",altAnswer1line2: " ",altAnswer2line1: "Steel",altAnswer2line2: " ",altAnswer3line1: "Cheese ",altAnswer3line2: " "},
+    {
+        questionLine1: "During a portable examination, ",
+        questionLine2: "which of these may stay in the room during an exposure?",
+        correctAnswerline1: "The patient",
+        correctAnswerline2: " ",
+        altAnswer1line1: "A relative",
+        altAnswer1line2: " ",
+        altAnswer2line1: "A lawyer",
+        altAnswer2line2: " ",
+        altAnswer3line1: "Domestic staff",
+        altAnswer3line2: " "
+    },{
+        questionLine1: "Which of the following is NOT acceptable ",
+        questionLine2: "for a 3-point ID check?",
+        correctAnswerline1: "Phone number",
+        correctAnswerline2: " ",
+        altAnswer1line1: "Address",
+        altAnswer1line2: " ",
+        altAnswer2line1: "CHI number",
+        altAnswer2line2: " ",
+        altAnswer3line1: "DOB",
+        altAnswer3line2: " "
+    },{
+        questionLine1: "Generally, when should the brakes be applied during a hoist?",
+        questionLine2: " ",
+        correctAnswerline1: "Hoisting from ",
+        correctAnswerline2: "the floor",
+        altAnswer1line1: "Hoisting from ",
+        altAnswer1line2: "the toilet",
+        altAnswer2line1: "Hoisting from ",
+        altAnswer2line2: "a wheelchair",
+        altAnswer3line1: "Hoisting on to ",
+        altAnswer3line2: "a trolley"
+    },{
+        questionLine1: "How does one befriend a radiographer?",
+        questionLine2: " ",
+        correctAnswerline1: "With cake",
+        correctAnswerline2: " ",
+        altAnswer1line1: "Without cake",
+        altAnswer1line2: " ",
+        altAnswer2line1: "Without cake",
+        altAnswer2line2: " ",
+        altAnswer3line1: "Without cake",
+        altAnswer3line2: " "
+    },{
+        questionLine1: "When finding an unconscious patient,",
+        questionLine2: "what is your first priority",
+        correctAnswerline1: "Assess for",
+        correctAnswerline2: "personal danger",
+        altAnswer1line1: "Check the",
+        altAnswer1line2: "patient’s breathing",
+        altAnswer2line1: "Call for help",
+        altAnswer2line2: " ",
+        altAnswer3line1: "To begin CPR",
+        altAnswer3line2: " "
+    },{
+        questionLine1: "A shoulder view with 45° caudal angulation",
+        questionLine2: "and 45° of patient rotation is called:",
+        correctAnswerline1: " A Garth view",
+        correctAnswerline2: " ",
+        altAnswer1line1: "A Wayne view",
+        altAnswer1line2: " ",
+        altAnswer2line1: "A Zanca view",
+        altAnswer2line2: " ",
+        altAnswer3line1: "A Serendipity view",
+        altAnswer3line2: " "
+    },{
+        questionLine1: "A scaphoid view with 30° of cranial ",
+        questionLine2: "angulation is called:",
+        correctAnswerline1: "Banana view",
+        correctAnswerline2: " ",
+        altAnswer1line1: "Kumquat view",
+        altAnswer1line2: " ",
+        altAnswer2line1: "Tangerine view",
+        altAnswer2line2: " ",
+        altAnswer3line1: "Courgette view",
+        altAnswer3line2: " "
+    },{
+        questionLine1: "For a renal ultrasound, patients should have:",
+        questionLine2: " ",
+        correctAnswerline1: "A full bladder",
+        correctAnswerline2: " ",
+        altAnswer1line1: "An empty anus",
+        altAnswer1line2: " ",
+        altAnswer2line1: "A full mouth",
+        altAnswer2line2: " ",
+        altAnswer3line1: "An empty bladder",
+        altAnswer3line2: " "
+    },{
+        questionLine1: "Which of the following carries the lowest dose burden",
+        questionLine2: " ",
+        correctAnswerline1: "MRI EAMs",
+        correctAnswerline2: " ",
+        altAnswer1line1: "Finger X-ray",
+        altAnswer1line2: " ",
+        altAnswer2line1: "Bone scan",
+        altAnswer2line2: " ",
+        altAnswer3line1: "DEXA scan",
+        altAnswer3line2: " "
+    },
 ];
 
 //DAILY MAIL
@@ -117,6 +266,29 @@ let alternativeQuestions4 = [
     {questionLine1: "Theoretically, what is the highest",questionLine2: "scoring Scrabble word?",correctAnswerline1: "Oxyphenbutazone",correctAnswerline2: " ",altAnswer1line1: "Quartzy",altAnswer1line2: " ",altAnswer2line1: "Asphyxiate",altAnswer2line2: " ",altAnswer3line1: "Moisten",altAnswer3line2: " "},
     {questionLine1: "Gwyneth Paltrow was married to which",questionLine2: "crap singer until 2016?",correctAnswerline1: "Chris Martin",correctAnswerline2: " ",altAnswer1line1: "David Blunt",altAnswer1line2: " ",altAnswer2line1: "Justin Beiber",altAnswer2line2: " ",altAnswer3line1: "Jared Leto",altAnswer3line2: " "},
     {questionLine1: "A \"castrato\" is a type of what?",questionLine2: " ",correctAnswerline1: "Singer",correctAnswerline2: " ",altAnswer1line1: "Occupational Therapist",altAnswer1line2: " ",altAnswer2line1: "Undergarment",altAnswer2line2: " ",altAnswer3line1: "Sausage",altAnswer3line2: " "},
+    {
+        questionLine1: "Which country used old x-ray films",
+        questionLine2: "to press records onto?",
+        correctAnswerline1: "Russia (USSR)",
+        correctAnswerline2: " ",
+        altAnswer1line1: "Vanuatu",
+        altAnswer1line2: " ",
+        altAnswer2line1: "Wales",
+        altAnswer2line2: " ",
+        altAnswer3line1: "France",
+        altAnswer3line2: " "
+    },{
+        questionLine1: "Who was the most prolific medical serial killer?",
+        questionLine2: " ",
+        correctAnswerline1: "Harold Shipman",
+        correctAnswerline2: " ",
+        altAnswer1line1: "Miyuki Ishikawa",
+        altAnswer1line2: " ",
+        altAnswer2line1: "Mehmet Oz",
+        altAnswer2line2: " ",
+        altAnswer3line1: "Niels Högel",
+        altAnswer3line2: " "
+    },
 ];
 
 let questionBoxPositionArray = [{x:questionXAnchor + 40,y:questionYAnchor + 40}, 
@@ -240,6 +412,7 @@ class TargetBox {
         if (collision(this) && this.correct) {
             correctAnswerSelected = true;
             rng = Math.floor(Math.random()*3);
+            questionsAnswered++;
         } else if (collision(this) && this.correct === false && timeRemaining > 0){
             //reset mouse so that it doesn't interfere with last chance
             if (mouse.lastClickX !== undefined){
@@ -251,6 +424,7 @@ class TargetBox {
             lastChancePhase = true;
             questionArraySelected = undefined;
             savedTime = undefined;
+            questionsFailed++;
         }
 
         //init box select
@@ -303,6 +477,7 @@ class TargetBox {
                 badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
                 categoryPhase = true;
                 score -= (10-timeRemaining);
+                savesMade++;
             } else if (this.category === 'correctImage') {
                 lastChancePhase = false;
                 endPhase = true; 
@@ -457,6 +632,17 @@ function categoryHandler(){
                 element.update();  
             })
             drawTimer();
+
+            //display
+            ctx.fillStyle = 'rgb(0, 0, 0, 0.5)';
+            ctx.fillRect(495, 312, 225, 25);
+            ctx.fillStyle = 'rgb(0, 255, 0)';
+            ctx.font = 'bold 20px Verdana';
+            ctx.fillText((questionsAnswered + '/' + (questionsAnswered + questionsFailed)), 528, 332);
+
+            ctx.fillText(Math.floor((questionsAnswered/(questionsAnswered + questionsFailed))*100) + '%', 615, 332);
+
+            ctx.fillText('Sv: ' + savesMade, 685, 332);
 
         } 
     } else if ((defaultQuestions.length + alternativeQuestions.length + alternativeQuestions2.length 
@@ -663,9 +849,10 @@ function timer(seconds){
     if (savedTime === undefined) savedTime = Date.now();
     deadline = savedTime + (seconds*1000);
     timeRemaining = Math.ceil((deadline - Date.now())/1000);
-    if (timeRemaining <= 0){
-        timeRemaining = 0;
-        lose = true; endPhase = true; lastChancePhase = false;
+    if (timeRemaining <= 0 && questionPhase){
+        questionPhase = false; lastChancePhase = true; questionArraySelected = undefined; savedTime = undefined;
+    } else if (timeRemaining <=0 && lastChancePhase){
+        lastChancePhase = false; lose = true; endPhase = true;
     }
 }
 
@@ -793,11 +980,10 @@ startAnimating(fps);
 });
 
 //questions do not reshuffle on wrong answer; leave a low difficulties but programme to reshuffle at high difficulties
-//trigger last chance on time expiry
 
 //make a background image (spritesheet?)
 
-//display Qs answered correctly and incorrectly, saves made
+//style the target score and current score as how much mAs in the tank
 //factor number of questions asked into final score
 //find images for lose screen and tart it up
 ////find and spritesheet wanker gifs.  Add to an array.  In loseHandler rng = between 0 and arraylength, pick a spritesheet and run.  
