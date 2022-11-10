@@ -823,11 +823,13 @@ function scoreHandler(){
         if (questionPhase) qPointer.draw();
 
         //text
-        if (score >= 0) ctx.fillStyle = 'green';
+        if (score >= 0) ctx.fillStyle = 'rgb(0, 255, 0)';
         else ctx.fillStyle = 'red';        
         ctx.strokeStyle = 'black';
         ctx.font = '20px Verdana';
-        ctx.strokeText('SCORE:  ' + score, 125, 70); ctx.fillText('SCORE:  ' + score, 125, 70);
+        ctx.strokeText(score, 125, 183); ctx.fillText(score, 125, 183);
+        ctx.strokeText(scoreTarget, 125, 465); ctx.fillText(scoreTarget, 125, 465);
+
     }
 
     if (score >= scoreTarget){
