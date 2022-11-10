@@ -41,7 +41,7 @@ var categoryXAnchor = 300, categoryYAnchor = 15;
 var questionXAnchor = 310, questionYAnchor = 225;
 var mobileCatX; var mobileCatXLeft = false; var mobileCatXRight = false;
 var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
-var frameX = 0; var frameXAlt = 0;
+var oldFrameX = 0; var frameXAlt = 0;
 var score = 0;
 var scoreTarget = 200; scoreBarIncrement = 475/scoreTarget; var barH = 0; var barY = 550;
 var questionsAnswered = 0; var questionsFailed = 0; var savesMade = 0;
@@ -482,8 +482,37 @@ var lastBox2 = new TargetBox(undefined, undefined, 300, 500, 'lastChance', 'inco
 let lastChanceBoxArray = [];
 //create restart button
 var restartBox = new TargetBox(340, 400, 220, 50, 'restartPrompt');
-//
+//debug
 var testModeBox = new TargetBox(0, 0, 50, 50, 'test');
+
+class Sprite{
+    constructor(image, sw, sh, dx, dy, dw, dh, fpsAdjust, maxFrame){
+        this.image = image;
+        this.sw = sw;
+        this.sh = sh;
+        this.dx = dx;
+        this.dy = dy;
+        this.dw = dw;
+        this.dh = dh;
+        this.fpsAdjust = fpsAdjust;
+        this.frameX = 0;
+        this.maxFrame = maxFrame;
+    }
+    draw(){
+        ctx.drawImage(this.image, this.sw * Math.floor(this.frameX), 0, this.sw, this.sh, this.dx, this.dy, this.dw, this.dh);
+        if (this.frameX <= this.maxFrame) this.frameX += this.fpsAdjust;
+        if (this.frameX >= this.maxFrame) this.frameX = 0;
+    }
+}
+
+//moshers
+var mosher1 = new Sprite(document.getElementById('mosher'), 200, 200, 100, 300, 200, 200, .75, 4);
+var mosher2 = new Sprite(document.getElementById('mosher'), 200, 200, 600, 300, 200, 200, .75, 4);
+//pointer
+var cPointer = new Sprite(document.getElementById('pointerSprite'), 150, 150, 180, 100, 150, 150, .75, 9);
+var qPointer = new Sprite(document.getElementById('pointerSprite'), 150, 150, 180, 350, 150, 150, .75, 9);
+//winpointer
+var winPointer = new Sprite(document.getElementById('winPointerSprite'), 268, 150, 315, 250, 268, 150, .8, 9);
 
 function initHandler(){
     if (initPhase){
@@ -626,7 +655,6 @@ function questionHandler(){
         ctx.drawImage(document.getElementById('categorybox'), categoryXAnchor, categoryYAnchor+5);
         ctx.drawImage(document.getElementById('panel'), questionXAnchor, questionYAnchor);
 
-
         //text
         ctx.font = '17px Verdana';
 	    ctx.textAlign = 'center';
@@ -741,17 +769,11 @@ function endPhaseHandler(){
             ctx.fillText('You won', 450, 200); ctx.strokeText('You won', 450, 200);
 
             //mosher
-            let sw = 200;
-            ctx.drawImage(document.getElementById('mosher'), Math.floor(frameX)*sw, 0, sw, 200, 100, 300, 200, 200);
-            ctx.drawImage(document.getElementById('mosher'), Math.floor(frameX)*sw, 0, sw, 200, 600, 300, 200, 200);
-            frameX+= 0.75;
-            if (frameX > 4) frameX = 0;
+            mosher1.draw();
+            mosher2.draw();
+
             //winpointer
-            sw = 268;
-            ctx.drawImage(document.getElementById('winPointerSprite'), Math.floor(frameXAlt)*sw, 0, sw, 150, 315, 250, sw, 150);
-            frameXAlt+=0.75;
-            if (frameXAlt > 9) frameXAlt = 0;
-            //ctx.drawImage(document.getElementById('winpointer'), 300, 230);            
+            winPointer.draw();
 
         } else if (lose) {
             ctx.fillStyle = 'VioletRed';
@@ -796,14 +818,13 @@ function scoreHandler(){
         ctx.drawImage(document.getElementById('tank'), 50, 75);
         ctx.drawImage(document.getElementById('pipes'), 0, 0);
 
-	//draw pointer
-	if (categoryPhase) pointer(180, 100);
-	if (questionPhase) pointer(180, 350);
+    	//draw pointer
+        if (categoryPhase) cPointer.draw();
+        if (questionPhase) qPointer.draw();
 
         //text
-	if (score >= 0) ctx.fillStyle = 'green';
-	else ctx.fillStyle = 'red';
-        
+        if (score >= 0) ctx.fillStyle = 'green';
+        else ctx.fillStyle = 'red';        
         ctx.strokeStyle = 'black';
         ctx.font = '20px Verdana';
         ctx.strokeText('SCORE:  ' + score, 125, 70); ctx.fillText('SCORE:  ' + score, 125, 70);
@@ -893,9 +914,9 @@ function drawTimer(){
 	
 function pointer(x, y){
 
-    ctx.drawImage(document.getElementById('pointerSprite'), 150*Math.floor(frameX), 0, 150, 150, x, y, 150, 150);
-    frameX+=0.85;
-    if (frameX > 9) frameX = 0;
+    ctx.drawImage(document.getElementById('pointerSprite'), 150*Math.floor(oldFrameX), 0, 150, 150, x, y, 150, 150);
+    oldFrameX+=0.85;
+    if (oldFrameX > 9) oldFrameX = 0;
 
 }
 
@@ -950,6 +971,7 @@ startAnimating(fps);
 });
 
 //questions do not reshuffle on wrong answer; leave a low difficulties but programme to reshuffle at high difficulties
+//on Q fail, if save within 5 secs then points are added. Why? Keep to reward quick click?
 
 //make a background image (spritesheet?)
 
