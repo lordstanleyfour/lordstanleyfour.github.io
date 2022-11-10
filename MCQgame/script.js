@@ -8,6 +8,7 @@ canvas1.style.display = 'initial'; //display canvas only when load complete
 canvas1.width = 900;
 canvas1.height = 600;
 const fps = 30;
+const actx = new AudioContext();
 
 const mouse = {
     lastClickX: undefined,
@@ -31,6 +32,19 @@ function collision (object){
     }    
 }
 
+function audioHandler(pathway){
+    fetch(pathway)
+    .then(data =>data.arrayBuffer())
+    .then(arrayBuffer => actx.decodeAudioData(arrayBuffer))
+    .then(decodedAudio => {
+        let sample = decodedAudio;
+        let playSound = actx.createBufferSource();
+        playSound.buffer = sample;
+        playSound.connect(actx.destination);
+        playSound.start(actx.currentTime);
+    });
+} 
+
 var rng = Math.floor(Math.random()*3);
 var questionArraySelected = undefined;
 var correctAnswerSelected = false;
@@ -44,6 +58,7 @@ var hue = 150; var color = 'hsl(' + hue + ', 100%, 50%)';
 var oldFrameX = 0; var frameXAlt = 0;
 var score = 0;
 var scoreTarget = 200; scoreBarIncrement = 475/scoreTarget; var barH = 0; var barY = 550;
+var questionTime = 20; var saveTime = 15;
 var questionsAnswered = 0; var questionsFailed = 0; var savesMade = 0;
 var savedTime, deadline, timeRemaining; 
 
@@ -431,7 +446,7 @@ class TargetBox {
                 goodImageRng = Math.floor(Math.random()*lastChanceImageArrayGood.length);
                 badImageRng = Math.floor(Math.random()*lastChanceImageArrayBad.length);
                 categoryPhase = true;
-                score -= (10-timeRemaining);
+                score -= ((Math.ceil(saveTime*0.66))-timeRemaining); //points added for quick save
                 savesMade++;
             } else if (this.category === 'correctImage') {
                 lastChancePhase = false;
@@ -513,6 +528,9 @@ var cPointer = new Sprite(document.getElementById('pointerSprite'), 150, 150, 18
 var qPointer = new Sprite(document.getElementById('pointerSprite'), 150, 150, 180, 350, 150, 150, .75, 9);
 //winpointer
 var winPointer = new Sprite(document.getElementById('winPointerSprite'), 268, 150, 315, 250, 268, 150, .8, 9);
+//disappointed
+var disappointed = new Sprite(document.getElementById('disappointed'), 480, 396, 660, 200, 480/2.5, 396/2.5, 0.5, 9);
+var disappointed2 = new Sprite(document.getElementById('disappointed'), 480, 396, 60, 200, 480/2.5, 396/2.5, 0.5, 9);
 
 function initHandler(){
     if (initPhase){
@@ -676,10 +694,11 @@ function questionHandler(){
             element.update();
         })
 
-        timer(20);
+        timer(questionTime);
         drawTimer();
 
     }
+
     //debug mode
     else if (questionPhase && questionArraySelected && questionArraySelected.length !== 0 && testMode){
         //draw background
@@ -747,7 +766,7 @@ function lastChanceHandler(){
         }
 
         lastBox1.draw(); lastBox1.update(); lastBox2.draw(); lastBox2.update();  
-        timer(15);
+        timer(saveTime);
         drawTimer();   
 
         ctx.font = '18px Verdana';
@@ -778,6 +797,8 @@ function endPhaseHandler(){
         } else if (lose) {
             ctx.fillStyle = 'VioletRed';
             ctx.fillRect(50, 50, 800, 500);
+            ctx.fillStyle = 'goldenrod';
+            ctx.fillRect(250, 100, 400, 275);
             //text
             ctx.font = '20px Verdana';
             ctx.fillStyle = 'black';
@@ -789,6 +810,7 @@ function endPhaseHandler(){
             ctx.fillText('STATS:', 450, 300);
             ctx.fillText('Questions: ' + questionsAnswered + ' / ' + (questionsAnswered + questionsFailed), 450, 330);
             ctx.fillText('Saves made: ' + savesMade, 450, 360);
+            disappointed.draw(); disappointed2.draw();
         }
         restartBox.draw(); restartBox.update();
     }
@@ -827,8 +849,8 @@ function scoreHandler(){
         else ctx.fillStyle = 'red';        
         ctx.strokeStyle = 'black';
         ctx.font = '20px Verdana';
-        ctx.strokeText(score, 125, 183); ctx.fillText(score, 125, 183);
-        ctx.strokeText(scoreTarget, 125, 465); ctx.fillText(scoreTarget, 125, 465);
+        ctx.strokeText(scoreTarget, 125, 183); ctx.fillText(scoreTarget, 125, 183);
+        ctx.strokeText(score, 125, 465); ctx.fillText(score, 125, 465);
 
     }
 
@@ -914,14 +936,6 @@ function drawTimer(){
 
 }
 	
-function pointer(x, y){
-
-    ctx.drawImage(document.getElementById('pointerSprite'), 150*Math.floor(oldFrameX), 0, 150, 150, x, y, 150, 150);
-    oldFrameX+=0.85;
-    if (oldFrameX > 9) oldFrameX = 0;
-
-}
-
 function debug (){
     testModeBox.draw();
     testModeBox.update();
@@ -966,18 +980,25 @@ function animate(){
             mouse.lastClickX = undefined;
             mouse.lastClickY = undefined;
         }
-
     }
 }
 startAnimating(fps);
 });
+
+//SOUNDS
+//music on init press
+//applause on init press
+//ding for correct answer
+//buzz for wrong anwser
+//different buzzer for time expire
+//boo for lose
+//cheering for win
 
 //questions do not reshuffle on wrong answer; leave a low difficulties but programme to reshuffle at high difficulties
 //on Q fail, if save within 5 secs then points are added. Why? Keep to reward quick click?
 
 //make a background image (spritesheet?)
 
-//style the target score and current score as how much mAs in the tank
 //factor number of questions asked into final score
 //find images for lose screen and tart it up
 ////find and spritesheet wanker gifs.  Add to an array.  In loseHandler rng = between 0 and arraylength, pick a spritesheet and run.  
