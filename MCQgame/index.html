@@ -17,6 +17,7 @@
 		<script>
 			let canvas = document.getElementById('loadingCanvas');
 			let ctx = canvas.getContext('2d');
+			let completeLoad = false;
 			canvas.width = 300;
 			canvas.height = 50;
 			ctx.fillStyle = 'yellow';
@@ -165,11 +166,15 @@
 		<script>
 			function fullLoad(){
 				ctx.fillRect(1*canvas.width, 0, .2*canvas.width, canvas.height);
+				completeLoad = true;
+				if (completeLoad) canvas.style.display = 'none';
 			}
 		</script>
 	    
         <canvas id="canvas1"></canvas>
+		<script></script>
         <script src="script.js"></script>
+
 
     </body>
 </html>

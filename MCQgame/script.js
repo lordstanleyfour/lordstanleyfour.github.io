@@ -124,6 +124,16 @@ let alternativeQuestions = [
     {questionLine1: "Altering AEC density does what?",questionLine2: " ",correctAnswerline1: "Alters cut-off",correctAnswerline2: "exposure",altAnswer1line1: "Alters beam",altAnswer1line2: "hardness",altAnswer2line1: "Changes filtration",altAnswer2line2: " ",altAnswer3line1: "Nothing interesting",altAnswer3line2: " "},
     {questionLine1: "What is the purpose of the “air gap” technique?",questionLine2: " ",correctAnswerline1: "Reduce scatter",correctAnswerline2: "without a grid",altAnswer1line1: "Infection control",altAnswer1line2: " ",altAnswer2line1: "Soft tissue visualisation",altAnswer2line2: " ",altAnswer3line1: "Reduce impact of",altAnswer3line2: "patient smell"},
     {questionLine1: "What is the purpose of inherent filtration?",questionLine2: " ",correctAnswerline1: "Exclude LOWEST ",correctAnswerline2: "energy photons",altAnswer1line1: "Exclude HIGHEST ",altAnswer1line2: "energy photons",altAnswer2line1: "Exclude characteristic",altAnswer2line2: "radiation",altAnswer3line1: "Energy saving",altAnswer3line2: " "},
+    {questionLine1: "What are the consequences of using a ",questionLine2: "focussed grid outside of the stated SID?",correctAnswerline1: "Grid cut-off artefact",correctAnswerline2: " ",altAnswer1line1: "Motion artefact",altAnswer1line2: " ",altAnswer2line1: "No significant consequences",altAnswer2line2: " ",altAnswer3line1: "Increased image resolution",altAnswer3line2: " "},
+    {questionLine1: "Which unit is used to record",questionLine2: "Dose Area Product?",correctAnswerline1: "Gy•m²",correctAnswerline2: " ",altAnswer1line1: "Gy",altAnswer1line2: " ",altAnswer2line1: "Sv",altAnswer2line2: " ",altAnswer3line1: "REM",altAnswer3line2: " "},
+    {questionLine1: "The atomic number of an element",questionLine2: "relates to...",correctAnswerline1: "No. of protons",correctAnswerline2: "in nucleus",altAnswer1line1: "No. of neutrons",altAnswer1line2: "in nucleus",altAnswer2line1: "No. of electron",altAnswer2line2: "shells",altAnswer3line1: "Abundance in",altAnswer3line2: "nature"},
+    {questionLine1: "To increase the number of photons",questionLine2: "generated per exposure:",correctAnswerline1: "Increase mAs",correctAnswerline2: " ",altAnswer1line1: "Decrease mAs",altAnswer1line2: " ",altAnswer2line1: "Increase KV",altAnswer2line2: " ",altAnswer3line1: "Decrease KV",altAnswer3line2: " "},
+    {questionLine1: "To decrease the number of photons",questionLine2: "generated per exposure:",correctAnswerline1: "Decrease mAs",correctAnswerline2: " ",altAnswer1line1: "Increase KV",altAnswer1line2: " ",altAnswer2line1: "Increase mAs",altAnswer2line2: " ",altAnswer3line1: "Decrease KV",altAnswer3line2: " "},
+    {questionLine1: "To increase the maximum energy of",questionLine2: "generated photons per exposure:",correctAnswerline1: "Increase KV",correctAnswerline2: " ",altAnswer1line1: "Decrease KV",altAnswer1line2: " ",altAnswer2line1: "Increase mAs",altAnswer2line2: " ",altAnswer3line1: "Decrease mAs",altAnswer3line2: " "},
+    {questionLine1: "To decrease the maximum energy of",questionLine2: "generated photons per exposure:",correctAnswerline1: "Decrease KV",correctAnswerline2: " ",altAnswer1line1: "Increase mAs",altAnswer1line2: " ",altAnswer2line1: "Decrease mAs",altAnswer2line2: " ",altAnswer3line1: "Increase KV",altAnswer3line2: " "},
+    {questionLine1: "Denser anatomy requires:",questionLine2: " ",correctAnswerline1: "Higher KV",correctAnswerline2: " ",altAnswer1line1: "Lower KV",altAnswer1line2: " ",altAnswer2line1: "Lower mAs",altAnswer2line2: " ",altAnswer3line1: "No alteration",altAnswer3line2: " "},
+    {questionLine1: "Greater volume of anatomy requires:",questionLine2: " ",correctAnswerline1: "Higher mAs",correctAnswerline2: " ",altAnswer1line1: "Lower mAs",altAnswer1line2: " ",altAnswer2line1: "Lower KV",altAnswer2line2: " ",altAnswer3line1: "No alteration",altAnswer3line2: " "},
+    {questionLine1: "The process by which photons are blocked/absorbed",questionLine2: "by atoms in a medium is called:",correctAnswerline1: "Attenuation",correctAnswerline2: " ",altAnswer1line1: "Transmission",altAnswer1line2: " ",altAnswer2line1: "Deflection",altAnswer2line2: " ",altAnswer3line1: "Redirection",altAnswer3line2: " "},
 
 ];
 
@@ -941,6 +951,12 @@ function debug (){
     testModeBox.update();
 }
 
+console.log ('anatomy: ' + defaultQuestions.length);
+console.log ('physics: ' + alternativeQuestions.length);
+console.log ('pathology: ' + alternativeQuestions2.length);
+console.log ('radspertise: ' + alternativeQuestions3.length);
+console.log ('trivia: ' + alternativeQuestions4.length);
+
 /////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////animation loop/////////////////////////////////////
@@ -1001,6 +1017,7 @@ startAnimating(fps);
 
 //factor number of questions asked into final score
 //find images for lose screen and tart it up
+
 ////find and spritesheet wanker gifs.  Add to an array.  In loseHandler rng = between 0 and arraylength, pick a spritesheet and run.  
 ////need conditional variables for each gif, numberofframes, fps(need a framecounter and gearing logic), x and y position
 //Use different init boxes to set different difficulty levels i.e. score target, scoring generosity and time allowed.  Label as student, band 5/6/7/8?
